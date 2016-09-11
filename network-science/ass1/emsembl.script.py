@@ -16,6 +16,8 @@ class Taxonomy:
 		self._id_number = 0
 		self._complete_id_list = {}
 		self._id_list = [2759] # eucaryotes
+		self._file_index = 0
+		self._data = {}
 
 	def _isNotInList_or_addToList(self, species_id):
 		if species_id not in self._complete_id_list:
@@ -24,7 +26,7 @@ class Taxonomy:
 
 		return False
 
-	def getRequest(self):
+	def _getRequest(self):
 		endpoint = server + str(self._id_number) + '?'
 		r = requests.get(endpoint, headers=headers, verify=False)
 
@@ -36,9 +38,29 @@ class Taxonomy:
 		# print repr(decoded)
 		return decoded
 
+	def save(self):
+		with open(data_folder+'temp.save.json', 'w') as json_file:
+			data = {
+				'_id_number': self._id_number,
+				'_complete_id_list': self._complete_id_list,
+				'_id_list': list(set(self._id_list + [self._id_number])),
+				'_file_index': self._file_index,
+				'_data': self._data
+			}
+			json.dump(data, json_file)
+
+	def load(self):
+		with open(data_folder+'temp.save.json') as json_file:
+			data = json.load(json_file)
+			self._id_number = data['_id_number']
+			self._id_list = data['_id_list']
+			self._complete_id_list = data['_complete_id_list']
+			self._file_index = data['_file_index']
+			self._data = data['_data']
+
 
 	def getData(self, data_file_id):
-		data = self.getRequest()
+		data = self._getRequest()
 		new_ids = []
 		output = {}
 
@@ -72,28 +94,32 @@ class Taxonomy:
 		return output
 
 	def run(self):
-		with open(data_folder+'taxonomy.csv', 'wb') as csv_file:
-			csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-			csv_writer.writerow(['ID', 'NAME', 'PARENT', 'FILE'])
-
-		file_index = 0
-		data = {}
 		while self._id_list:
 			self._id_number = self._id_list.pop()
 
 			print self._id_number
 
-			result = self.getData(file_index)
-			data.update(result)
+			result = self.getData(self._file_index)
+			self._data.update(result)
 
-			if len(data) >= 10:
-				with open(data_folder+'data_'+str(file_index)+'.json', 'w') as json_file:
-					json.dump(data, json_file)
+			if len(self._data) >= 10:
+				with open(data_folder+'json/data_'+str(self._file_index)+'.json', 'w') as json_file:
+					json.dump(self._data, json_file)
 
-				file_index += 1
-				data = {}
+				self._file_index += 1
+				self._data = {}
 
 
 if __name__ == "__main__":
 	txy = Taxonomy()
-	txy.run()
+
+	with open(data_folder+'taxonomy.csv', 'wb') as csv_file:
+			csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+			csv_writer.writerow(['ID', 'NAME', 'PARENT', 'FILE'])
+
+	try:
+		# txy.load()
+		txy.run()
+	except Exception as e:
+		txy.save()
+		print repr(e)
