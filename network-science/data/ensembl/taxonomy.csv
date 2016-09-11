@@ -15,3 +15,191 @@ ID	NAME	PARENT	FILE
 219835	Geleiidae	219834	1
 219840	Parduczia	219835	1
 219836	Geleia	219835	1
+329926	environmental samples	219835	1
+33828	Loxodida	33827	1
+1405798	Wilbertomorphidae	33828	1
+1405797	Wilbertomorpha	1405798	1
+409610	Loxodidae	33828	2
+6008	Loxodes	409610	2
+409612	Remanella	409610	2
+282468	environmental samples	409610	2
+696486	environmental samples	33827	2
+37864	Protostomatida	33827	2
+85676	Kentrophoridae	37864	2
+85677	Kentrophoros	85676	2
+329928	environmental samples	37864	2
+1117388	Prototrachelocercidae	37864	2
+1117396	Apotrachelocerca	1117388	3
+1117395	Prototrachelocerca	1117388	3
+37865	Trachelocercidae	37864	3
+1331975	Kovalevaia	37865	3
+652929	Trachelocerca	37865	3
+1346500	Trachelolophos	37865	3
+37866	Tracheloraphis	37865	3
+251328	Ellobiopsidae	33630	3
+663228	Ellobiopsis	251328	3
+251330	Thalassomyces	251328	3
+151566	environmental samples	33630	4
+5794	Apicomplexa	33630	4
+422676	Aconoidasida	5794	4
+5863	Piroplasmida	422676	4
+32594	Babesiidae	5863	4
+629239	environmental samples	32594	4
+1401993	Rangelia	32594	4
+5864	Babesia	32594	4
+27994	Theileriidae	5863	4
+27995	Cytauxzoon	27994	4
+797633	unclassified Cytauxzoon	27995	5
+1570946	environmental samples	27995	5
+5873	Theileria	27994	5
+1177739	environmental samples	27994	5
+106418	unclassified Piroplasmida	5863	5
+476201	Cardiosporidium	106418	5
+5819	Haemosporida	422676	5
+1639119	Plasmodiidae	5819	5
+1147702	Polychromophilus	1639119	5
+77566	Hepatocystis	1639119	5
+1410042	Nycteria	1639119	6
+5820	Plasmodium	1639119	6
+1244956	environmental samples	5820	6
+219829	unclassified Plasmodium	5820	6
+1639121	Haemoproteidae	5819	6
+77521	Haemoproteus	1639121	6
+1244951	environmental samples	77521	6
+219820	unclassified Haemoproteus	77521	6
+587283	Parahaemoproteus	1639121	6
+656585	unclassified Parahaemoproteus	587283	6
+1720971	Haemocystidium	1639121	7
+1639122	Leucocytozoidae	5819	7
+195944	Leucocytozoon	1639122	7
+1244953	environmental samples	195944	7
+656551	unclassified Haemosporida	5819	7
+282487	environmental samples	5794	7
+1280412	Conoidasida	5794	7
+35086	Gregarinasina	1280412	7
+35087	Eugregarinorida	35086	7
+650329	Stylocephalidae	35087	7
+650335	Colepismatophila	650329	8
+650330	Stylocephalus	650329	8
+650332	Xiphocephalus	650329	8
+947094	Porosporidae	35087	8
+1042814	Thiriotia	947094	8
+35092	Pseudomonocystis	35087	8
+715295	Ganymedidae	35087	8
+715296	Ganymedes	715295	8
+110314	Monocystidae	35087	8
+110315	Monocystis	110314	8
+543222	unclassified Monocystis	110315	9
+35088	Gregarinidae	35087	9
+673184	unclassified Gregarinidae	35088	9
+650270	Amoebogregarina	35088	9
+35089	Gregarina	35088	9
+650284	Stenophoricae	35087	9
+650297	Sphaerocystidae	650284	9
+650285	Paraschneideria	650297	9
+650296	Stenophoridae	650284	9
+650298	Stenophora	650296	9
+196591	Leidyanidae	35087	10
+196592	Leidyana	196591	10
+650290	Hirmocystidae	35087	10
+650291	Protomagalhaensia	650290	10
+340202	Urosporidae	35087	10
+340205	Lithocystis	340202	10
+340199	Pterospora	340202	10
+318158	environmental samples	35087	10
+650287	Actinocephalidae	35087	10
+651458	Geneiorhynchus	650287	10
+650288	Prismatospora	650287	11
+650282	Hoplorhynchus	650287	11
+650294	Pyxinia	650287	11
+947087	Uradiophoridae	35087	11
+947089	Heliospora	947087	11
+947083	Cephaloidophoridae	35087	11
+947084	Cephaloidophora	947083	11
+158377	Lecudinidae	35087	11
+693283	Psychodiella	158377	11
+868779	Trichotokara	158377	11
+198478	Lecudina	158377	12
+158378	Ascogregarina	158377	12
+340203	Lankesteria	158377	12
+282463	environmental samples	35086	12
+1321397	unclassified Gregarinasina	35086	12
+238088	Neogregarinorida	35086	12
+238093	Syncystidae	238088	12
+348447	Syncystis	238093	12
+1233981	unclassified Neogregarinorida	238088	12
+238089	Lipotrophidae	238088	12
+238095	Mattesia	238089	13
+110370	Ophryocystidae	238088	13
+670781	Apicystis	110370	13
+110371	Ophryocystis	110370	13
+1280411	Archigregarinorida	35086	13
+230742	Selenidiidae	1280411	13
+1139992	unclassified Selenidiidae	230742	13
+230743	Selenidium	230742	13
+672927	Filipodium	230742	13
+1421564	environmental samples	1280412	13
+5796	Coccidia	1280412	14
+75739	Eucoccidiorida	5796	14
+75740	Adeleorina	75739	14
+1670974	Karyolysidae	75740	14
+1072584	Hemolivia	1670974	14
+1492286	Karyolysus	1670974	14
+203143	Hepatozoidae	75740	14
+75741	Hepatozoon	203143	14
+228014	unclassified Hepatozoon	75741	14
+1503202	environmental samples	203143	14
+203140	Adeleidae	75740	15
+203141	Adelina	203140	15
+1072564	Klossia	203140	15
+1072578	Haemogregarinidae	75740	15
+1072579	Haemogregarina	1072578	15
+1437465	unclassified Haemogregarina	1072579	15
+1072567	Dactylosomatidae	75740	15
+1072573	Dactylosoma	1072567	15
+423054	Eimeriorina	75739	15
+5799	Eimeriidae	423054	15
+86280	Caryospora	5799	16
+1312940	unclassified Caryospora	86280	16
+1680544	Acroeimeria	5799	16
+169155	Goussia	5799	16
+1118042	Margolisiella	5799	16
+169157	Choleoeimeria	5799	16
+622357	unclassified Eimeriidae	5799	16
+241603	Atoxoplasma	5799	16
+44417	Cyclospora	5799	16
+33634	Stramenopiles	2759	16
+1736111	Platysulcus	33634	17
+54900	Chrysomerophyceae	33634	17
+54901	Chrysomeridales	54900	17
+1104312	Chrysomeridaceae	54901	17
+1104314	Chrysowaernella	1104312	17
+45652	Giraudyopsis	1104312	17
+45114	Oikomonadaceae	33634	17
+45115	Oikomonas	45114	17
+39119	Dictyochophyceae	33634	17
+35680	Pedinellales	39119	17
+38823	Ciliophrys	35680	18
+35681	Apedinella	35680	18
+38821	Pteridomonas	35680	18
+35683	Pseudopedinella	35680	18
+341158	environmental samples	35680	18
+296675	Mesopedinella	35680	18
+189816	Pedinella	35680	18
+483368	unclassified Pedinellales	35680	18
+215585	Helicopedinella	35680	18
+336753	unclassified Dictyochophyceae	39119	18
+590977	Florenciellales	39119	19
+669372	unclassified Florenciellales	590977	19
+1006562	environmental samples	590977	19
+236786	Florenciella	590977	19
+35685	Dictyochales	39119	19
+1715698	Vicicitus	35685	19
+35686	Dictyocha	35685	19
+315792	environmental samples	39119	19
+590978	Rhizochromulinales	39119	19
+35673	Rhizochromulina	590978	19
+33651	Bicosoecida	33634	20
+238884	Cafeteriaceae	33651	20
+341160	environmental samples	238884	20
+167960	Pseudobodo	238884	20

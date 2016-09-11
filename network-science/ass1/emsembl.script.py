@@ -113,12 +113,12 @@ class Taxonomy:
 if __name__ == "__main__":
 	txy = Taxonomy()
 
-	with open(data_folder+'taxonomy.csv', 'wb') as csv_file:
-			csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-			csv_writer.writerow(['ID', 'NAME', 'PARENT', 'FILE'])
+	# with open(data_folder+'taxonomy.csv', 'wb') as csv_file:
+	# 		csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	# 		csv_writer.writerow(['ID', 'NAME', 'PARENT', 'FILE'])
 
 	try:
-		# txy.load()
+		txy.load()
 		txy.run()
 	except Exception as e:
 		txy.save()
