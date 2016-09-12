@@ -95,7 +95,7 @@ class Taxonomy:
 
 	def run(self):
 		while self._id_list:
-			self._id_number = self._id_list.pop()
+			self._id_number = self._id_list.pop(0)
 
 			print self._id_number
 
