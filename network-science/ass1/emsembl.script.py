@@ -8,19 +8,19 @@ warnings.filterwarnings('ignore')
 
 server = 'https://rest.ensembl.org/taxonomy/classification/'
 headers= { 'Content-Type' : 'application/json' }
-data_folder = '../data/ensembl/'
+data_folder = '../data/ensembl/homo-sapien/'
 
 class Taxonomy:
 
 	def __init__(self):
 		self._id_number = 0
 		self._complete_id_list = {}
-		self._id_list = [2759] # eucaryotes
+		self._id_list = [9606] # eucaryotes
 		self._file_index = 0
 		self._data = {}
 
 	def _isNotInList_or_addToList(self, species_id):
-		if species_id not in self._complete_id_list:
+		if species_id not in self._complete_id_list or self._complete_id_list[species_id] == 1:
 			self._id_list.append(species_id)
 			return True
 
@@ -64,23 +64,25 @@ class Taxonomy:
 		new_ids = []
 		output = {}
 
-		with open('../data/ensembl/taxonomy.csv', 'a') as csv_file:
+		with open(data_folder+'taxonomy.csv', 'a') as csv_file:
 			csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
 			for species in data:
-				if species['id'] in self._complete_id_list:
-					continue
-
 				output[species['id']] = species
 
-				#indicate that it's done
-				self._complete_id_list[species['id']] = True
 				# add new ids
 				children_id = []
 				if 'children' in species:
 					children_id = map(lambda x: x['id'], species['children'])
 
 				new_ids += children_id + [species['parent']['id']]
+
+				if species['id'] in self._complete_id_list:
+					continue
+
+				#indicate that it's done
+				self._complete_id_list[species['id']] = 1
+
 				# white to csv
 				write_data = [species['id'], species['scientific_name'], species['parent']['id'], data_file_id]
 				csv_writer.writerow(write_data)
@@ -88,21 +90,24 @@ class Taxonomy:
 		for species_id in set(new_ids):
 			self._isNotInList_or_addToList(species_id)
 
-		# print repr(self._id_list)
+		# print repr(self._id_lsit)
 
-		self._complete_id_list[self._id_number] = True
+		self._complete_id_list[self._id_number] = 2
 		return output
 
 	def run(self):
 		while self._id_list:
 			self._id_number = self._id_list.pop(0)
 
+			if self._id_number in self._complete_id_list and self._complete_id_list[self._id_number] == 2:
+				continue
+
 			print self._id_number
 
 			result = self.getData(self._file_index)
 			self._data.update(result)
 
-			if len(self._data) >= 10:
+			if len(self._data) >= 100:
 				with open(data_folder+'json/data_'+str(self._file_index)+'.json', 'w') as json_file:
 					json.dump(self._data, json_file)
 
@@ -113,15 +118,15 @@ class Taxonomy:
 if __name__ == "__main__":
 	txy = Taxonomy()
 
-	# with open(data_folder+'taxonomy.csv', 'wb') as csv_file:
-	# 		csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-	# 		csv_writer.writerow(['ID', 'NAME', 'PARENT', 'FILE'])
+	with open(data_folder+'taxonomy.csv', 'wb') as csv_file:
+			csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+			csv_writer.writerow(['ID', 'NAME', 'PARENT', 'FILE'])
 
-	while True:
-		try:
-			txy.load()
-			txy.run()
-			sys.exit(0)
-		except Exception as e:
-			txy.save()
-			print repr(e)
+	# while True:
+	try:
+		# txy.load()
+		txy.run()
+		# sys.exit(0)
+	except Exception as e:
+		txy.save()
+		print repr(e)
