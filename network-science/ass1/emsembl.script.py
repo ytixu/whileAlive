@@ -114,6 +114,10 @@ class Taxonomy:
 				self._file_index += 1
 				self._data = {}
 
+		if self._data:
+			with open(data_folder+'json/data_'+str(self._file_index)+'.json', 'w') as json_file:
+				json.dump(self._data, json_file)
+
 
 if __name__ == "__main__":
 	txy = Taxonomy()
