@@ -1,0 +1,2565 @@
+ID	NAME	PARENT	FILE
+2759	Eukaryota	131567	0
+66288	Oxymonadida	2759	0
+1401294	Breviatea	2759	0
+38254	Glaucocystophyceae	2759	0
+3027	Cryptophyta	2759	0
+193537	Centroheliozoa	2759	0
+554915	Amoebozoa	2759	0
+543769	Rhizaria	2759	0
+554296	Apusozoa	2759	0
+2763	Rhodophyta	2759	0
+33090	Viridiplantae	2759	0
+5752	Heterolobosea	2759	0
+61964	environmental samples	2759	0
+33682	Euglenozoa	2759	0
+2830	Haptophyceae	2759	0
+339960	Katablepharidophyta	2759	0
+5719	Parabasalia	2759	0
+556282	Jakobida	2759	0
+33634	Stramenopiles	2759	0
+33630	Alveolata	2759	0
+136087	Malawimonadidae	2759	0
+356863	unclassified Oxymonadida	66288	0
+302780	Polymastigidae	66288	0
+388026	Saccinobaculidae	66288	0
+97343	Oxymonadidae	66288	0
+97340	Pyrsonymphidae	66288	0
+413578	environmental samples	66288	0
+222438	Streblomastigidae	66288	0
+590648	Breviata	1401294	0
+1401266	Pygsuia	1401294	0
+38255	Glaucocystales	38254	0
+77921	Cyanoptyche	38254	0
+33678	Cyanophoraceae	38254	0
+321835	environmental samples	38254	0
+38262	Gloeochaetales	38254	0
+150670	environmental samples	3027	0
+589342	Pyrenomonadales	3027	0
+301223	unclassified Cryptophyta	3027	0
+1764837	Unclassified Cryptophyceae	3027	0
+589350	Cryptomonadales	3027	0
+1176436	Urgorri	3027	0
+193540	Acanthocystidae	193537	0
+212536	unclassified centroheliozoans	193537	0
+1795047	Spiculophrys	193537	0
+315781	environmental samples	193537	0
+193539	Heterophryidae	193537	0
+193538	Raphidiophryidae	193537	0
+1147770	Oxnerella	193537	0
+1654994	Ischnamoeba	554915	0
+1654999	Heliamoeba	554915	0
+1346288	Telaepolella	554915	0
+1654977	Angulamoeba	554915	0
+240568	Multicilia	554915	0
+688081	unclassified Amoebozoa	554915	0
+1078863	Stereomyxa	554915	0
+590480	environmental samples	554915	0
+1485088	Gracilipodida	554915	0
+1654986	Darbyshirella	554915	0
+1819670	Unda	554915	0
+633158	Acramoeba	554915	0
+555406	Archamoebae	554915	0
+1655004	Arboramoeba	554915	0
+1655002	Dictyamoeba	554915	0
+142796	Mycetozoa	554915	0
+136498	Phalansterium	554915	0
+555280	Discosea	554915	0
+555369	Tubulinea	554915	0
+31291	Haplosporidia	543769	0
+65574	Acantharea	543769	0
+136419	Cercozoa	543769	0
+554077	environmental samples	543769	0
+1054998	Sticholonchida	543769	0
+556523	unclassified Rhizaria	543769	0
+65582	Polycystinea	543769	0
+29178	Foraminifera	543769	0
+35215	Gromiidae	543769	0
+1483952	Mikrocytiidae	543769	0
+85705	Ancyromonadidae	554296	0
+1291202	Nutomonas	554296	0
+696483	environmental samples	554296	0
+856888	unclassified Apusozoa	554296	0
+1238961	Mantamonadidae	554296	0
+172820	Apusomonadidae	554296	0
+1237875	Rigifilida	554296	0
+1294546	Planomonadidae	554296	0
+661027	Rhodellophyceae	2763	0
+77697	environmental samples	2763	0
+77696	unclassified Rhodophyta	2763	0
+446134	Stylonematophyceae	2763	0
+930023	Compsopogonophyceae	2763	0
+2806	Florideophyceae	2763	0
+2797	Bangiophyceae	2763	0
+35493	Streptophyta	33090	0
+144314	environmental samples	33090	0
+3041	Chlorophyta	33090	0
+1591240	Creneidae	5752	0
+1129782	Psalteriomonadidae	5752	0
+63600	Pharyngomonas	5752	0
+41165	Schizopyrenida	5752	0
+43693	Acrasida	5752	0
+1559746	Tulamoebidae	5752	1
+352377	environmental samples	5752	1
+797087	Symbiontida	33682	1
+3035	Euglenida	33682	1
+315794	environmental samples	33682	1
+191814	Diplonemida	33682	1
+5653	Kinetoplastida	33682	1
+418928	Syracosphaerales	2830	1
+418917	Coccolithales	2830	1
+418919	Phaeocystales	2830	1
+243281	environmental samples	2830	1
+418930	Reticulosphaerales	2830	1
+418921	Zygodiscales	2830	1
+73028	Prymnesiales	2830	1
+1538618	Haptophyta incertae sedis	2830	1
+73020	Isochrysidales	2830	1
+97493	unclassified Haptophyceae	2830	1
+73027	Coccosphaerales	2830	1
+73026	Pavlovales	2830	1
+339961	Katablepharidaceae	339960	1
+573654	environmental samples	339960	1
+681103	Roombia	339960	1
+740972	Tritrichomonadida	5719	1
+740976	Cristamonadida	5719	1
+740974	Honigbergiellida	5719	1
+740984	Hypotrichomonadida	5719	1
+1312499	Parabasalia incertae sedis	5719	1
+285693	Spirotrichonymphida	5719	1
+37104	Trichomonadida	5719	1
+322068	environmental samples	5719	1
+285692	Trichonymphida	5719	1
+1507187	Kofoidia	5719	1
+285691	Hypermastigia	5719	1
+556285	Histionidae	556282	1
+221723	Seculamonas	556282	1
+1331582	environmental samples	556282	1
+444704	Andalucia	556282	1
+1712413	unclassified Jakobida	556282	1
+143015	Jakobidae	556282	1
+33859	Synurophyceae	33634	1
+42382	Hyphochytriomycetes	33634	1
+4762	Oomycetes	33634	1
+5747	Eustigmatophyceae	33634	1
+2825	Chrysophyceae	33634	1
+12967	Blastocystis	33634	1
+77695	environmental samples	33634	1
+557229	Synchromophyceae	33634	1
+35131	Labyrinthulomycetes	33634	1
+569578	PX clade	33634	1
+42748	Developayella	33634	1
+42740	Slopalinida	33634	1
+238765	Actinophryidae	33634	1
+35675	Pelagophyceae	33634	1
+82162	Phaeothamniophyceae	33634	1
+2836	Bacillariophyta	33634	1
+38410	Raphidophyceae	33634	1
+157124	Pinguiophyceae	33634	1
+91989	Bolidophyceae	33634	1
+159340	Placididea	33634	1
+33651	Bicosoecida	33634	1
+39119	Dictyochophyceae	33634	1
+45114	Oikomonadaceae	33634	1
+54900	Chrysomerophyceae	33634	1
+1736111	Platysulcus	33634	1
+2864	Dinophyceae	33630	1
+333132	Voromonas	33630	1
+243287	unclassified Alveolata	33630	1
+877183	Chromerida	33630	1
+27997	Perkinsea	33630	1
+1492816	Colponemidia	33630	1
+1542311	Acavomonas	33630	1
+177937	Colpodellidae	33630	1
+5794	Apicomplexa	33630	1
+151566	environmental samples	33630	1
+251328	Ellobiopsidae	33630	1
+5878	Ciliophora	33630	1
+136088	Malawimonas	136087	1
+302781	Monocercomonoides	302780	1
+388027	Saccinobaculus	388026	1
+321837	environmental samples	97343	1
+185581	Oxymonas	97343	1
+66289	Dinenympha	97340	1
+97341	Pyrsonympha	97340	1
+321838	environmental samples	97340	1
+222439	Streblomastix	222438	1
+749912	environmental samples	590648	1
+38257	Glaucocystaceae	38255	1
+2761	Cyanophora	33678	1
+38266	Gloeochaetaceae	38262	1
+589345	Chroomonadaceae	589342	1
+589344	Pyrenomonadaceae	589342	1
+589343	Geminigeraceae	589342	1
+1824564	environmental samples	589342	1
+1764939	Unclassified Pyrenomonadales	589342	1
+589351	Hemiselmidaceae	589350	1
+2896	Cryptomonadaceae	589350	1
+31323	Goniomonadaceae	589350	1
+1807937	environmental samples	589350	1
+299888	Choanocystis	193540	1
+299832	Raineriophrys	193540	1
+299834	Acanthocystis	193540	2
+238775	Pterocystis	193540	2
+299900	Sphaerastrum	193539	2
+193541	Chlamydaster	193539	2
+193543	Heterophrys	193539	2
+373146	environmental samples	193539	2
+299903	Polyplacocystis	193538	2
+212534	Raphidiophrys	193538	2
+490353	Flamella	1485088	2
+746844	unclassified Archamoebae	555406	2
+33084	Entamoebidae	555406	2
+174815	Mastigamoebidae	555406	2
+168130	Pelomyxidae	555406	2
+33083	Dictyosteliida	142796	2
+369495	environmental samples	142796	2
+181199	Hyperamoeba	142796	2
+33680	Myxogastria	142796	2
+435411	Protosteliales	142796	2
+1485089	Stygamoebida	555280	2
+313555	Himatismenida	555280	2
+1485085	Flabellinia	555280	2
+1485168	Longamoebia	555280	2
+1215985	unclassified Tubulinea	555369	2
+180229	Euamoebida	555369	2
+555391	environmental samples	555369	2
+1078851	Pyxidicula	555369	2
+66524	Leptomyxida	555369	2
+318493	Arcellinida	555369	2
+31294	Haplosporidiidae	31291	2
+45883	Urosporidium	31291	2
+126727	Bonamia	31291	2
+385040	environmental samples	31291	2
+65575	Chaunacanthida	65574	2
+65578	Symphyacanthida	65574	2
+321826	environmental samples	65574	2
+85460	Arthracanthida	65574	2
+1127110	Holacanthida	65574	2
+1127411	unclassified Acantharea	65574	2
+1286071	unclassified Acantharia	65574	2
+1238681	Glissomonadida	136419	2
+98369	Paramyxea	136419	2
+188941	Cercomonadida	136419	2
+1407634	Filoreta	136419	2
+1004930	Thecofilosea	136419	2
+243290	environmental samples	136419	2
+238764	Desmothoracida	136419	2
+1367446	Vampyrellida	136419	2
+1736114	Imbricatea	136419	2
+37357	Plasmodiophorida	136419	2
+238777	Phaeodarea	136419	2
+29197	Chlorarachniophyceae	136419	2
+240574	Reticulamoeba	136419	2
+240576	Sticholonchidae	1054998	2
+1054999	environmental samples	1054998	2
+438412	Corallomyxa	556523	2
+492102	Paradinium	556523	2
+372081	unclassified Polycystinea	65582	2
+65583	Spumellaria	65582	2
+1426915	Collodaria	65582	2
+278980	Nassellaria	65582	2
+321839	environmental samples	65582	2
+212500	Xenophyophorea	29178	2
+160357	Saccaminidae	29178	2
+1051633	Spirillinida	29178	2
+998816	Lituolida	29178	2
+1216353	Miliolida	29178	2
+984945	Ammodiscus	29178	2
+196920	Allogromida	29178	2
+196922	Textulariida	29178	2
+29185	Rotaliida	29178	2
+302101	Rzehakinidae	29178	2
+1395567	Carterinida	29178	2
+218544	Lagenina	29178	2
+1505960	Monothalamids	29178	2
+316464	environmental samples	29178	2
+1659748	Globothalamea	29178	2
+1241962	Cyclammina	29178	2
+35216	Gromia	35215	2
+1483963	environmental samples	1483952	2
+195009	Mikrocytos	1483952	2
+1483965	unclassified Mikrocytiidae	1483952	2
+1483956	Paramikrocytos	1483952	2
+85706	Ancyromonas	85705	2
+1046569	Mantamonas	1238961	2
+1549796	environmental samples	172820	2
+877559	Thecamonas	172820	2
+41119	Apusomonas	172820	2
+1314682	Multimonas	172820	2
+172821	Amastigomonas	172820	2
+1649270	Chelonemonas	172820	2
+238745	Micronuclearia	1237875	2
+1291203	Planomonas	1294546	2
+1535296	Glaucosphaerales	661027	2
+1292367	Dixoniellales	661027	2
+661028	Rhodellales	661027	2
+282338	Stylonematales	446134	2
+930020	Rufusiales	446134	2
+31351	Erythropeltidales	930023	2
+110507	Rhodochaetales	930023	2
+930024	Compsopogonales	930023	2
+244123	Pihiellales	2806	3
+891383	Thoreales	2806	3
+31468	Gracilariales	2806	3
+929765	environmental samples	2806	3
+123989	Balliales	2806	3
+2802	Ceramiales	2806	3
+1705611	Hapalidiales	2806	3
+2807	Nemaliales	2806	3
+28017	Gigartinales	2806	3
+211802	unclassified Florideophyceae	2806	3
+50289	Halymeniales	2806	3
+31399	Gelidiales	2806	3
+31370	Batrachospermales	2806	3
+35203	Plocamiales	2806	3
+2819	Palmariales	2806	3
+31477	Hildenbrandiales	2806	3
+31355	Acrochaetiales	2806	3
+199699	Nemastomatales	2806	3
+498764	Rhodachlyales	2806	3
+1443949	Corallinophycidae	2806	3
+658648	Colaconematales	2806	3
+1405800	Entwisleiales	2806	3
+369753	Sebdeniales	2806	3
+369754	Acrosymphytales	2806	3
+31361	Ahnfeltiales	2806	3
+31364	Bonnemaisoniales	2806	3
+29247	Rhodymeniales	2806	3
+111859	Balbianiales	2806	3
+265318	Cyanidiales	2797	3
+2798	Porphyridiales	2797	3
+1623342	environmental samples	2797	3
+101927	unclassified Bangiophyceae	2797	3
+29216	Bangiales	2797	3
+131213	Chlorokybophyceae	35493	3
+131220	Klebsormidiophyceae	35493	3
+96475	Mesostigmatophyceae	35493	3
+260557	environmental samples	35493	3
+33103	Ulvophyceae	3041	3
+35422	Pedinophyceae	3041	3
+3152	prasinophytes	3041	3
+75966	Trebouxiophyceae	3041	3
+3166	Chlorophyceae	3041	3
+80844	environmental samples	3041	3
+1524962	Chlorodendrophyceae	3041	3
+1524963	Palmophyllales	3041	3
+1591237	Creneis	1591240	3
+1129787	Pseudoharpagon	1129782	3
+1129783	Harpagon	1129782	3
+194529	Sawyeria	1129782	3
+63602	Monopylocystis	1129782	3
+31289	Psalteriomonas	1129782	3
+373136	unclassified Schizopyrenida	41165	3
+63761	Gruberellidae	41165	3
+5765	Vahlkampfiidae	41165	3
+1144920	Guttulinaceae	43693	3
+1144924	Acrasiaceae	43693	3
+405750	Pleurostomum	1559746	3
+633165	Tulamoeba	1559746	3
+797088	Bihospites	797087	3
+563838	Calkinsia	797087	3
+86652	Eutreptiales	3035	3
+1174524	Rapaza	3035	3
+86650	Euglenales	3035	3
+86651	Sphenomonadales	3035	3
+86649	Rhabdomonadales	3035	3
+1559990	Neometanema	3035	3
+1112048	unclassified Euglenida	3035	3
+86653	Heteronematales	3035	3
+385039	environmental samples	191814	3
+91373	Diplonema	191814	3
+160598	Rhynchopus	191814	3
+5708	Bodonidae	5653	3
+1027875	Ichthyobodonidae	5653	3
+321834	environmental samples	5653	3
+5654	Trypanosomatidae	5653	3
+418932	Syracosphaeraceae	418928	3
+418941	Rhabdosphaeraceae	418928	3
+418933	Coccolithaceae	418917	3
+418918	Pleurochrysidaceae	418917	3
+418931	Calcidiscaceae	418917	3
+1290988	environmental samples	418917	3
+418935	Hymenomonadaceae	418917	3
+589357	environmental samples	418919	3
+418920	Phaeocystaceae	418919	3
+53264	Reticulosphaera	418930	3
+418968	Helicosphaeraceae	418921	3
+373044	Braarudosphaeraceae	418921	3
+1136790	Chrysochromulinaceae	73028	3
+588876	environmental samples	73028	3
+418967	Prymnesiaceae	73028	3
+418911	Jomonlithus	1538618	3
+259384	Chrysoculter	1538618	3
+1538616	Gladiolithus	1538618	3
+1290992	environmental samples	73020	3
+185005	Pseudoisochrysis	73020	3
+418951	Isochrysidaceae	73020	3
+418966	Noelaerhabdaceae	73020	3
+418939	Pontosphaeraceae	73027	3
+284803	Calyptrosphaeraceae	73027	3
+483366	unclassified Pavlovales	73026	3
+418969	Pavlovaceae	73026	4
+156215	Monochrysis	73026	4
+1291726	environmental samples	73026	4
+339962	Katablepharis	339961	4
+340051	environmental samples	339961	4
+327053	Hatena	339961	4
+299205	Leucocryptos	339961	4
+740973	Dientamoebidae	740972	4
+135585	Monocercomonadidae	740972	4
+740983	Tritrichomonadidae	740972	4
+723907	Simplicimonadidae	740972	4
+740977	Lophomonadidae	740976	4
+740975	Hexamastigidae	740974	4
+723924	Honigbergiellidae	740974	4
+740985	Hypotrichomonadidae	740984	4
+1312500	Cthulhu	1312499	4
+1312502	Cthylla	1312499	4
+104084	Holomastigotoididae	285693	4
+39064	Pseudotrichomonas	37104	4
+318247	environmental samples	37104	4
+181550	Trichomonadidae	37104	4
+507489	unclassified Trichomonadida	37104	4
+741011	Spirotrichosomidae	285692	4
+67477	Trichonymphidae	285692	4
+285697	Hoplonymphidae	285692	4
+285687	Staurojoeninidae	285692	4
+285682	Teranymphidae	285692	4
+392299	Histiona	556285	4
+48482	Reclinomonas	556285	4
+1805495	Moramonas	1712413	4
+143016	Jakoba	143015	4
+1138869	environmental samples	33859	4
+587470	Heterogloeales	33859	4
+420622	Synurales	33859	4
+98652	Ochromonadales	33859	4
+420624	Rhizochloridales	33859	4
+722750	Parmales	33859	4
+114255	Hyphochytriaceae	42382	4
+1095244	environmental samples	42382	4
+114252	Rhizidiomycetaceae	42382	4
+416805	Olpidiopsidales	4762	4
+4800	Lagenidiales	4762	4
+1663097	Anisolpidiales	4762	4
+159314	Myzocytiopsidales	4762	4
+121069	Pythiales	4762	4
+1489790	Lagenaceae	4762	4
+4776	Peronosporales	4762	4
+4763	Saprolegniales	4762	4
+370421	Albuginales	4762	4
+94120	unclassified oomycetes	4762	4
+120408	Sclerosporales	4762	4
+100871	Rhipidiales	4762	4
+92979	Leptomitales	4762	4
+425074	Eustigmatales	5747	4
+1435009	Pseudellipsoidion	5747	4
+1032744	Trachydiscus	5747	4
+641310	unclassified Eustigmatophyceae	5747	4
+404804	environmental samples	5747	4
+243298	environmental samples	2825	4
+96792	Chromulinales	2825	4
+134677	Phaeothamnales	2825	4
+114181	unclassified Chrysophyceae	2825	4
+33654	Hibberdiales	2825	4
+1841640	Segregatospumella	2825	4
+98056	Chrysosphaerales	2825	4
+420604	Hydrurales	2825	4
+1841607	Apoikiaceae	2825	4
+444508	environmental samples	12967	4
+1181712	Synchroma	557229	4
+1678346	Amphifilaceae	35131	4
+96638	unclassified Labyrinthulomycetes	35131	4
+35132	Labyrinthulaceae	35131	4
+1287658	Amphitremida	35131	4
+315752	environmental samples	35131	4
+33674	Thraustochytriaceae	35131	4
+2870	Phaeophyceae	569578	4
+569577	Aurearenophyceae	569578	4
+2833	Xanthophyceae	569578	4
+42743	Proteromonadidae	42740	4
+94701	Opalinidae	42740	4
+238766	Actinosphaerium	238765	4
+238770	Actinophrys	238765	4
+45651	Sarcinochrysidales	35675	4
+114041	unclassified Pelagophyceae	35675	4
+54409	Pelagomonadales	35675	4
+322070	environmental samples	35675	4
+82163	Pleurochloridellales	82162	4
+1424207	environmental samples	82162	4
+77029	Phaeothamniales	82162	4
+33853	Fragilariophyceae	2836	4
+33858	environmental samples	2836	4
+33849	Bacillariophyceae	2836	4
+33836	Coscinodiscophyceae	2836	4
+589449	Mediophyceae	2836	4
+1445877	unclassified Bacillariophyta	2836	4
+404725	environmental samples	38410	4
+658125	Chattonellales	38410	4
+1280310	Psammamonas	38410	4
+658119	unclassified Raphidophyceae	38410	4
+1004267	Pinguiochrysidales	157124	4
+91990	Bolidomonas	91989	5
+882212	unclassified Bolidophyceae	91989	5
+546862	environmental samples	91989	5
+159341	Placidia	159340	5
+104656	Wobblia	159340	5
+1673731	Suigetsumonas	159340	5
+1764929	Unclassified Placididea	159340	5
+136832	Adriamonas	33651	5
+127147	Caecitellus	33651	5
+78391	Siluaniidae	33651	5
+272152	Paramonas	33651	5
+281459	Nerada	33651	5
+282481	environmental samples	33651	5
+301234	unclassified Bicosoecida	33651	5
+238883	Bicosoecidae	33651	5
+238884	Cafeteriaceae	33651	5
+590978	Rhizochromulinales	39119	5
+590977	Florenciellales	39119	5
+35685	Dictyochales	39119	5
+315792	environmental samples	39119	5
+336753	unclassified Dictyochophyceae	39119	5
+35680	Pedinellales	39119	5
+45115	Oikomonas	45114	5
+54901	Chrysomeridales	54900	5
+2964	Noctilucales	2864	5
+88547	Syndiniales	2864	5
+27937	Phytodiniales	2864	5
+447211	Dinophysiales	2864	5
+33835	Thoracosphaerales	2864	5
+1239064	Oxyrrhinales	2864	5
+40984	Gonyaulacales	2864	5
+2942	Prorocentrales	2864	5
+89954	Suessiales	2864	5
+589512	Lophodiniales	2864	5
+113554	unclassified Dinophyceae	2864	5
+79895	Blastodiniales	2864	5
+2910	Peridiniales	2864	5
+650048	Coccidiniales	2864	5
+2970	Pyrocystales	2864	5
+2953	Gymnodiniales	2864	5
+101026	environmental samples	2864	5
+393031	Ichthyodinium	243287	5
+1169538	Vitrella	877183	5
+505692	Chromera	877183	5
+1702288	environmental samples	27997	5
+373148	unclassified Perkinsea	27997	5
+27998	Perkinsida	27997	5
+1421213	Colponema	1492816	5
+341154	environmental samples	177937	5
+665139	unclassified Colpodellidae	177937	5
+177938	Colpodella	177937	5
+1280412	Conoidasida	5794	5
+282487	environmental samples	5794	5
+422676	Aconoidasida	5794	5
+251330	Thalassomyces	251328	5
+663228	Ellobiopsis	251328	5
+187298	environmental samples	5878	5
+153249	unclassified Ciliophora	5878	5
+431837	Postciliodesmatophora	5878	5
+431838	Intramacronucleata	5878	5
+413586	environmental samples	388027	5
+38258	Glaucocystis	38257	5
+38268	Gloeochaete	38266	5
+3028	Chroomonas	589345	5
+95527	Falcomonas	589345	5
+42765	Komma	589345	5
+1486451	unclassified Pyrenomonadaceae	589344	5
+3033	Pyrenomonas	589344	5
+46951	Rhinomonas	589344	5
+37096	Rhodomonas	589344	5
+46949	Storeatula	589344	5
+589352	environmental samples	589343	5
+179400	Hanusia	589343	5
+96335	Proteomonas	589343	5
+77930	Teleaulax	589343	5
+46946	Geminigera	589343	5
+1486441	unclassified Geminigeraceae	589343	5
+55528	Guillardia	589343	5
+77924	Hemiselmis	589351	5
+95529	Plagiomonas	2896	5
+412159	Cryptochloris	2896	5
+2897	Chilomonas	2896	5
+3030	Cryptomonas	2896	5
+195503	Plagioselmis	2896	5
+318235	environmental samples	2896	5
+31324	Goniomonas	31323	5
+1211399	Rhizomastix	746844	5
+110787	Endolimax	33084	5
+1089792	Iodamoeba	33084	5
+1204561	environmental samples	33084	5
+5758	Entamoeba	33084	5
+180814	Mastigella	174815	5
+81099	Mastigamoeba	174815	5
+168131	Pelomyxa	168130	5
+13641	Polysphondylium	33083	5
+1227962	environmental samples	33083	5
+133407	Acytostelium	33083	5
+5782	Dictyostelium	33083	5
+211104	Liceales	33680	5
+137614	Stemonitida	33680	5
+385472	unclassified Myxogastria	33680	6
+208471	Trichiida	33680	6
+385477	environmental samples	33680	6
+137627	Myxogastromycetidae	33680	6
+668355	unclassified Protosteliales	435411	6
+435418	Protosteliaceae	435411	6
+435413	Ceratiomyxaceae	435411	6
+435412	Cavosteliaceae	435411	6
+354201	Vermistella	1485089	6
+373141	Stygamoeba	1485089	6
+313556	Cochliopodiidae	313555	6
+1076757	Parvamoeba	313555	6
+1078847	Goceviidae	313555	6
+1485080	Pellitidae	1485085	6
+95227	Vannellidae	1485085	6
+668361	Endostelium	1485085	6
+555392	Dactylopodida	1485085	6
+498011	Trichosphaerium	1485085	6
+1485169	Dermamoebida	1485168	6
+242543	Thecamoebida	1485168	6
+555407	Centramoebida	1485168	6
+304909	unclassified Lobosea	1215985	6
+547478	environmental samples	180229	6
+1525728	Ptolemeba	180229	6
+555370	Tubulinida	180229	6
+136448	Echinamoebidae	180229	6
+66525	Leptomyxidae	66524	6
+136457	Flabellulidae	66524	6
+318517	Phryganellina	318493	6
+498009	Arcellinida incertae sedis	318493	6
+318516	Difflugina	318493	6
+765889	environmental samples	318493	6
+318506	Arcellina	318493	6
+31295	Haplosporidium	31294	6
+38078	Minchinia	31294	6
+278123	Gigartacontidae	65575	6
+310808	Stauraconidae	65575	6
+1286076	unclassified Chaunacanthida	65575	6
+65579	Pseudolithiidae	65578	6
+278119	Amphilithiidae	65578	6
+904397	Astrolithidae	65578	6
+85462	Sphaenacanthida	85460	6
+904406	Phyllacantha	85460	6
+1127098	Acanthochiasmidae	1127110	6
+1127112	Acanthoplegmidae	1127110	6
+1127408	Litholophus	1127411	6
+1238680	Allapsa	1238681	6
+1435001	Viridiraptoridae	1238681	6
+1821251	environmental samples	1238681	6
+149083	Proleptomonas	1238681	6
+1239209	Sandona	1238681	6
+1181464	unclassified Paramyxea	98369	6
+98370	Marteilia	98369	6
+204399	Marteilioides	98369	6
+328350	unclassified Cercomonadida	188941	6
+985834	Micrometopion	188941	6
+507870	Sainouridae	188941	6
+188966	Metopion	188941	6
+45108	Cercomonadidae	188941	6
+45105	Heteromitidae	188941	6
+404699	environmental samples	188941	6
+361424	Ebriidae	1004930	6
+1821241	environmental samples	1004930	6
+589444	Cryomonadida	1004930	6
+862251	Chlamydophryidae	1004930	6
+238772	Lecythium	1004930	6
+178376	Pseudodifflugiidae	1004930	6
+238759	Clathrulinidae	238764	6
+1367448	Vampyrellida clade C	1367446	6
+325674	Vampyrellidae	1367446	6
+1367447	Vampyrellida clade B	1367446	6
+985832	Nudifila	1736114	6
+1736115	Spongomonadida	1736114	6
+1736122	Marimonadida	1736114	6
+1821253	environmental samples	1736114	6
+556185	Silicofilosea	1736114	6
+37358	Plasmodiophoridae	37357	6
+243294	environmental samples	37357	6
+1572407	Phaeogymnocellida	238777	6
+332306	Phaeoconchida	238777	6
+332294	Phaeogromida	238777	6
+238786	Phaeodendrida	238777	6
+238790	Phaeocystida	238777	6
+238779	Phaeosphaerida	238777	6
+1572403	Phaeocalpida	238777	6
+1561962	Amorphochlora	29197	6
+227085	Bigelowiella	29197	6
+647365	Partenskyella	29197	6
+467050	unclassified Chlorarachniophyceae	29197	6
+74819	Lotharella	29197	6
+67808	Gymnochlora	29197	6
+552663	Norrisiella	29197	6
+29198	Chlorarachnion	29197	6
+1213617	Minorisa	29197	6
+341164	environmental samples	29197	6
+1247845	environmental samples	240574	6
+1247844	unclassified Reticulamoeba	240574	6
+240577	Sticholonche	240576	6
+414914	Actinommidae	65583	6
+987160	Spongotrochus	65583	6
+1191176	Rhizosphaeridae	65583	7
+366535	Ethmosphaeridae	65583	7
+366599	Litheliidae	65583	7
+366590	Pyloniidae	65583	7
+220106	Spongodiscidae	65583	7
+366518	unclassified Spumellaria	65583	7
+1664298	Orosphaeridae	65583	7
+986736	Larnacillidae	65583	7
+1604862	Heliodiscus	65583	7
+1604866	environmental samples	65583	7
+987158	Spongocore	65583	7
+299202	Coccodiscidae	65583	7
+987155	Stylochlamydium	65583	7
+238796	Thalassophysidae	65583	7
+413936	Collozoidae	1426915	7
+65588	Sphaerozoidae	1426915	7
+65584	Thalassicollidae	1426915	7
+65593	Collosphaeridae	1426915	7
+1656265	Collophidiidae	1426915	7
+366585	Plagoniidae	278980	7
+278984	Pterocorythidae	278980	7
+278981	Theoperidae	278980	7
+1054389	Trissocyclidae	278980	7
+1054398	Plagiacanthidae	278980	7
+212499	Syringamminidae	212500	7
+164085	Saccodendron	160357	7
+164081	Psammosphaera	160357	7
+212490	Saccammina	160357	7
+1051368	Conqueria	160357	7
+944433	Technitella	160357	7
+1239418	Spirillinidae	1051633	7
+1051634	Patellinidae	1051633	7
+998817	Spiroplectamminidae	998816	7
+1395581	Remaneicidae	998816	7
+1482317	Reophacidae	998816	7
+29179	Miliolina	1216353	7
+489093	unclassified Allogromida	196920	7
+160355	Allogromiidae	196920	7
+1051363	Bathyallogromia	196920	7
+212497	Lagynidae	196920	7
+944429	Globotextulariidae	196922	7
+46109	Astrorhizida	196922	7
+203416	Spiroplectamminacea	196922	7
+944424	Valvulinidae	196922	7
+203420	Textulariacea	196922	7
+203429	Trochamminacea	196922	7
+203428	Lituolacea	196922	7
+212507	Chilostomellacea	29185	7
+69030	Globigerinacea	29185	7
+196917	Nummulitidae	29185	7
+325268	Discorbinellacea	29185	7
+203402	Planorbulinacea	29185	7
+69038	Discorboidea	29185	7
+375647	unclassified Rotaliida	29185	7
+1552974	Hantkeninoidea	29185	7
+551667	Robertinidae	29185	7
+212503	Buliminacea	29185	7
+349983	Fursenkoinacea	29185	7
+478572	Heterohelicacea	29185	7
+203397	Rotaliacea	29185	7
+212496	Cibicididae	29185	7
+212511	Bolivinacea	29185	7
+191121	Nonionacea	29185	7
+243194	Virgulinellacea	29185	7
+203407	Cassidulinacea	29185	7
+29186	Elphidiidae	29185	7
+1659663	Asterigerinoidea	29185	7
+1696526	Pleurostomellidae	29185	7
+313615	Turrilinacea	29185	7
+1495883	Globorotalioidea	29185	7
+302102	Miliammina	302101	7
+1395568	Carterinidae	1395567	7
+218545	Glandulinidae	218544	7
+331042	Nodosariidae	218544	7
+164069	Crithionina	1505960	7
+159863	Notodendrodes	1505960	7
+39593	Allogromia	1505960	7
+46077	Astrammina	1505960	7
+1699796	Flexammina	1505960	7
+188961	Reticulomyxidae	1505960	7
+164096	Psammophaga	1505960	7
+1659750	Robertinida	1659748	7
+38263	Glaucosphaeraceae	1535296	7
+1292368	Dixoniellaceae	1292367	7
+661029	Rhodellaceae	661028	7
+446133	Stylonemataceae	282338	7
+999104	unclassified Stylonematales	282338	7
+930021	Rufusiaceae	930020	7
+240428	Erythrotrichiaceae	31351	7
+33660	Erythropeltidaceae	31351	7
+110508	Rhodochaetaceae	110507	7
+31352	Compsopogonaceae	930024	7
+930025	Boldiaceae	930024	7
+244124	Pihiellaceae	244123	7
+67959	Thoreaceae	891383	7
+902723	unclassified Thoreales	891383	7
+31469	Gracilariaceae	31468	7
+902707	unclassified Gracilariales	31468	7
+282358	Pterocladiophilaceae	31468	7
+123990	Balliaceae	123989	7
+902693	unclassified Balliales	123989	8
+1505951	Ceramiales incertae sedis	2802	8
+35164	Dasyaceae	2802	8
+998122	Sarcomeniaceae	2802	8
+31377	Ceramiaceae	2802	8
+1824865	environmental samples	2802	8
+31386	Delesseriaceae	2802	8
+2803	Rhodomelaceae	2802	8
+902697	unclassified Ceramiales	2802	8
+756396	Wrangeliaceae	2802	8
+227970	Hapalidiaceae	1705611	8
+31484	Liagoraceae	2807	8
+902710	unclassified Nemaliales	2807	8
+73096	Galaxauraceae	2807	8
+268579	Scinaiaceae	2807	8
+31462	Rhizophyllidaceae	28017	8
+257562	Cubiculosporaceae	28017	8
+31441	Solieriaceae	28017	8
+31465	Sphaerococcaceae	28017	8
+35196	Phacelocarpaceae	28017	8
+29217	Gigartinaceae	28017	8
+257559	Cruoriaceae	28017	8
+173455	Peyssonneliaceae	28017	8
+257552	Corynocystaceae	28017	8
+282346	Choreocolacaceae	28017	8
+28018	Furcellariaceae	28017	8
+1405792	Chondrymeniaceae	28017	8
+1848510	Catenellopsidaceae	28017	8
+50886	Mychodeaceae	28017	8
+257593	Rissoellaceae	28017	8
+257590	Pseudoanemoniaceae	28017	8
+867921	Haemeschariaceae	28017	8
+31430	Kallymeniaceae	28017	8
+31424	Gloiosiphoniaceae	28017	8
+38793	unclassified Gigartinales	28017	8
+239158	Corynomorphaceae	28017	8
+2814	Endocladiaceae	28017	8
+35193	Nizymeniaceae	28017	8
+142503	Gainiaceae	28017	8
+1819309	Etheliaceae	28017	8
+31412	Cystocloniaceae	28017	8
+1037068	Crossocarpaceae	28017	8
+31415	Dumontiaceae	28017	8
+173469	Calosiphoniaceae	28017	8
+31459	Polyideaceae	28017	8
+257543	Acrotylaceae	28017	8
+28021	Phyllophoraceae	28017	8
+38385	Tichocarpaceae	28017	8
+38384	Caulacanthaceae	28017	8
+257583	Mychodeophyllaceae	28017	8
+257601	Wurdemanniaceae	28017	8
+31427	Hypneaceae	28017	8
+239142	Dicranemataceae	28017	8
+257613	Areschougiaceae	28017	8
+884981	unclassified Halymeniales	50289	8
+31453	Halymeniaceae	50289	8
+199491	Tsengiaceae	50289	8
+902705	unclassified Gelidiales	31399	8
+436067	Aphanta	31399	8
+2808	Gelidiaceae	31399	8
+177372	Balliopsis	31370	8
+67901	Psilosiphonaceae	31370	8
+31374	Lemaneaceae	31370	8
+31371	Batrachospermaceae	31370	8
+902695	unclassified Batrachospermales	31370	8
+31450	Plocamiaceae	35203	8
+902713	unclassified Plocamiales	35203	8
+38556	Sarcodiaceae	35203	8
+39579	Rhodothamniellaceae	2819	8
+39570	Rhodophysemataceae	2819	8
+902712	unclassified Palmariales	2819	8
+2820	Palmariaceae	2819	8
+909750	Meiodiscaceae	2819	8
+902708	unclassified Hildenbrandiales	31477	8
+31478	Hildenbrandiaceae	31477	8
+67956	unclassified Acrochaetiales	31355	8
+31356	Acrochaetiaceae	31355	8
+42185	Schizymeniaceae	199699	8
+173458	Nemastomataceae	199699	8
+902711	unclassified Nemastomatales	199699	8
+498765	Rhodachlyaceae	498764	8
+1707143	Corallinophycidae incertae sedis	1443949	8
+31491	Rhodogorgonales	1443949	8
+31395	Corallinales	1443949	8
+1443969	unclassified Corallinophycidae	1443949	8
+902699	unclassified Colaconematales	658648	8
+658649	Colaconemataceae	658648	8
+1405801	Entwisleiaceae	1405800	8
+50885	Sebdeniaceae	369753	8
+902720	unclassified Sebdeniales	369753	8
+902690	unclassified Acrosymphytales	369754	8
+142495	Acrosymphytaceae	369754	8
+31362	Ahnfeltiaceae	31361	8
+902691	unclassified Ahnfeltiales	31361	8
+902696	unclassified Bonnemaisoniales	31364	8
+173448	Naccariaceae	31364	8
+31365	Bonnemaisoniaceae	31364	8
+748726	Hymenocladiaceae	29247	8
+81601	Faucheaceae	29247	8
+1827019	Minium	29247	8
+31497	Champiaceae	29247	9
+31498	Lomentariaceae	29247	9
+522305	unclassified Rhodymeniales	29247	9
+31501	Rhodymeniaceae	29247	9
+748682	Fryeellaceae	29247	9
+173442	Balbianiaceae	111859	9
+314298	environmental samples	265318	9
+467390	unclassified Cyanidiales	265318	9
+265316	Cyanidiaceae	265318	9
+2799	Porphyridiaceae	2798	9
+139981	Phragmonemataceae	2798	9
+31345	Bangiaceae	29216	9
+902694	unclassified Bangiales	29216	9
+131214	Chlorokybales	131213	9
+3172	Klebsormidiales	131220	9
+1508422	environmental samples	131220	9
+160439	Mesostigmatales	96475	9
+167640	environmental samples	96475	9
+31306	Ulotrichales	33103	9
+66259	Acrosiphoniales	33103	9
+175240	Oltmansiellopsidales	33103	9
+578868	Chlorocystidales	33103	9
+33104	Bryopsidales	33103	9
+167236	environmental samples	33103	9
+97100	Ulvophyceae incertae sedis	33103	9
+231076	Ignatiales	33103	9
+3113	Ulvales	33103	9
+3134	Dasycladales	33103	9
+3183	Cladophorales	33103	9
+156114	unclassified Ulvophyceae	33103	9
+35443	Trentepohliales	33103	9
+1387701	Scotinosphaerales	33103	9
+765718	unclassified Pedinophyceae	35422	9
+1818015	environmental samples	35422	9
+1535297	Marsupiomonadales	35422	9
+35423	Pedinomonadales	35422	9
+35430	Scourfieldiales	35422	9
+485343	Prasinococcales	3152	9
+1035538	Mamiellophyceae	3152	9
+41878	Pycnococcaceae	3152	9
+1541723	prasinophyte clade VII	3152	9
+304575	Pseudoscourfieldiales	3152	9
+77633	environmental samples	3152	9
+38834	Pyramimonadales	3152	9
+1242998	Nephroselmidophyceae	3152	9
+135250	Prasiolales	75966	9
+167233	unclassified Trebouxiophyceae	75966	9
+35488	Ctenocladales	75966	9
+35460	Chlorellales	75966	9
+42111	Microthamniales	75966	9
+75981	Trebouxiophyceae incertae sedis	75966	9
+167234	environmental samples	75966	9
+485335	environmental samples	3166	9
+51325	Chaetopeltidales	3166	9
+138177	Chlorosarcinales	3166	9
+3042	Chlamydomonadales	3166	9
+31305	Tetrasporales	3166	9
+31299	Chaetophorales	3166	9
+35490	Oedogoniales	3166	9
+35491	Sphaeropleales	3166	9
+262506	Phaeophilales	3166	9
+35426	Chlorodendrales	1524962	9
+539820	Palmophyllum	1524963	9
+542675	Verdigellas	1524963	9
+63594	Stachyamoeba	63761	9
+1217108	Allovahlkampfia	5765	9
+321836	environmental samples	5765	9
+51640	Willaertia	5765	9
+5768	Tetramitus	5765	9
+166957	Paravahlkampfia	5765	9
+5770	Vahlkampfia	5765	9
+500010	unclassified Vahlkampfiidae	5765	9
+166955	Neovahlkampfia	5765	9
+5761	Naegleria	5765	9
+1144921	Guttulinopsis	1144920	9
+43694	Acrasis	1144924	9
+1732445	Astasiaceae	86652	9
+96907	Eutreptia	86652	9
+73024	Eutreptiella	86652	9
+102909	Colacium	86650	9
+1732440	Peranemataceae	86650	9
+1131319	Phacaceae	86650	9
+1131318	Peranemaceae	86650	9
+493917	environmental samples	86650	9
+1131320	Euglenaceae	86650	9
+318243	environmental samples	86651	9
+186752	Sphenomonadidae	86651	9
+181204	Heteronematidae	86653	9
+35225	Dimastigella	5708	9
+266822	Procryptobia	5708	9
+5709	Trypanoplasma	5708	9
+127149	Rhynchomonas	5708	9
+259046	Cryptaulax	5708	9
+5712	Bodo	5708	9
+62685	Cryptobia	5708	9
+312470	Neobodo	5708	9
+1503926	Hemistasia	5708	9
+321833	environmental samples	5708	9
+140241	Cruzella	5708	9
+1291488	Azumiobodo	5708	9
+219298	unclassified Bodonidae	5708	10
+140243	Parabodo	5708	10
+51333	Rhynchobodo	5708	10
+1073396	unclassified Ichthyobodonidae	1027875	10
+155202	Ichthyobodo	1027875	10
+193125	unclassified Trypanosomatidae	5654	10
+699839	environmental samples	5654	10
+5714	Herpetomonas	5654	10
+1581334	Strigomonadinae	5654	10
+5706	Phytomonas	5654	10
+28004	Blastocrithidia	5654	10
+1463229	Blechomonas	5654	10
+5690	Trypanosoma	5654	10
+424812	Sergeia	5654	10
+1734385	Jaenimonas	5654	10
+1286322	Leishmaniinae	5654	10
+1470208	Paratrypanosoma	5654	10
+74025	Syracosphaera	418932	10
+418944	Coronosphaera	418932	10
+418942	Algirosphaera	418941	10
+97491	Coccolithus	418933	10
+127546	Cruciplacolithus	418933	10
+13220	Pleurochrysis	418918	10
+1038838	Tergestiella	418931	10
+573975	Oolithotus	418931	10
+127548	Calcidiscus	418931	10
+38818	Umbilicosphaera	418931	10
+2905	Ochrosphaera	418935	10
+418936	Hymenomonas	418935	10
+73021	Cricosphaera	418935	10
+589354	environmental samples	418920	10
+33656	Phaeocystis	418920	10
+127561	Helicosphaera	418968	10
+373041	Braarudosphaera	373044	10
+35140	Chrysochromulina	1136790	10
+1090112	Haptolina	418967	10
+466171	Pseudohaptolina	418967	10
+127565	Platychrysis	418967	10
+35143	Prymnesium	418967	10
+97494	Imantonia	418967	10
+412163	Dicrateria	418951	10
+424538	Chrysotila	418951	10
+1574290	Tisochrysis	418951	10
+37098	Isochrysis	418951	10
+2902	Emiliania	418966	10
+38816	Gephyrocapsa	418966	10
+284804	Helladosphaera	284803	10
+35138	Calyptrosphaera	284803	10
+70451	Diacronema	418969	10
+561168	Rebecca	418969	10
+1824916	environmental samples	418969	10
+119496	Exanthemachrysis	418969	10
+2831	Pavlova	418969	10
+946272	environmental samples	339962	10
+525768	Parahistomonas	740973	10
+135587	Histomonas	740973	10
+1343855	unclassified Dientamoebidae	740973	10
+43351	Dientamoeba	740973	10
+5736	Monocercomonas	135585	10
+5723	Tritrichomonas	740983	10
+723909	Simplicimonas	723907	10
+246722	Mixotricha	740977	10
+246725	Deltotrichonympha	740977	10
+1604039	Macrotrichomonoides	740977	10
+402893	Caduceia	740977	10
+87538	Koruga	740977	10
+181546	Snyderella	740977	10
+48979	Devescovina	740977	10
+39062	Metadevescovina	740977	10
+39248	Coronympha	740977	10
+561867	Joenoides	740977	10
+561865	Joenina	740977	10
+740978	Lophomonas	740977	10
+450819	Joenia	740977	10
+47795	Calonympha	740977	10
+47797	Macrotrichomonas	740977	10
+336693	Stephanonympha	740977	10
+181551	Metacoronympha	740977	10
+561873	Gigantomonas	740977	10
+561875	Foaina	740977	10
+235493	Hexamastix	740975	10
+39048	Ditrichomonas	723924	10
+496875	Honigbergiella	723924	10
+85695	Monotrichomonas	723924	10
+5734	Hypotrichomonas	740985	10
+5731	Trichomitus	740985	10
+104085	Holomastigotoides	104084	10
+285702	Spirotrichonymphella	104084	10
+5729	Tetratrichomonas	181550	10
+929579	Lacusteria	181550	10
+77083	Pseudotrypanosoma	181550	10
+5721	Trichomonas	181550	10
+5727	Pentatrichomonas	181550	10
+227313	Cochlosoma	181550	10
+41453	Pentatrichomonoides	181550	10
+199294	Trichomitopsis	181550	10
+703608	Leptospironympha	741011	10
+1312419	unclassified Trichonymphidae	67477	10
+63627	Trichonympha	67477	10
+104088	Spirotrichonympha	67477	10
+544394	Barbulanympha	285697	11
+544398	Urinympha	285697	11
+285698	Hoplonympha	285697	11
+285688	Staurojoenina	285687	11
+104092	Eucomonympha	285682	11
+104082	Pseudotrichonympha	285682	11
+285685	Teranympha	285682	11
+587471	Heterogloeaceae	587470	11
+859189	environmental samples	420622	11
+420617	Mallomonadaceae	420622	11
+420616	Synuraceae	420622	11
+328355	unclassified Ochromonadales	98652	11
+88165	Ochromonadaceae	98652	11
+450754	environmental samples	98652	11
+420625	Myxochloridaceae	420624	11
+1606623	Unclassified Parmales	722750	11
+722751	Triparmaceae	722750	11
+42383	Hyphochytrium	114255	11
+114253	Rhizidiomyces	114252	11
+416806	Olpidiopsidaceae	416805	11
+4801	Lagenidiaceae	4800	11
+1440114	Paralagenidium	4800	11
+135471	Haliphthoraceae	4800	11
+858388	environmental samples	4800	11
+1663098	Anisolpidiaceae	1663097	11
+159315	Eurychasmataceae	159314	11
+442668	Myzocytiopsidaceae	159314	11
+282456	environmental samples	121069	11
+944612	Pythiogetonaceae	121069	11
+4782	Pythiaceae	121069	11
+1489788	Lagena	1489790	11
+795339	Phytopythium	4776	11
+983657	Salisapiliaceae	4776	11
+4777	Peronosporaceae	4776	11
+455411	environmental samples	4776	11
+4783	Phytophthora	4776	11
+1358717	unclassified Saprolegniales	4763	11
+941455	environmental samples	4763	11
+4764	Saprolegniaceae	4763	11
+65355	Albuginaceae	370421	11
+243299	environmental samples	94120	11
+377433	Haptoglossa	94120	11
+1682048	Lagenisma	94120	11
+120409	Verrucalvaceae	120408	11
+100872	Rhipidiaceae	100871	11
+1672053	Blastulidium	92979	11
+92980	Apodachlya	92979	11
+100865	Leptomitus	92979	11
+425072	Monodopsidaceae	425074	11
+425073	Pseudocharaciopsidaceae	425074	11
+1032747	Loboceae	425074	11
+425071	Eustigmataceae	425074	11
+1431834	Chlorobotrys	425074	11
+98656	Phaeoplacaceae	96792	11
+696481	environmental samples	96792	11
+704141	Dinobryaceae	96792	11
+36768	Paraphysomonadaceae	96792	11
+64703	Chrysolepidomonadaceae	96792	11
+98651	Chromulinaceae	96792	11
+98650	Chrysocapsaceae	96792	11
+98046	Chrysoamoebidaceae	96792	11
+134678	Phaeosaccionaceae	134677	11
+420583	Phaeobotrys	114181	11
+420633	Stylococcaceae	33654	11
+98649	Hibberdiaceae	33654	11
+1481714	environmental samples	33654	11
+98654	Chrysosaccaceae	98056	11
+98653	Chrysosphaeraceae	98056	11
+1194681	environmental samples	420604	11
+98655	Hydruraceae	420604	11
+1841614	Apoikiospumella	1841607	11
+1804150	Sorodiplophrys	96638	11
+35133	Labyrinthula	35132	11
+1287649	Amphitraemidae	1287658	11
+138668	Diplophrys	1287658	11
+463361	Botryochytrium	33674	11
+87110	Aplanochytrium	33674	11
+463363	Parietichytrium	33674	11
+87092	Japonochytrium	33674	11
+463365	Sicyoidochytrium	33674	11
+4774	Thraustochytrium	33674	11
+4772	Schizochytrium	33674	11
+35134	Ulkenia	33674	11
+333823	unclassified Thraustochytriidae	33674	11
+420539	Oblongichytrium	33674	11
+333830	environmental samples	33674	11
+33675	Labyrinthuloides	33674	11
+420535	Aurantiochytrium	33674	11
+891380	Ralfsiales	2870	11
+243300	environmental samples	2870	11
+74472	Cutleriales	2870	11
+531990	Onslowiales	2870	11
+2877	Ectocarpales	2870	11
+3009	Fucales	2870	11
+76828	Ascoseirales	2870	11
+2873	Dictyotales	2870	11
+31331	Heterochordariaceae	2870	11
+31337	Desmarestiales	2870	11
+27949	Syringodermatales	2870	11
+2886	Laminariales	2870	11
+142645	Sporochnales	2870	12
+27945	Sphacelariales	2870	12
+86882	Tilopteridales	2870	12
+141907	Scytothamnales	2870	12
+195995	Botrydiales	2833	12
+656231	unclassified Xanthophyceae	2833	12
+195993	Mischococcales	2833	12
+2978	Tribonematales	2833	12
+981206	environmental samples	2833	12
+2974	Vaucheriales	2833	12
+376790	Karotomorpha	42743	12
+42745	Proteromonas	42743	12
+94775	Opalina	94701	12
+94773	Cepedea	94701	12
+94702	Protoopalina	94701	12
+1649285	Sarcinochrysidaceae	45651	12
+1764943	Unclassified Sarcinochrysidales	45651	12
+35676	Pelagomonas	54409	12
+1291017	environmental samples	54409	12
+932083	unclassified Pelagomonadales	54409	12
+44057	Aureoumbra	54409	12
+44055	Aureococcus	54409	12
+35678	Pelagococcus	54409	12
+82164	Pleurochloridellaceae	82163	12
+77031	Phaeothamniaceae	77029	12
+33854	Fragilariophycidae	33853	12
+376605	environmental samples	33853	12
+413971	unclassified Fragilariophyceae	33853	12
+33850	Bacillariophycidae	33849	12
+1537696	unclassified Bacillariophyceae	33849	12
+497700	Bacillariophyceae incertae sedis	33849	12
+376601	environmental samples	33849	12
+196634	Eunotiophycidae	33849	12
+33846	Thalassiosirophycidae	33836	12
+33843	Rhizosoleniophycidae	33836	12
+33840	Coscinodiscophycidae	33836	12
+321840	environmental samples	33836	12
+882214	unclassified Coscinodiscophyceae	33836	12
+420266	Chaetocerotophycidae	33836	12
+420268	Corethrophycidae	33836	12
+327390	Mediopyxis	589449	12
+33837	Biddulphiophycidae	589449	12
+420265	Cymatosirophycidae	589449	12
+1003138	Toxariales	589449	12
+589450	environmental samples	589449	12
+420270	Lithodesmiophycidae	589449	12
+212749	Baileya	1445877	12
+431592	Prestauroneis	1445877	12
+658124	Chattonellaceae	658125	12
+658123	Vacuolariaceae	658125	12
+162274	Haramonas	658119	12
+1004268	Pinguiochrysidaceae	1004267	12
+660906	environmental samples	127147	12
+78392	Siluania	78391	12
+357349	Halocafeteria	301234	12
+743683	Rictus	301234	12
+272143	Bicosoeca	238883	12
+1765071	Symbiomonas	238883	12
+33652	Cafeteria	238884	12
+167960	Pseudobodo	238884	12
+341160	environmental samples	238884	12
+35673	Rhizochromulina	590978	12
+1006562	environmental samples	590977	12
+236786	Florenciella	590977	12
+669372	unclassified Florenciellales	590977	12
+1715698	Vicicitus	35685	12
+35686	Dictyocha	35685	12
+215585	Helicopedinella	35680	12
+483368	unclassified Pedinellales	35680	12
+189816	Pedinella	35680	12
+296675	Mesopedinella	35680	12
+341158	environmental samples	35680	12
+35683	Pseudopedinella	35680	12
+38821	Pteridomonas	35680	12
+35681	Apedinella	35680	12
+38823	Ciliophrys	35680	12
+1104312	Chrysomeridaceae	54901	12
+66804	Noctilucaceae	2964	12
+763928	Kofoidiniaceae	2964	12
+1132511	Eudubosquellidae	88547	12
+88548	Amoebophryaceae	88547	12
+385042	environmental samples	88547	12
+88553	Duboscquellidae	88547	12
+88550	Syndiniaceae	88547	12
+27938	Gloeodiniaceae	27937	12
+425788	Phytodiniaceae	27937	12
+1162809	Pseudophalacroma	447211	12
+47932	Dinophysiaceae	447211	12
+447212	Oxyphysaceae	447211	12
+174810	Oxyrrhinaceae	1239064	12
+1214249	Heterodiniaceae	40984	12
+326148	Amphidiniella	40984	12
+72552	Pyrophacaceae	40984	12
+39452	Crypthecodiniaceae	40984	12
+1123714	Amphidomataceae	40984	12
+160620	Lingulodinium	40984	12
+588888	environmental samples	40984	12
+33834	Gonyaulacaceae	40984	12
+66798	Ceratocoryaceae	40984	12
+1129411	Cladopyxidaceae	40984	12
+1129376	Goniodomataceae	40984	13
+39451	Ceratiaceae	40984	13
+1333867	Calciodinellaceae	40984	13
+588874	environmental samples	2942	13
+2943	Prorocentraceae	2942	13
+1209073	Biecheleriaceae	89954	13
+252141	Symbiodiniaceae	89954	13
+89955	Suessiaceae	89954	13
+1400428	Borghiellaceae	89954	13
+589513	Lophodiniaceae	589512	13
+1434742	Theleodinium	113554	13
+1604011	Ailadinium	113554	13
+419286	Piscinoodinium	113554	13
+1573494	Levanderina	113554	13
+858355	Duboscquodinium	113554	13
+1649659	Psammosa	113554	13
+143673	Peridinella	113554	13
+439866	Protodinium	113554	13
+113555	Halostylodinium	113554	13
+1501394	Madanidinium	113554	13
+325317	Pileidinium	113554	13
+1389134	Bispinodinium	113554	13
+1661262	Pellucidodinium	113554	13
+763926	Abedinium	113554	13
+1628258	Pseudadenoides	113554	13
+339967	Stoeckeria	113554	13
+910440	Tintinnophagus	113554	13
+1779398	Balechina	113554	13
+160616	Haplozoon	79895	13
+363324	Blastodinium	79895	13
+66803	Peridiniaceae	2910	13
+66802	Heterocapsaceae	2910	13
+261840	Pyrophaceae	2910	13
+240356	Oxytoxaceae	2910	13
+403651	Pfiesteriaceae	2910	13
+58154	Ostreopsidaceae	2910	13
+588884	environmental samples	2910	13
+1691972	Thoracosphaeraceae	2910	13
+1075831	Glenodiniopsidaceae	2910	13
+1434916	Amphidiniopsidaceae	2910	13
+79896	Oodiniaceae	2910	13
+261838	Protoperidiniaceae	2910	13
+1582273	Glenodiniaceae	2910	13
+332974	unclassified Peridiniales	2910	13
+210731	Podolampaceae	2910	13
+1643534	Diplopsaliaceae	2910	13
+1704135	Kolkwitziellaceae	2910	13
+1333875	Endodiniaceae	2910	13
+650049	Chytriodiniaceae	650048	13
+1573500	Pyrocystaceae	2970	13
+1003173	Brachidiniaceae	2953	13
+651389	Warnowiaceae	2953	13
+1003176	Kareniaceae	2953	13
+1389942	Ceratoperidinium	2953	13
+258029	Polykrikaceae	2953	13
+1472026	unclassified Gymnodiniales	2953	13
+1407742	Ankistrodinium	2953	13
+588881	environmental samples	2953	13
+1169139	Tovelliaceae	2953	13
+66801	Gymnodiniaceae	2953	13
+261835	Hemidiniaceae	2953	13
+27999	Perkinsidae	27998	13
+797740	environmental samples	177938	13
+1421564	environmental samples	1280412	13
+5796	Coccidia	1280412	13
+35086	Gregarinasina	1280412	13
+5819	Haemosporida	422676	13
+5863	Piroplasmida	422676	13
+153250	Cryptocaryon	153249	13
+194287	Heterotrichea	431837	13
+33827	Karyorelictea	431837	13
+5988	Litostomatea	431838	13
+6015	Nassophorea	431838	13
+6000	Prostomatea	431838	13
+658449	Armophorea	431838	13
+5977	Colpodea	431838	13
+37471	Phyllopharyngea	431838	13
+6020	Oligohymenophorea	431838	13
+33829	Spirotrichea	431838	13
+1249559	Plagiopylea	431838	13
+660923	environmental samples	77930	13
+858386	environmental samples	46946	13
+1006558	unclassified Hemiselmis	77924	13
+356653	unclassified Cryptomonas	3030	13
+858382	environmental samples	3030	13
+1631808	environmental samples	211104	13
+435426	Reticulariaceae	211104	13
+211105	Enteridiidae	211104	13
+300237	Cribrariaceae	211104	13
+1334541	Dictydiaethaliaceae	211104	13
+1233510	unclassified Liceales	211104	13
+1233511	Liceaceae	211104	13
+410619	Macbrideola	137614	13
+410617	Diacheopsis	137614	13
+137615	Stemonitidae	137614	13
+1173733	environmental samples	137614	13
+232853	Symphytocarpus	137614	13
+1631785	environmental samples	208471	13
+1334519	Arcyriaceae	208471	13
+208472	Trichiidae	208471	13
+1182203	Dianemataceae	208471	14
+137622	Echinosteliales	137627	14
+5789	Physariida	137627	14
+435422	Soliformovum	435418	14
+668357	Tychosporium	435418	14
+661164	Nematostelium	435418	14
+472930	Protostelium	435418	14
+435419	Schizoplasmodiopsis	435418	14
+668365	Clastostelium	435418	14
+668363	Protosteliopsis	435418	14
+661159	Schizoplasmodium	435418	14
+435414	Ceratiomyxa	435413	14
+1655011	unclassified Cavosteliaceae	435412	14
+668359	Protosporangium	435412	14
+661161	Ceratiomyxella	435412	14
+435409	Cavostelium	435412	14
+65007	Planoprotostelium	435412	14
+313557	Cochliopodium	313556	14
+1027631	Ovalopodium	313556	14
+1078848	Gocevia	1078847	14
+1485082	Pellita	1485080	14
+1217112	Ripella	95227	14
+218657	Clydonella	95227	14
+544560	environmental samples	95227	14
+1443143	Paravannella	95227	14
+95228	Vannella	95227	14
+197524	Platyamoeba	95227	14
+498007	Pessonella	95227	14
+218664	Lingulamoeba	95227	14
+180225	Vexilliferidae	555392	14
+200887	Paramoebidae	555392	14
+1072174	Paradermamoeba	1485169	14
+242548	Dermamoeba	1485169	14
+242540	Mayorella	1485169	14
+933114	unclassified Thecamoebidae	242543	14
+343528	Sappinia	242543	14
+1290446	environmental samples	242543	14
+497345	Stenamoeba	242543	14
+242544	Thecamoeba	242543	14
+555408	Balamuthiidae	555407	14
+33677	Acanthamoebidae	555407	14
+35218	Amoebidae	555370	14
+5776	Hartmannellidae	555370	14
+931555	unclassified Tubulinida	555370	14
+136453	Gephyramoeba	136448	14
+136451	Filamoeba	136448	14
+136449	Echinamoeba	136448	14
+136455	Leptomyxa	66525	14
+136461	Rhizamoeba	136457	14
+569952	unclassified Flabellulidae	136457	14
+569950	Flabellula	136457	14
+696490	environmental samples	136457	14
+266049	Ripidomyxa	136457	14
+136458	Paraflabellula	136457	14
+1078832	Cryptodifflugiidae	318517	14
+498010	Trichosidae	498009	14
+1165354	Difflugiidae	318516	14
+318523	Heleoperidae	318516	14
+1108959	Lesquereusiidae	318516	14
+318521	Centropyxidae	318516	14
+318533	Trigonopyxidae	318516	14
+318530	Hyalospheniidae	318516	14
+318542	Plagiopyxidae	318516	14
+318509	Microchlamyiidae	318506	14
+318512	Arcellidae	318506	14
+1127201	Gigartacon	278123	14
+278124	Amphiacon	278123	14
+1127204	Heteracon	310808	14
+310809	Stauracon	310808	14
+65580	Haliommatidium	65579	14
+278120	Amphibelone	278119	14
+904402	Astrolonche	904397	14
+278116	Hexalaspididae	85462	14
+278113	Dorataspididae	85462	14
+1127206	Lithopteridae	85462	14
+85463	Acanthometridae	85462	14
+1127138	Diploconidae	85462	14
+904388	Phyllostauridae	904406	14
+1127099	Acanthocolla	1127098	14
+1127104	Acanthochiasma	1127098	14
+1127102	Acanthocyrta	1127098	14
+1127402	Staurolithium	1127098	14
+1127414	Trizona	1127098	14
+1127113	Acanthoplegma	1127112	14
+1435002	Viridiraptor	1435001	14
+1586265	environmental samples	1435001	14
+1435004	Orciraptor	1435001	14
+1229274	unclassified Proleptomonas	149083	14
+1238574	Nucleocercomonas	328350	14
+1238573	Metabolomonas	328350	14
+507872	Cholamonas	507870	14
+188970	Sainouron	507870	14
+404736	environmental samples	45108	14
+372085	Paracercomonas	45108	14
+373137	Rosculus	45108	14
+310813	Helkesimastix	45108	14
+321420	Eocercomonas	45108	14
+268487	Neocercomonas	45108	14
+45109	Cercomonas	45108	14
+127226	Massisteria	45108	14
+686739	Cavernomonas	45108	15
+404697	environmental samples	45105	15
+188942	Allantion	45105	15
+45106	Heteromita	45105	15
+188949	Bodomorpha	45105	15
+361425	Ebria	361424	15
+1549799	environmental samples	361424	15
+151025	Cryothecomonas	589444	15
+589445	environmental samples	589444	15
+1595893	environmental samples	862251	15
+862252	Capsellina	862251	15
+981201	Rhogostoma	862251	15
+765884	environmental samples	178376	15
+178377	Pseudodifflugia	178376	15
+238760	Hedriocystis	238759	15
+238762	Clathrulina	238759	15
+862248	Theratromyxa	325674	15
+626140	Platyreta	325674	15
+941461	environmental samples	325674	15
+941459	Vampyrella	325674	15
+1108493	Leptophrys	325674	15
+498001	Arachnula	325674	15
+1367439	Thalassomyxa	1367447	15
+188972	Spongomonas	1736115	15
+230414	Pseudopirsonia	1736122	15
+178369	Euglyphida	556185	15
+188944	Thaumatomonadida	556185	15
+70183	Ligniera	37358	15
+37359	Plasmodiophora	37358	15
+70185	Spongospora	37358	15
+187661	Maullinia	37358	15
+1821255	environmental samples	37358	15
+41455	Polymyxa	37358	15
+1484335	Woronina	37358	15
+1484338	Sorosphaerula	37358	15
+167537	Sorosphaera	37358	15
+167534	Phagomyxa	37358	15
+1572408	Phaeodinidae	1572407	15
+332307	Concharidae	332306	15
+332297	Medusettidae	332294	15
+332295	Challengeriidae	332294	15
+238787	Coelodendridae	238786	15
+238791	Aulacanthidae	238790	15
+1572420	Sagosphaeridae	238779	15
+238780	Aulosphaeridae	238779	15
+1572409	Porospathidae	1572403	15
+1572404	Tuscaroridae	1572403	15
+629712	Astrosphaera	414914	15
+629710	Arachnosphaera	414914	15
+413939	Hexacontium	414914	15
+1329066	Spongosphaera	414914	15
+1054386	Actinomma	414914	15
+1191179	Rhizosphaera	1191176	15
+366536	Styptosphaera	366535	15
+366600	Larcopyle	366599	15
+366591	Tetrapyle	366590	15
+1054396	Streblacantha	366590	15
+1054393	Phorticium	366590	15
+517714	unclassified Spongodiscidae	220106	15
+220109	Dictyocoryne	220106	15
+220107	Spongaster	220106	15
+366595	Spongopyle	220106	15
+366604	Spongodiscus	220106	15
+278978	Euchitonia	220106	15
+279126	Triastrum	220106	15
+366607	Stylodictya	220106	15
+279124	Dicranastrum	220106	15
+1664301	Orodendrum	1664298	15
+986737	Tholospyra	986736	15
+534454	Cypassis	299202	15
+299203	Didymocyrtis	299202	15
+413937	Cladococcus	413936	15
+1658273	Thalassosphaera	65588	15
+65589	Sphaerozoum	65588	15
+65591	Collozoum	65588	15
+103356	Rhaphidozoum	65588	15
+238797	Thalassophysa	65588	15
+65585	Thalassicolla	65593	15
+65594	Collosphaera	65593	15
+1652799	Disolenia	65593	15
+1658294	unclassified Collosphaeridae	65593	15
+103358	Siphonosphaera	65593	15
+103346	Acrosphaera	65593	15
+1130125	Collophidium	1656265	15
+1656266	Procyttarium	1656265	15
+366597	Pseudocubus	366585	15
+278985	Pterocorys	278984	15
+278982	Eucyrtidium	278981	15
+366610	Pterocanium	278981	15
+366544	Artostrobus	278981	15
+1054390	Ceratospyris	1054389	15
+1054986	Cladoscenium	1054398	15
+366587	Lithomelissa	1054398	15
+212492	Syringammina	212499	15
+708054	Shinkaiya	212499	15
+1239419	Spirillina	1239418	15
+1051643	Patellina	1051634	15
+998818	Spirotextularia	998817	15
+1395582	Zaninettia	1395581	15
+1482315	Leptohalysis	1482317	15
+212491	Reophax	1482317	16
+998813	Ophthalmidiidae	29179	16
+46128	Soritidae	29179	16
+46135	Peneroplidae	29179	16
+45994	Massilina	29179	16
+128054	Miliolidae	29179	16
+218541	Hauerinidae	29179	16
+128057	Alveolinidae	29179	16
+164093	Cribrothalammina	160355	16
+164101	Tinogullmia	160355	16
+159869	Edaphoallogromia	160355	16
+164094	Cylindrogullmia	160355	16
+160356	Boderia	160355	16
+212489	Phainogullmia	160355	16
+350037	unclassified Allogromiidae	160355	16
+160751	Gloiogullmia	160355	16
+1051366	Micrometula	160355	16
+859215	Vellaria	160355	16
+164092	environmental samples	160355	16
+212493	Hyperammina	160355	16
+1415215	Niveus	160355	16
+164095	Bigenerina	160355	16
+164077	Nemogullmia	212497	16
+986705	Liebusella	944429	16
+46115	Saccamminidae	46109	16
+46116	Astrorhizidae	46109	16
+1051374	Rhabdamminidae	46109	16
+212495	Bathysiphonidae	46109	16
+203417	Sproplectamminidae	203416	16
+944427	Valvulina	944424	16
+203423	Eggerellidae	203420	16
+203421	Textulariidae	203420	16
+203425	Pseudogaudryinidae	203420	16
+164126	Trochamminidae	203429	16
+165421	Lituolidae	203428	16
+212498	Hormosinidae	203428	16
+212508	Chilostomellidae	212507	16
+1659653	Trichohyalidae	212507	16
+331038	Anomalinidae	212507	16
+1659683	Gavelinellidae	212507	16
+45998	Globigerinidae	69030	16
+69031	Hantkeninidae	69030	16
+51037	Globorotaliidae	69030	16
+225064	Pulleniatinidae	69030	16
+391242	Candeinidae	69030	16
+159861	Nummulites	196917	16
+311572	Planoperculina	196917	16
+196930	Planostegina	196917	16
+196923	Heterostegina	196917	16
+196918	Operculina	196917	16
+196919	Cycloclypeus	196917	16
+325269	Pseudoparrellidae	325268	16
+1659693	Discorbinellidae	325268	16
+203413	Planulinidae	203402	16
+203403	Planorbulinidae	203402	16
+1659679	Cymbaloporidae	203402	16
+69037	Glabratellidae	69038	16
+69036	Discorbidae	69038	16
+379356	Buliminoididae	69038	16
+1659761	Sphaeroidinidae	69038	16
+313275	Rosalinidae	69038	16
+1552975	Globanomalinidae	1552974	16
+551668	Robertina	551667	16
+212504	Buliminidae	212503	16
+212516	Uvigerinidae	212503	16
+379343	Buliminellidae	212503	16
+324126	Siphogenerinoididae	212503	16
+349984	Fursenkoinidae	349983	16
+478573	Guembelitriidae	478572	16
+69034	Rotaliidae	203397	16
+203393	Calcarinidae	203397	16
+1659656	Notorotaliidae	203397	16
+674483	Rupertina	212496	16
+212487	Cibicides	212496	16
+46101	Bolivinitidae	212511	16
+191122	Nonionidae	191121	16
+331060	Alabaminidae	191121	16
+331049	Osangulariidae	191121	16
+243195	Virgulinella	243194	16
+203408	Cassidulinidae	203407	16
+29187	Elphidium	29186	16
+1407124	Cribroelphidium	29186	16
+1407126	Elphidiella	29186	16
+1696166	Epistomariidae	1659663	16
+1659667	Amphisteginidae	1659663	16
+1659664	Asterigerinidae	1659663	16
+1696527	Pleurostomella	1696526	16
+313616	Stainforthiidae	313615	16
+1495884	Catapsydracidae	1495883	16
+1395576	Carterina	1395568	16
+218546	Glandulina	218545	16
+331043	Dentalina	331042	16
+1573246	Dracomyxa	188961	16
+1505962	Haplomyxa	188961	16
+46432	Reticulomyxa	188961	16
+1659753	Epistominidae	1659750	16
+1659751	Ceratobuliminidae	1659750	16
+38264	Glaucosphaera	38263	16
+1292369	Bulboplastis	1292368	16
+700917	Corynoplastis	661029	16
+661030	Neorhodella	661029	17
+2800	Rhodella	661029	17
+362229	Rhodospora	446133	17
+35154	Stylonema	446133	17
+999038	unclassified Stylonemataceae	446133	17
+446135	Rhodaphanes	446133	17
+101923	Rhodosorus	446133	17
+282339	Purpureofilum	446133	17
+139979	Bangiopsis	446133	17
+362232	Rufusia	930021	17
+753679	Porphyrostromium	240428	17
+240430	Chlidophyllon	240428	17
+35150	Erythrotrichia	240428	17
+753676	Porphyropsis	240428	17
+240429	Pyrophyllon	240428	17
+753681	Pseudoerythrocladia	240428	17
+753683	Madagascaria	240428	17
+35148	Erythrocladia	240428	17
+468935	Sahlingia	240428	17
+33661	Smithora	33660	17
+110509	Rhodochaete	110508	17
+31353	Compsopogon	31352	17
+427766	Pulvinaster	31352	17
+82539	Compsopogonopsis	31352	17
+74907	Boldia	930025	17
+244125	Pihiella	244124	17
+101921	Nemalionopsis	67959	17
+67960	Thorea	67959	17
+2781	Gracilariopsis	31469	17
+31475	Curdiea	31469	17
+2774	Gracilaria	31469	17
+31473	Melanthalia	31469	17
+191045	Hydropuntia	31469	17
+42479	Gracilariophila	31469	17
+282359	Holmsella	282358	17
+122416	Ballia	123990	17
+1505952	Ptilocladiopsis	1505951	17
+189635	Dictyurus	35164	17
+35165	Dasya	35164	17
+94294	Eupogodon	35164	17
+189633	Dasysiphonia	35164	17
+94296	Heterosiphonia	35164	17
+672022	Dipterocladia	35164	17
+940462	unclassified Dasyaceae	35164	17
+189645	Rhodoptilum	35164	17
+189651	Halydictyon	35164	17
+189647	Thuretia	35164	17
+998123	Malaconema	998122	17
+536615	Dasythamniella	31377	17
+536602	Muellerena	31377	17
+536600	Monosporus	31377	17
+218450	Reinboldiella	31377	17
+110474	Ptilota	31377	17
+536608	Shepleya	31377	17
+320439	Neoptilota	31377	17
+2766	Antithamnion	31377	17
+326258	Herpochondria	31377	17
+123986	Inkyuleea	31377	17
+193181	Gymnothamnion	31377	17
+193183	Seirospora	31377	17
+193185	Sphondylothamnion	31377	17
+439545	Wrangelia	31377	17
+332488	Georgiella	31377	17
+332486	Falklandiella	31377	17
+536896	Heterothamnion	31377	17
+332482	Ptilocladia	31377	17
+41998	Anotrichium	31377	17
+122414	Antithamnionella	31377	17
+320443	Psilothallia	31377	17
+645528	Irtugovia	31377	17
+710538	Gayliella	31377	17
+31378	Callithamnion	31377	17
+536596	Involucrana	31377	17
+35158	Griffithsia	31377	17
+536592	Dasyphila	31377	17
+536590	Compsothamnion	31377	17
+536612	Warrenia	31377	17
+189637	Halurus	31377	17
+997574	Balliella	31377	17
+536598	Lejolisia	31377	17
+2764	Aglaothamnion	31377	17
+159502	Centroceras	31377	17
+218444	Campylaephora	31377	17
+998129	Perikladosporon	31377	17
+756383	Acrothamnion	31377	17
+460886	Pleonosporium	31377	17
+159509	Euptilota	31377	17
+439552	Euptilocladia	31377	17
+326256	Microcladia	31377	17
+173461	Pterothamnion	31377	17
+326254	Corallophila	31377	17
+710540	Hollenbergia	31377	17
+326252	Carpoblepharis	31377	17
+536899	Tetrathamnion	31377	17
+326250	Scagelia	31377	17
+332494	Heteroptilon	31377	17
+332496	Carpothamnion	31377	17
+332490	Diapse	31377	17
+42001	Crouania	31377	17
+332492	Aristoptilon	31377	17
+332499	Sciurothamnion	31377	18
+179282	Platythamnion	31377	18
+397060	Spongoclonium	31377	18
+31384	Spyridia	31377	18
+1310126	Gulsonia	31377	18
+31382	Spermothamnion	31377	18
+189641	Plumaria	31377	18
+31380	Ceramium	31377	18
+189643	Rhodocallis	31377	18
+282362	Gonimophyllum	31386	18
+131053	Chauviniella	31386	18
+131051	Calonitophyllum	31386	18
+136786	Anisocladella	31386	18
+131057	Cryptopleura	31386	18
+1550600	unclassified Delesseriaceae	31386	18
+210851	Taenioma	31386	18
+131102	Botryoglossum	31386	18
+136788	Asterocolax	31386	18
+35160	Phycodrys	31386	18
+131039	Abroteia	31386	18
+66381	Sorella	31386	18
+158678	Womersleya	31386	18
+158655	Platyclinia	31386	18
+1204432	Cumathamnion	31386	18
+158657	Pollexfenia	31386	18
+158659	Polyneuropsis	31386	18
+131045	Bartoniella	31386	18
+189639	Platysiphonia	31386	18
+158676	Vanvoorstia	31386	18
+167975	Apoglossum	31386	18
+158695	Martensia	31386	18
+128538	Hymenena	31386	18
+131047	Botryocarpa	31386	18
+158711	Phitymophora	31386	18
+131055	Cladodonta	31386	18
+131098	Claudea	31386	18
+298870	Augophyllum	31386	18
+131049	Branchioglossum	31386	18
+158697	Membranoptera	31386	18
+756403	Tokidadendron	31386	18
+158701	Neuroglossum	31386	18
+158693	Marionella	31386	18
+158691	Loranthophycus	31386	18
+158674	Valeriemaya	31386	18
+158699	Myriogramme	31386	18
+31390	Polyneura	31386	18
+131041	Acrosorium	31386	18
+131069	Heterodoxia	31386	18
+131059	Delesseria	31386	18
+136790	Erythroglossum	31386	18
+31388	Caloglossa	31386	18
+136792	Nienburgia	31386	18
+131063	Grinnellia	31386	18
+131061	Drachiella	31386	18
+1627866	Tsengiella	31386	18
+131067	Hemineura	31386	18
+131065	Haraldiophyllum	31386	18
+158707	Paraglossum	31386	18
+158705	Opephyllum	31386	18
+158703	Nitophyllum	31386	18
+159504	Cladhymenia	31386	18
+158664	Sarcomenia	31386	18
+158666	Schizoseris	31386	18
+158661	Pseudophycodrys	31386	18
+158709	Patulophycus	31386	18
+1206315	Pantoneura	31386	18
+158680	Zellera	31386	18
+31389	Hypoglossum	31386	18
+130877	Holmesia	31386	18
+158689	Laingia	31386	18
+397058	Brongniartella	2803	18
+99898	Osmundea	2803	18
+282365	Odonthalia	2803	18
+110470	Micropeuce	2803	18
+110472	Murrayella	2803	18
+35162	Rhodomela	2803	18
+110476	Sonderella	2803	18
+1424647	Aiolocolax	2803	18
+173552	Womersleyella	2803	18
+998136	Rhodolachne	2803	18
+121063	Pleurostichidium	2803	18
+439543	Amansia	2803	18
+1261581	Vertebrata	2803	18
+121066	Halopithys	2803	18
+2804	Polysiphonia	2803	18
+159726	Lophothalia	2803	18
+94298	Lophocladia	2803	18
+89211	Neurymenia	2803	18
+228261	Kuetzingia	2803	18
+1308467	Heterodasya	2803	18
+197320	Chondrophycus	2803	18
+228268	Aneurianna	2803	18
+99900	Laurencia	2803	18
+524186	Polyzonia	2803	18
+31392	Chondria	2803	18
+860647	Ululania	2803	18
+860645	Tolypiocladia	2803	18
+756390	Pterochondria	2803	18
+103711	Bostrychia	2803	18
+756392	Pterosiphonia	2803	18
+159595	Bryocladia	2803	19
+524188	Wrightiella	2803	19
+110919	Neosiphonia	2803	19
+1261579	Streblocladia	2803	19
+110468	Melanamansia	2803	19
+228263	Rytiphlaea	2803	19
+88359	Symphyocladia	2803	19
+155555	Osmundaria	2803	19
+1261573	Ophidocladus	2803	19
+860623	Benzaitenia	2803	19
+1413811	Laurenciella	2803	19
+159724	Lembergia	2803	19
+155557	Protokuetzingia	2803	19
+110465	Lenormandia	2803	19
+173547	Boergeseniella	2803	19
+1261570	Leptosiphonia	2803	19
+998140	Spirocladia	2803	19
+717904	Lophosiphonia	2803	19
+173549	Enelittosiphonia	2803	19
+717901	Herposiphonia	2803	19
+470589	Palisada	2803	19
+110458	Heterocladia	2803	19
+256429	Digenea	2803	19
+860621	Alsidium	2803	19
+860632	Janczewskia	2803	19
+1424650	Ctenosiphonia	2803	19
+1497577	Waldoia	2803	19
+860637	Leveillea	2803	19
+385023	Acanthophora	2803	19
+159597	Neorhodomela	2803	19
+860619	Acrocystis	2803	19
+1539136	Yuzurua	2803	19
+1563189	Amplisiphonia	2803	19
+1563186	Tiffaniella	756396	19
+997603	Diplothamnion	756396	19
+1498215	Ptilothamnion	756396	19
+997818	Haloplegma	756396	19
+756397	Ptilothamnionopsis	756396	19
+1628736	Callilithophytum	227970	19
+48603	Melobesioideae	227970	19
+1432274	unclassified Hapalidiaceae	227970	19
+227971	Choreonematoideae	227970	19
+940127	Titanophycus	31484	19
+1495609	Trichogloeopsis	31484	19
+1364880	Macrocarpus	31484	19
+1364882	Yoshizakia	31484	19
+260092	Helminthocladia	31484	19
+1635107	Hommersandiophycus	31484	19
+285088	Akalaphycus	31484	19
+259026	Ganonema	31484	19
+259028	Yamadaella	31484	19
+1653391	Liagoropsis	31484	19
+268563	Dotyophycus	31484	19
+997601	Dermonema	31484	19
+284065	Izziella	31484	19
+284063	Trichogloea	31484	19
+35199	Nemalion	31484	19
+1077396	Neoizziella	31484	19
+31485	Cumagloia	31484	19
+1635103	Gloiocallis	31484	19
+31487	Liagora	31484	19
+268577	Patenocarpus	31484	19
+268574	Helminthora	31484	19
+284058	Stenopeltis	31484	19
+268565	Dichotomaria	73096	19
+915458	Whidbeyella	73096	19
+268561	Actinotrichia	73096	19
+268571	Tricleocarpa	73096	19
+60690	Galaxaura	73096	19
+268582	Scinaia	268579	19
+268580	Nothogenia	268579	19
+31463	Portieria	31462	19
+508037	Nesophila	31462	19
+507999	Contarinia	31462	19
+508193	Rhizophyllis	31462	19
+508040	Ochtodes	31462	19
+257563	Cubiculosporum	257562	19
+31444	Eucheuma	31441	19
+31446	Sarcodiotheca	31441	19
+31442	Agardhiella	31441	19
+88427	Meristotheca	31441	19
+88425	Meristiella	31441	19
+31448	Solieria	31441	19
+88420	Sarconema	31441	19
+38543	Kappaphycus	31441	19
+88414	Betaphycus	31441	19
+1824840	Tacanoosca	31441	19
+248900	Anatheca	31441	19
+35191	Areschougia	31441	19
+1293581	Placentophora	31441	19
+38365	Callophycus	31441	19
+41685	Gardneriella	31441	19
+41682	Neoagardhiella	31441	19
+31466	Sphaerococcus	31465	19
+35197	Phacelocarpus	35196	19
+2768	Chondrus	29217	19
+33664	Gigartina	29217	19
+29242	Sarcothalia	29217	19
+168819	Iridophycus	29217	19
+29240	Rhodoglossum	29217	19
+29228	Mazzaella	29217	20
+29218	Chondracanthus	29217	20
+38337	Ostiophyllum	29217	20
+29224	Iridaea	29217	20
+1313214	Pseudopolyides	257559	20
+257560	Cruoria	257559	20
+870801	unclassified Cruoriaceae	257559	20
+680462	Ramicrusta	173455	20
+508196	Riquetophycus	173455	20
+1315255	Incendia	173455	20
+257587	Sonderopelta	173455	20
+1824912	environmental samples	173455	20
+508032	Metapeyssonnelia	173455	20
+1848537	Sonderophycus	173455	20
+173456	Peyssonnelia	173455	20
+339602	Polystrata	173455	20
+257553	Corynocystis	257552	20
+282354	Harveyella	282346	20
+282352	Dawsoniocolax	282346	20
+282350	Choreocolax	282346	20
+282356	Leachiella	282346	20
+282347	Bostrychiocolax	282346	20
+28019	Furcellaria	28018	20
+1550534	Neurocaulon	28018	20
+31422	Halarachnion	28018	20
+1647382	Perplexiramosus	28018	20
+1405793	Crebradomus	1405792	20
+1405794	Dissimularia	1405792	20
+1293579	Chondrymenia	1405792	20
+1848511	Catenellopsis	1848510	20
+42022	Mychodea	50886	20
+257594	Rissoella	257593	20
+257591	Hummbrella	257590	20
+867923	Haemescharia	867921	20
+1077404	Psaromenia	31430	20
+979668	Thamnophyllis	31430	20
+217477	Pugetia	31430	20
+979662	Rhizopogonia	31430	20
+173451	Euthora	31430	20
+1789649	Austropugetia	31430	20
+1111040	Salishia	31430	20
+1789642	Judithia	31430	20
+1789646	Leniea	31430	20
+128536	Erythrophyllum	31430	20
+1789644	Wendya	31430	20
+31431	Callophyllis	31430	20
+681546	Cirrulicarpus	31430	20
+217485	Kallymeniopsis	31430	20
+681549	Meredithia	31430	20
+1197751	Glaphyrymenia	31430	20
+38554	Kallymenia	31430	20
+1230257	Austrophyllis	31430	20
+1828477	Rhytimenia	31430	20
+1646547	Stauromenia	31430	20
+1233105	Ectophora	31430	20
+1233103	Polycoelia	31430	20
+508013	Cruoriopsis	31424	20
+31425	Gloiosiphonia	31424	20
+173467	Schimmelmannia	31424	20
+998127	Peleophycus	31424	20
+38559	Turnerella	38793	20
+38361	Opuntiella	38793	20
+239159	Corynomorpha	239158	20
+31420	Endocladia	2814	20
+2823	Gloiopeltis	2814	20
+35194	Nizymenia	35193	20
+142504	Gainia	142503	20
+1819310	Ethelia	1819309	20
+997930	Hypneocolax	31412	20
+257565	Austroclonium	31412	20
+163330	Rhodophyllis	31412	20
+163326	Craspedocarpus	31412	20
+163332	Stictosporum	31412	20
+31413	Calliblepharis	31412	20
+259826	Erythronaema	31412	20
+257570	Cystoclonium	31412	20
+257574	Fimbrifolium	31412	20
+257576	Gloiophyllis	31412	20
+1037069	Beringia	1037068	20
+142515	Orculifilum	31415	20
+142517	Pikea	31415	20
+142511	Kraftia	31415	20
+142513	Neodilsea	31415	20
+142509	Hyalosiphonia	31415	20
+42015	Farlowia	31415	20
+142506	Gibsmithia	31415	20
+31418	Leptocladia	31415	20
+142501	Cryptosiphonia	31415	20
+1819325	Thuretellopsis	31415	20
+1819323	Waernia	31415	20
+31416	Dilsea	31415	20
+38552	Dudresnaya	31415	20
+40403	Rhodopeltis	31415	20
+35172	Dasyphloea	31415	20
+87833	Weeksia	31415	20
+38513	Dumontia	31415	20
+142498	Constantinea	31415	20
+173470	Schmitzia	173469	20
+31460	Polyides	31459	20
+259824	Hennedya	257543	20
+257548	Antrocentrum	257543	21
+257544	Acrotylus	257543	21
+257546	Amphiplexia	257543	21
+257550	Claviclonium	257543	21
+38481	Erythrodermis	28021	21
+1623344	environmental samples	28021	21
+32601	Stenogramma	28021	21
+29238	Phyllophora	28021	21
+207659	Besa	28021	21
+29226	Mastocarpus	28021	21
+31437	Ahnfeltiopsis	28021	21
+31439	Gymnogongrus	28021	21
+662457	Ceratocolax	28021	21
+38550	Petroglossum	28021	21
+661322	Coccotylus	28021	21
+1120495	Archestenogramma	28021	21
+38479	Ozophora	28021	21
+38511	Schottera	28021	21
+1405808	Fredericqia	28021	21
+1405289	unclassified Phyllophoraceae	28021	21
+38363	Tichocarpus	38385	21
+38379	Heringia	38384	21
+31410	Caulacanthus	38384	21
+38381	Montemaria	38384	21
+196370	Catenella	38384	21
+1269972	Sterrocladia	38384	21
+257584	Mychodeophyllum	257583	21
+257602	Wurdemannia	257601	21
+31428	Hypnea	31427	21
+1398151	Reptataxis	239142	21
+239143	Dicranema	239142	21
+367117	Pinnatiphycus	239142	21
+367114	Tylotus	239142	21
+88418	Rhabdonia	257613	21
+257614	Tikvahiella	257613	21
+88416	Erythroclonium	257613	21
+31456	Prionitis	31453	21
+151736	Polyopes	31453	21
+1435011	unclassified Halymeniaceae	31453	21
+1503764	Acrodiscus	31453	21
+38375	Aeodes	31453	21
+42010	Cryptonemia	31453	21
+176238	Pachymeniopsis	31453	21
+796372	Codiophyllum	31453	21
+38359	Pachymenia	31453	21
+1562368	Dermocorynus	31453	21
+2815	Carpopeltis	31453	21
+31454	Grateloupia	31453	21
+1088690	Sinotubimorpha	31453	21
+931253	Glaphyrosiphon	31453	21
+408201	Isabbottia	31453	21
+1399954	Kintokiocolax	31453	21
+42020	Halymenia	31453	21
+796369	Gelinaria	31453	21
+197847	Zymurgia	31453	21
+257606	Norrissia	31453	21
+257604	Epiphloea	31453	21
+796362	Thamnoclonium	31453	21
+1506555	Amalthea	31453	21
+241239	Yonagunia	31453	21
+1506557	Galene	31453	21
+197843	Tsengia	199491	21
+70837	Pterocladiella	2808	21
+37203	Ptilophora	2808	21
+2811	Gelidium	2808	21
+1238361	unclassified Gelidiaceae	2808	21
+252156	Beckerella	2808	21
+28864	Capreolia	2808	21
+82845	Yatabella	2808	21
+28866	Gelidiella	2808	21
+28859	Pterocladia	2808	21
+28857	Onikusa	2808	21
+417196	Parviphycus	2808	21
+82842	Acanthopeltis	2808	21
+67902	Psilosiphon	67901	21
+31375	Paralemanea	31374	21
+67899	Lemanea	31374	21
+1486645	Sheathia	31371	21
+320782	Petrohua	31371	21
+1586338	environmental samples	31371	21
+644269	Kumanoa	31371	21
+39573	Nothocladus	31371	21
+109051	Chantransia	31371	21
+2809	Batrachospermum	31371	21
+1354350	unclassified Batrachospermaceae	31371	21
+67915	Tuomeya	31371	21
+67912	Sirodotia	31371	21
+35205	Plocamiocolax	31450	21
+31451	Plocamium	31450	21
+40389	Trematocarpus	38556	21
+38557	Sarcodia	38556	21
+39580	Rhodothamniella	39579	21
+79946	Camontagnea	39579	21
+39577	Rhodophysema	39570	21
+909747	Rhodonematella	39570	21
+35201	Devaleraea	2820	21
+31489	Halosaccion	2820	21
+2821	Palmaria	2820	21
+39571	Meiodiscus	909750	21
+909746	Rubrointrusa	909750	21
+31479	Hildenbrandia	31478	22
+79258	Apophlaea	31478	22
+31359	Audouinella	31356	22
+257599	Schmitziella	31356	22
+39575	Rhodochorton	31356	22
+525894	Grania	31356	22
+31357	Acrochaetium	31356	22
+38367	Schizymenia	42185	22
+38532	Titanophora	42185	22
+197876	Wetherbeella	42185	22
+197836	Platoma	42185	22
+239168	Nemastoma	173458	22
+173459	Predaea	173458	22
+197834	Adelophycus	173458	22
+498766	Rhodachlya	498765	22
+1705612	Corallinapetra	1707143	22
+31492	Rhodogorgonaceae	31491	22
+682387	environmental samples	31491	22
+48966	Sporolithaceae	31395	22
+646746	unclassified Corallinales	31395	22
+682385	environmental samples	31395	22
+31396	Corallinaceae	31395	22
+173032	Colaconema	658649	22
+1405802	Entwisleia	1405801	22
+38377	Sebdenia	50885	22
+327985	Crassitegula	50885	22
+1090564	unclassified Sebdeniaceae	50885	22
+142496	Acrosymphyton	142495	22
+28022	Ahnfeltia	31362	22
+291392	Naccaria	173448	22
+173449	Atractophora	173448	22
+999066	unclassified Naccariaceae	173448	22
+367043	Reticulocaulis	173448	22
+38530	Delisea	31365	22
+680464	Leptophyllis	31365	22
+38528	Ptilonia	31365	22
+31366	Asparagopsis	31365	22
+31368	Bonnemaisonia	31365	22
+91059	Hymenocladia	748726	22
+81599	Erythrymenia	748726	22
+81589	Asteromenia	748726	22
+42018	Gloioderma	81601	22
+81602	Faucheopsis	81601	22
+319518	Leptofauchea	81601	22
+397495	Gloiocladia	81601	22
+81618	Webervanbossea	81601	22
+39625	Champia	31497	22
+2772	Gastroclonium	31497	22
+1583062	Neogastroclonium	31497	22
+81597	Dictyothamnion	31497	22
+81593	Chylocladia	31497	22
+1582915	Binghamiopsis	31498	22
+406724	Stirnia	31498	22
+81614	Semnocarpa	31498	22
+81606	Gelidiopsis	31498	22
+31499	Lomentaria	31498	22
+38330	Ceratodictyon	31498	22
+261723	Maripelta	31501	22
+479264	Coelothrix	31501	22
+748723	Halopeltis	31501	22
+1798820	Sciadophycus	31501	22
+42013	Epymenia	31501	22
+557872	Chamaebotrys	31501	22
+38334	Halichrysis	31501	22
+1074215	Cresia	31501	22
+1827012	unclassified Rhodymeniaceae	31501	22
+42801	Faucheocolax	31501	22
+42796	Rhodymeniocolax	31501	22
+81616	Sparlingia	31501	22
+39627	Erythrocolon	31501	22
+81612	Leptosomia	31501	22
+81610	Irvinea	31501	22
+748560	Microphyllum	31501	22
+368083	Drouetia	31501	22
+39622	Cephalocystis	31501	22
+81608	Gloiosaccion	31501	22
+38326	Botryocladia	31501	22
+81595	Coelarthrum	31501	22
+38328	Cordylecladia	31501	22
+81591	Chrysymenia	31501	22
+2794	Rhodymenia	31501	22
+748683	Pseudohalopeltis	748682	22
+81604	Fryeella	748682	22
+38332	Hymenocladiopsis	748682	22
+67957	Rhododraparnaldia	173442	22
+111860	Balbiania	173442	22
+1503163	unclassified Cyanidiaceae	265316	22
+83373	Galdieria	265316	22
+2770	Cyanidium	265316	22
+45156	Cyanidioschyzon	265316	22
+323747	environmental samples	265316	22
+362234	Erythrolobus	2799	22
+35152	Dixoniella	2799	22
+362227	Chroothece	2799	22
+101925	Flintiella	2799	22
+983317	Timspurckia	2799	22
+101918	Chroodactylon	2799	22
+2791	Porphyridium	2799	22
+362238	Kyliniella	139981	22
+139982	Goniotrichopsis	139981	22
+2784	Porphyra	31345	23
+1094566	Pyropia	31345	23
+326076	Pseudobangia	31345	23
+1740959	Fuscifolium	31345	23
+1094579	Lysithea	31345	23
+1034309	Wildemania	31345	23
+31346	Bangia	31345	23
+1094583	Boreophyllum	31345	23
+1094581	Clymene	31345	23
+1824863	environmental samples	31345	23
+491932	Dione	31345	23
+491933	Minerva	31345	23
+1824956	Neothemis	31345	23
+3142	Chlorokybaceae	131214	23
+35495	Elakatotrichaceae	3172	23
+415979	Klebsormidiales incertae sedis	3172	23
+3173	Klebsormidiaceae	3172	23
+35428	Mesostigmataceae	160439	23
+205394	Ulotrichaceae	31306	23
+398705	Chlorocystidaceae	31306	23
+264715	Chlorothrix	66259	23
+138168	Urospora	66259	23
+264390	environmental samples	66259	23
+29214	Acrosiphonia	66259	23
+173494	Neodangemannia	175240	23
+138596	Desmochloris	578868	23
+379499	Pseudocodiaceae	33104	23
+33105	Derbesiaceae	33104	23
+379500	Halimedaceae	33104	23
+3127	Bryopsidaceae	33104	23
+381002	environmental samples	33104	23
+422482	unclassified Bryopsidales	33104	23
+1501516	Bryopsidales incertae sedis	33104	23
+3131	Codiaceae	33104	23
+35434	Ostreobiaceae	33104	23
+35435	Udoteaceae	33104	23
+35432	Caulerpaceae	33104	23
+35433	Dichotomosiphonaceae	33104	23
+415429	Pseudobohlinia	97100	23
+97101	Pirula	97100	23
+619705	Blastophysa	97100	23
+1081494	Smithsoniella	97100	23
+231079	Pseudocharacium	231076	23
+231077	Ignatius	231076	23
+1331326	Cloniophoraceae	3113	23
+3114	Ulvaceae	3113	23
+465540	unclassified Ulvales	3113	23
+1108639	Jaoaceae	3113	23
+189349	Kornmanniaceae	3113	23
+153902	Monostromataceae	3113	23
+1623401	environmental samples	3113	23
+35455	Ulvellaceae	3113	23
+1818013	environmental samples	3134	23
+3135	Dasycladaceae	3134	23
+285966	Polyphysaceae	3134	23
+222489	Anadyomenaceae	3183	23
+929598	Okellyaceae	3183	23
+35439	Siphonocladaceae	3183	23
+926346	Pithophoraceae	3183	23
+35440	Valoniaceae	3183	23
+35436	Cladophoraceae	3183	23
+948884	unclassified Trentepohliales	35443	23
+282478	environmental samples	35443	23
+35445	Trentepohliaceae	35443	23
+1387702	Scotinosphaeraceae	1387701	23
+1535298	Marsupiomonadaceae	1535297	23
+1535299	Resultomonadaceae	1535297	23
+35424	Pedinomonadaceae	35423	23
+35431	Scourfieldiaceae	35430	23
+110669	Prasinococcus	485343	23
+485344	environmental samples	485343	23
+1764312	unclassified Prasinococcales	485343	23
+156132	Prasinoderma	485343	23
+13792	Mamiellales	1035538	23
+1659306	environmental samples	1035538	23
+1525214	Monomastigales	1035538	23
+1035539	unclassified Mamiellophyceae	1035538	23
+1525213	Dolichomastigales	1035538	23
+41879	Pycnococcus	41878	23
+464245	unclassified Pycnococcaceae	41878	23
+485346	environmental samples	41878	23
+41885	Pseudoscourfieldia	41878	23
+88270	Picocystis	1541723	23
+1541724	unclassified prasinophyte clade VII	1541723	23
+36880	Cymbomonas	38834	23
+36882	Pyramimonas	38834	23
+485341	environmental samples	38834	23
+81842	Halosphaera	38834	23
+1486888	Polyblepharides	38834	23
+38835	Pterosperma	38834	23
+31311	Nephroselmis	1242998	23
+135266	Prasiolaceae	135250	23
+1092839	unclassified Prasiolales	135250	23
+175241	Prasiolales incertae sedis	135250	23
+37386	Ctenocladaceae	35488	23
+1521703	Rhopalosolenaceae	35460	23
+3070	Oocystaceae	35460	23
+1521701	Leptosiraceae	35460	23
+35475	Eremosphaeraceae	35460	23
+35461	Chlorellaceae	35460	23
+634747	Phyllosiphonaceae	35460	24
+317902	environmental samples	35460	24
+145474	Helicosporidium	35460	24
+1092841	unclassified Chlorellales	35460	24
+255711	Chlorellales incertae sedis	35460	24
+291965	Asterochloris	42111	24
+106202	Fusochloris	42111	24
+13786	Trebouxia	42111	24
+1521706	Trochisciopsis	42111	24
+1742425	Vulcanochloris	42111	24
+381760	Elliptochloris	42111	24
+681112	Pseudomarvania	42111	24
+34147	Microthamnion	42111	24
+40980	Dictyochloropsis	42111	24
+3170	Friedmannia	42111	24
+935937	environmental samples	42111	24
+29646	Stichococcus	42111	24
+255713	Koliella	42111	24
+34149	Myrmecia	42111	24
+126837	Micractiniaceae	75981	24
+170403	Schizochlamydella	75981	24
+191672	Watanabea	75981	24
+882007	Heynigia	75981	24
+1036744	Mucidosphaerium	75981	24
+38879	Botryococcaceae	75981	24
+3101	Parietochloris	75981	24
+1232725	Heterochlorella	75981	24
+1653799	Eremochloris	75981	24
+1290809	Leptochlorella	75981	24
+948560	Chloroparva	75981	24
+114055	Chlorella	75981	24
+681983	Kalinella	75981	24
+1418015	Pseudochloris	75981	24
+82175	Coenocystis	75981	24
+1403567	Lemmermannia	75981	24
+881948	Hindakia	75981	24
+91189	Dicloster	75981	24
+240455	Gloeotila	75981	24
+1408195	Parachloroidium	75981	24
+55401	Actinastrum	75981	24
+942149	Xylochloris	75981	24
+163319	Planctonema	75981	24
+35472	Coccomyxaceae	75981	24
+464286	Pseudococcomyxa	75981	24
+249349	Paradoxia	75981	24
+249344	Picochlorum	75981	24
+1305687	Chloropyrula	75981	24
+1510619	Marinichlorella	75981	24
+41299	Choricystis	75981	24
+1293077	Pseudostichococcus	75981	24
+114063	Muriella	75981	24
+114064	Myrmecia	75981	24
+1065495	Neocystis	75981	24
+163322	Radiofilum	75981	24
+312842	Trichophilus	75981	24
+247496	Dictyosphaerium	75981	24
+270654	Koliellopsis	75981	24
+51326	Chaetopeltidaceae	51325	24
+1521739	Pleurastrosarcina	138177	24
+138174	Chlorosarcinopsis	138177	24
+332217	Neochlorosarcina	138177	24
+332215	Chlorosphaeropsis	138177	24
+163097	Chlorosarcina	138177	24
+48501	Astrephomenaceae	3042	24
+35484	Haematococcaceae	3042	24
+47771	Asteromonadaceae	3042	24
+47777	Tetrabaenaceae	3042	24
+3062	Spondylomoraceae	3042	24
+3065	Volvocaceae	3042	24
+3043	Dunaliellaceae	3042	24
+77634	Chlamydomonadales incertae sedis	3042	24
+77632	environmental samples	3042	24
+193559	Characiochloridaceae	3042	24
+52030	Phacotaceae	3042	24
+35478	Actinochloridaceae	3042	24
+204989	Golenkiniaceae	3042	24
+120853	unclassified Chlamydomonadales	3042	24
+3051	Chlamydomonadaceae	3042	24
+167773	Characiosiphonaceae	3042	24
+3090	Chlorococcaceae	3042	24
+35479	Palmellaceae	31305	24
+35481	Tetrasporaceae	31305	24
+269631	Tetrasporales incertae sedis	31305	24
+1502121	unclassified Chaetophorales	31299	24
+104534	Chaetophorales incertae sedis	31299	24
+33093	Chaetophoraceae	31299	24
+35458	Aphanochaetaceae	31299	24
+35459	Schizomeridaceae	31299	24
+1725055	Uronemataceae	31299	24
+1725054	Barrancaceae	31299	24
+55991	Oedocladium	35490	24
+55993	Oedogonium	35490	24
+765939	environmental samples	35490	24
+55989	Bulbochaete	35490	24
+35466	Selenastraceae	35491	24
+1656250	Radiococcaceae	35491	24
+52675	Sphaeropleaceae	35491	24
+935940	environmental samples	35491	24
+3103	Hydrodictyaceae	35491	24
+1051112	unclassified Sphaeropleales	35491	24
+1284389	Bracteacoccaceae	35491	25
+3086	Scenedesmaceae	35491	25
+1656249	Dictyochloridaceae	35491	25
+1656248	Chromochloridaceae	35491	25
+192074	Sphaeropleales incertae sedis	35491	25
+1656241	Rotundellaceae	35491	25
+1656240	Bracteamorphaceae	35491	25
+1656243	Pseudomuriellaceae	35491	25
+1656242	Tumidellaceae	35491	25
+1656245	Mychonastaceae	35491	25
+1656244	Dictyococcaceae	35491	25
+1656247	Schizochlamydaceae	35491	25
+1656246	Schroederiaceae	35491	25
+132191	Neochloridaceae	35491	25
+262507	Phaeophilaceae	262506	25
+404776	environmental samples	35426	25
+35429	Chlorodendraceae	35426	25
+425370	unclassified Tetramitus	5768	25
+286589	unclassified Naegleria	5761	25
+56461	Khawkinea	1732445	25
+3036	Astasia	1732445	25
+83913	Distigma	1732445	25
+118009	Rhabdomonas	1732445	25
+186759	Notosolenus	1732445	25
+86636	Gyropaigne	1732445	25
+118002	Cyclidiopsis	1732445	25
+181205	Dinema	1732440	25
+101492	Entosiphon	1732440	25
+186753	Anisonema	1732440	25
+1131321	Heteronema	1732440	25
+1476392	environmental samples	1131319	25
+392845	Discoplastis	1131319	25
+66846	Lepocinclis	1131319	25
+96783	Phacus	1131319	25
+1499983	Euglenaformis	1131320	25
+298266	Monomorphina	1131320	25
+3038	Euglena	1131320	25
+96503	Trachelomonas	1131320	25
+66843	Cryptoglena	1131320	25
+1049758	Euglenaria	1131320	25
+118007	Menoidium	1131320	25
+136365	Parmidium	1131320	25
+103341	Strombomonas	1131320	25
+56451	Petalomonas	186752	25
+56465	Peranema	181204	25
+211462	Ploeotia	181204	25
+1227931	Keelungia	181204	25
+1003337	Angomonas	1581334	25
+1576586	Kentomonas	1581334	25
+1003010	Strigomonas	1581334	25
+193124	environmental samples	5706	25
+470182	unclassified Phytomonas	5706	25
+96332	Wallaceina	1286322	25
+5703	Endotrypanum	1286322	25
+1620386	Lotmaria	1286322	25
+5658	Leishmania	1286322	25
+5655	Crithidia	1286322	25
+5683	Leptomonas	1286322	25
+660918	environmental samples	33656	25
+660904	environmental samples	373041	25
+660910	environmental samples	35140	25
+660912	environmental samples	2902	25
+660908	environmental samples	35138	25
+882520	unclassified Tetratrichomonas	5729	25
