@@ -127,11 +127,11 @@ if __name__ == "__main__":
 			csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 			csv_writer.writerow(['ID', 'NAME', 'PARENT', 'FILE'])
 
-	# while True:
-	try:
-		# txy.load()
-		txy.run()
-		# sys.exit(0)
-	except Exception as e:
-		txy.save()
-		print repr(e)
+	while True:
+		try:
+			txy.load()
+			txy.run()
+			sys.exit(0)
+		except Exception as e:
+			txy.save()
+			print repr(e)
