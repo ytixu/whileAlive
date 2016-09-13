@@ -8,14 +8,14 @@ warnings.filterwarnings('ignore')
 
 server = 'https://rest.ensembl.org/taxonomy/classification/'
 headers= { 'Content-Type' : 'application/json' }
-data_folder = '../data/ensembl/homo-sapien/'
+data_folder = '../data/ensembl/'
 
 class Taxonomy:
 
 	def __init__(self):
 		self._id_number = 0
 		self._complete_id_list = {}
-		self._id_list = [9606] # eucaryotes
+		self._id_list = [2759] # eucaryotes
 		self._file_index = 0
 		self._data = {}
 
@@ -68,7 +68,6 @@ class Taxonomy:
 			csv_writer = csv.writer(csv_file, delimiter='\t', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
 			for species in data:
-				output[species['id']] = species
 
 				# add new ids
 				children_id = []
@@ -79,6 +78,8 @@ class Taxonomy:
 
 				if species['id'] in self._complete_id_list:
 					continue
+
+				output[species['id']] = species
 
 				#indicate that it's done
 				self._complete_id_list[species['id']] = 1

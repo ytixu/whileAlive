@@ -6,13 +6,20 @@
 \date{September 15, 2016}
 \maketitle
 
-{\bf Dataset 1: Vintage Luxury Trends\\}
+\section{Vintage Luxury Trends}
 
-One dataset that can interesting and challenging to look at comes from the company that I worked with in the past year.\\ 
+One dataset that can interesting and challenging to look at comes from the company that I worked with in the past year.
 
 
-{\bf Dataset 2: Phylogenetic Tree \\}
+\section{Phylogenetic Tree}
 
-Motived by my interest in the theory of evolution, I choose the phylogenetic tree for my second dataset. 
+Motived by my interest in evolution theory, I choose the phylogenetic tree for my second network. Defining species as vertices and evolutionary relationships as edges, we can obtain a directed graph. We can call a species $u$ a parent of species $v$ if species $v$ is evolved from species $u$ and no other species is in the evolution path between $u$ and $v$. This relationship can be marked by a directed edge from child to parent. Some potentially interesting exercises that can be done with this network are visualization and clustering (e.g.: classifying species into families). 
+
+\subsection{Data Source and Gathering Method}
+
+The data I gathered is from the Ensembl Rest API (https://rest.ensembl.org). Their taxonomic classification endpoint returns a list of parents and each of their children for a queried species. 
+
+The method that I used is a script that queries for 
+
 
 \end{document}
