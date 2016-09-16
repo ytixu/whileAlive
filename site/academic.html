@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<title>Yi Tian Xu | Master in Computer Science @ McGill University</title>
+		<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> 
+
+		<style>
+			@media (min-width: 777px) {
+			    h1{font-size: 3.5vw;}
+			}
+		</style>
+	</head>
+
+	<body style="min-width:400px;font-size:16px;padding-bottom:111px;">
+		<div class="container">
+			<div class="row" style="vertical-align:bottom;">
+				<div class="col-xs-4 col-sm-8 text-right">
+					<h1 style="margin-top:95px;;"><span style="color:#777;">YI TIAN</span> <span style="color:#333;">XU</span></h1>
+				</div>
+				<div class="col-xs-8 col-sm-4">
+					<img src="13015217_10206071787374815_3606782911902531221_n.png" width="100%" style="max-width:222px;">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8">
+					<h3>Research Interest</h3>
+
+					<div id="sort-answer">
+						<p>I am interested in artifcial intelligence, machine learning and robotics.</p>
+						<div class="text-center">
+							<button class="btn btn-default" id="short-answer-btn" data-show="long-answer" data-hide="sort-answer">See Long Answer</button>
+						</div>
+					</div>
+
+					<div id="long-answer" style="display:none;">
+						<p>
+							In the era where knowledge and change grow at exponential rate, we may be living in a time when human have never lived alike heretofore. I see opportunities to learn, master, create and contemplate everywhere. Particularly during this late-stage of entrepreneur revolution and the rise of IoT, ideas can spark into flames much easier and faster ever before. I belive computer science as a key component of our evolution, especially artificial intelligence, machine learning and robotics, and I wish to contribute in lighting up the Earth into a more sustainable planet.
+						</p>
+
+						<div class="text-center">
+							<button class="btn btn-default" id="long-answer-btn" data-show="sort-answer" data-hide="long-answer">See Short Answer</button>
+						</div>
+					</div>
+
+					<h3>Publications</h3>
+
+					<p><a target="_blank" href="http://networkdynamics.org/resources/geoinference/">Geolocation Prediction in Twitter Using Social Networks: A Critical Analysis and Review of Current Practice.</a> David Jurgens, Tyler Finethy, James McCorriston, Yi Tian Xu, and Derek Ruths. Proceedings of the 9th International AAAI Conference on Web and Social Media (ICWSM). 2015 </p>
+
+					<hr>
+
+					<h4>Course Projects</h4>
+					<p><a href="http://ytixu.github.io/courseDump/term_project/417course_project.html" target="_blank">Study on Network Calibration</a> (COMP 417) Dec 2014</p>
+
+					<p><a href="http://ytixu.github.io/HTMLdump/bigGap/bigGap.html" target="_blank">The Big Gap: The Earth, the Moon and the Space in Between</a> (EPSC 199) Dec 2014</p>
+				</div>
+
+
+				<div class="col-md-4">
+					<hr>
+					<p>
+						<i class="fa fa-envelope-o"></i> yi.t.xu<span class="hidden">wahahaha you spam bot</span>@mail.mcgill.ca
+					</p>
+					<p>
+						<b>Master in Computer Science</b><br>
+						<i>McGill University <i class="fa fa-bookmark-o"></i> since 2016</i>
+					</p>
+
+					<button class="btn btn-default btn-xs" id="full-exp-btn" data-show="full-exp" data-hide="full-exp-btn">See Full History Stack</button>
+
+					<div style="display:none;" id="full-exp">
+						<p>
+							<b>Full Stack Developer</b><br>
+							<i>LXR&CO <i class="fa fa-bookmark-o"></i> 2015-16</i>
+						</p>
+
+						<p>
+							<b>Web Developer Volunteer</b><br>
+							<i>WearHacks <i class="fa fa-bookmark-o"></i> 2015</i>
+						</p>
+
+						<p>
+							<b>Research Assistant</b><br>
+							<i>Network Dynamics @ McGill University <i class="fa fa-bookmark-o"></i> 2014</i>
+						</p>
+
+						<p>
+							<b>Bachelor in Statistics and Computer Science</b><br>
+							<i>McGill University <i class="fa fa-bookmark-o"></i> 2012-15</i>
+						</p>
+					</div>
+
+					<hr>
+					<span style="font-size:12px;">
+						<h4>Misc Links</h4>
+						<i class="fa fa-medium"></i> <a href="https://medium.com/@phlowertea" target="_blank">Blog</a><br>
+						<i class="fa fa-github"></i> <a href="http://ytixu.github.io/HTMLdump/2015/index.html" target="_blank">Old Github website</a>
+					</span>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	<script>
+		var btns = [
+			'long-answer-btn','short-answer-btn','full-exp-btn'
+		];
+
+		$(function(){
+			for(var i in btns){
+				$('#'+btns[i]).click(function(){
+					console.log($(this).data('hide'));
+					$('#'+$(this).data('hide')).hide();
+					$('#'+$(this).data('show')).fadeIn();
+				});
+			}
+		}());
+
+	</script>
+</html>
