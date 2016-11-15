@@ -1,5 +1,90 @@
 from Bio import SeqIO ### this is only for reading FASTA file
 import math
+import sys
+import csv
+
+HYDROPHOBIC = ['A', 'V', 'I', 'L', 'M', 'F', 'Y', 'W']
+HYDROPHILIC = ['R', 'H', 'K', 'D', 'E', 'T', 'N', 'Q', 'S', 'C', 'G', 'P']
+
+class Stats:
+
+	def __init__(self):
+		self.longest_phobic = {'name':'', 'score':0}
+		self.big_mix_per = {'name':'', 'score':0.0}
+		self.length_dist = {'H+':[],'H-':[],'M':[]}
+		self.amino_freq = {'H+':{'H+':{},'H-':{}},'H-':{'H+':{},'H-':{}},'M':{'H+':{},'H-':{}}}
+
+	def getStats(self, name, path, seq):
+		self.compLongestPhobic(name, path)
+		self.compBigMixPer(name, path)
+		self.compLengthDist(path)
+		self.compAminoFreq(path, seq)
+
+	def dump(self):
+		print self.longest_phobic
+		print self.big_mix_per
+
+		import matplotlib.pyplot as plt
+		import numpy as np
+		from scipy.stats import gaussian_kde
+		data = self.length_dist['H+']
+		density = gaussian_kde(data)
+		xs = np.linspace(0,8,200)
+		density.covariance_factor = lambda : .25
+		density._compute_covariance()
+		plt.plot(xs,density(xs))
+		plt.show()
+
+		print self.length_dist
+
+
+		print self.amino_freq
+
+	def compLongestPhobic(self, name, path):
+		score = 0
+		for p in path:
+			if p == 'H-':
+				score += 1
+			else:
+				score = 0
+		if score > self.longest_phobic['score']:
+			self.longest_phobic['name'] = name
+			self.longest_phobic['score'] = score
+
+	def compBigMixPer(self, name, path):
+		score = 0.0
+		for p in path:
+			if p == 'M':
+				score += 1.0
+		score = score/len(path)
+		if score > self.big_mix_per['score']:
+			self.big_mix_per['score'] = score
+			self.big_mix_per['name'] = name
+
+	def compLengthDist(self, path):
+		score = 0
+		state = path[0]
+		for p in path:
+			if p != state:
+				self.length_dist[state].append(score)
+				state = p
+				score = 1
+			else:
+				score += 1
+		self.length_dist[state].append(score)
+
+	def compAminoFreq(self, path, seq):
+		for i, p in enumerate(path):
+			if seq[i] in HYDROPHOBIC:
+				if seq[i] not in self.amino_freq[p]['H-']:
+					self.amino_freq[p]['H-'][seq[i]] = 1
+				else:
+					self.amino_freq[p]['H-'][seq[i]] += 1
+			else:
+				if seq[i] not in self.amino_freq[p]['H+']:
+					self.amino_freq[p]['H+'][seq[i]] = 1
+				else:
+					self.amino_freq[p]['H+'][seq[i]] += 1
 
 class HMM:
 
@@ -53,31 +138,41 @@ def hmmFASTA(file):
 	s = ['H+', 'H-', 'M']
 	p = {'H+' : 1.0/3.0, 'H-' : 1.0/3.0, 'M' : 1.0/3.0}
 	t = {'H+' : {
-		'H+' : 19.0/20.0, 'H-' : 3.0/200.0, 'M' : 7.0/200.0
+		'H+' : 7.0/8.0, 'H-' : 3.0/80.0, 'M' : 7.0/80.0
 	}, 'H-' : {
-		'H+' : 1.0/50.0, 'H-' : 9.0/10.0, 'M' : 2.0/25.0
+		'H+' : 1.0/25.0, 'H-' : 4.0/5.0, 'M' : 4.0/25.0
 	}, 'M' : {
-		'H+' : 1.0/30.0, 'H-' : 1.0/30.0, 'M' : 14.0/15.0
+		'H+' : 1.0/14.0, 'H-' : 1.0/14.0, 'M' : 6.0/7.0
 	}}
 	e = {'H+' : 
-		dict({a : 0.2/8.0 for a in ['A', 'V', 'I', 'L', 'M', 'F', 'Y', 'W']}.items() + 
-		{a : 0.8/12.0 for a in ['R', 'H', 'K', 'D', 'E', 'T', 'N', 'Q', 'S', 'C', 'G', 'P']}.items()),
+		dict({a : 1.0/40.0 for a in HYDROPHOBIC}.items() + 
+		{a : 1.0/15.0 for a in HYDROPHILIC}.items()),
 		'H-' : 
-		dict({a : 0.6/8.0 for a in ['A', 'V', 'I', 'L', 'M', 'F', 'Y', 'W']}.items() + 
-		{a : 0.4/12.0 for a in ['R', 'H', 'K', 'D', 'E', 'T', 'N', 'Q', 'S', 'C', 'G', 'P']}.items()),
+		dict({a : 3.0/40.0 for a in HYDROPHOBIC}.items() + 
+		{a : 1.0/30.0 for a in HYDROPHILIC}.items()),
 		'M' : 
-		dict({a : 0.05 for a in ['A', 'V', 'I', 'L', 'M', 'F', 'Y', 'W']}.items() + 
-		{a : 0.05 for a in ['R', 'H', 'K', 'D', 'E', 'T', 'N', 'Q', 'S', 'C', 'G', 'P']}.items()),
+		dict({a : 1.0/20.0 for a in HYDROPHOBIC}.items() + 
+		{a : 1.0/20.0 for a in HYDROPHILIC}.items()),
 	}
 	hmm = HMM(s, p, t, e)
 	fasta_sequences = SeqIO.parse(open(file),'fasta')
+	statistics = Stats()
+
+	results = {}
 	for fasta in fasta_sequences:
 		name, sequence = fasta.id, str(fasta.seq)
 		print name
 		path = hmm.viterbi(sequence)
-		print {s: path.count(s) for s in set(path)}
+		print path
+		results = {s: path.count(s) for s in set(path)}
+		statistics.getStats(name, path, sequence)
+
+	statistics.dump()
 
 
 # hmmFASTA('test.fa')
-hmmFASTA('hw3_proteins.fa')
+if len(sys.argv) > 2:
+	hmmFASTA(sys.argv[2])
+else:
+	hmmFASTA('hw3_proteins.fa')
 
