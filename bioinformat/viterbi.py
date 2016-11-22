@@ -3,9 +3,17 @@ import math
 import sys
 import csv
 
+### These are for plotting 
+import matplotlib.pyplot as plt
+import numpy as np
+
 HYDROPHOBIC = ['A', 'V', 'I', 'L', 'M', 'F', 'Y', 'W']
 HYDROPHILIC = ['R', 'H', 'K', 'D', 'E', 'T', 'N', 'Q', 'S', 'C', 'G', 'P']
 
+
+####
+# This class is for computing the statistics for question c
+####
 class Stats:
 
 	def __init__(self):
@@ -24,21 +32,14 @@ class Stats:
 		print self.longest_phobic
 		print self.big_mix_per
 
-		import matplotlib.pyplot as plt
-		import numpy as np
-		from scipy.stats import gaussian_kde
-		data = self.length_dist['H+']
-		density = gaussian_kde(data)
-		xs = np.linspace(0,8,200)
-		density.covariance_factor = lambda : .25
-		density._compute_covariance()
-		plt.plot(xs,density(xs))
+		for t, data in self.amino_freq.iteritems():
+			n = sum([sum(dd.values()) for _, dd in data.iteritems()])*1.0
+			for tt, dd in data.iteritems():
+				print t, tt, np.mean(dd.values())/n, np.std(dd.values())/n
+
+		plt.figure()
+		plt.boxplot([self.length_dist[t]  for t in ['H+','H-','M']])
 		plt.show()
-
-		print self.length_dist
-
-
-		print self.amino_freq
 
 	def compLongestPhobic(self, name, path):
 		score = 0
@@ -94,9 +95,13 @@ class HMM:
 		self.T = transitionP
 		self.E = emissionP
 
+################
+# VITERBI HERE #
+################
+
 	def viterbi(self, seq):
 		# Initialization		
-		self.V = {0: {s: self.P[s]*self.E[s][seq[0]] for s in self.S} }
+		self.V = {0: {s: math.log(self.P[s]*self.E[s][seq[0]]) for s in self.S} }
 		self.Vp = {0: {s: None for s in self.S} }
 
 		# steps
@@ -170,9 +175,8 @@ def hmmFASTA(file):
 	statistics.dump()
 
 
-# hmmFASTA('test.fa')
-if len(sys.argv) > 2:
-	hmmFASTA(sys.argv[2])
+if len(sys.argv) > 1:
+	hmmFASTA(sys.argv[1])
 else:
 	hmmFASTA('hw3_proteins.fa')
 
