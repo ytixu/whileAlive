@@ -39,7 +39,7 @@ def compute_match_score(ref, qry ,p):
   return score
 
 def compute_sub_score(ref, qry ,p):
-  score = match * (1-p)/3.0 + substitution[qry+ref]*(1-p)/3.0
+  score = match * (1-p)/3.0 + substitution[qry+ref]*p
   for nuc in ['A','G','T','C']:
     if qry == nuc or ref == nuc:
       continue
@@ -73,7 +73,7 @@ def lastLineAlign(x, y, probs=None):
       if row[i-1] == column[j-1]:
         m_score = match
         if probs:
-          m_score = compute_match_score(row[i-1], column[j-1], probs[j-1])
+          m_score = compute_match_score(column[j-1], row[i-1], probs[j-1])
         try:
           current[i] = max(current[i-1] + insertion, prev[i-1] + m_score, prev[i] + deletion)
         except:
@@ -81,7 +81,7 @@ def lastLineAlign(x, y, probs=None):
       else:
         s_score = substitution[row[i-1]+column[j-1]]
         if probs:
-          s_score = compute_sub_score(row[i-1], column[j-1], probs[j-1])
+          s_score = compute_sub_score(column[j-1], row[i-1], probs[j-1])
         current[i] = max(current[i-1] + insertion, prev[i-1] + s_score, prev[i] + deletion)
     prev = copy.deepcopy(current) # for python its very import to use deepcopy here
 
@@ -172,7 +172,7 @@ def dynamicProgramming(x, y, probs):
   # print  M[len(x)][len(y)]
 #  return align, M[len(x)][len(y)]
 #  return row, column, middle
-  return row, column, middle
+  return row, column, middle, M[len(x)][len(y)]
 
 
 def Hirschberge(x, y, probs=None):
@@ -187,12 +187,15 @@ def Hirschberge(x, y, probs=None):
       column = '-' * len(y)
       row = y
       middle =  'x' * len(y)
+      score += insertion * len(y)
     else:
       column += x
       row += '-' * len(x)
       middle =  'x' * len(x)
+      score += deletion * len(x)
   elif len(x) == 1 or len(y) == 1:
-    row, column, middle = dynamicProgramming(x, y, probs)
+    row, column, middle, score_dp = dynamicProgramming(x, y, probs)
+    score += score_dp
     # concatenate into string
     row, column, middle = map(lambda x: "".join(x), [row, column, middle]) 
   else:
