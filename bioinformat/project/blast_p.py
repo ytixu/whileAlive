@@ -1,15 +1,25 @@
 import argparse
 import sys
 import random
+
+
 from Bio import SeqIO
 
 from PairewiseAlign import Hirschberge, readfq, getHandle, match, compute_match_score, compute_sub_score
+import warnings
+warnings.filterwarnings("ignore")
 
-D_TH = 0.9
-W_MIN = 7
-W_MAX = 13
+
+D_TH = 1.0
+W_MIN = 8
+W_MAX = 8
 NUCS = ['A','G','T','C']
 HIT_SIZE = 1
+
+def _progress_bar(update):
+	sys.stdout.write('\r')
+	sys.stdout.write("[%d]" % (update))
+	sys.stdout.flush()
 
 def get_combo(w, p):
 	if len(w) == 1:
@@ -36,20 +46,47 @@ def match_score(query, ref, prob):
 class Blast:
 
 	def __init__(self, refseq, prob):
+
+		import pickle
+		import itertools
+		import numpy as np
+
 		# build dictionary
-		self.database = {}
 		self.refseq = refseq
 		self.size = len(refseq)
 		self.prob = prob
 		n = len(refseq)
+		print n
 		for w_len in range(W_MIN,W_MAX+1):
+			# self.database = pickle.load(open('database-'+str(w_len)+'.p', 'r'))
+			self.database = {}
 			for i in range(n-w_len+1):
+				_progress_bar(i*100.0/(n-w_len-1))
 				w = refseq[i:w_len+i]
 				for c in map(str, get_combo(w, prob[i:w_len+i])):
+					score = int(match_score(c, w, prob[i:w_len+i]))
+					# if score > MIN_HIT_SCORE:
 					if c not in self.database:
-						self.database[c] = [i]
+						self.database[c] = [(i, score)]
 					else:
-						self.database[c].append(i)
+						self.database[c].append((i, score))
+			pickle.dump(self.database, open('database-'+str(w_len)+'.p', 'wb'))
+
+			print ''
+			print w_len
+			print len(self.database.keys())
+			hit_size = map(len, self.database.values())
+			print np.mean(hit_size)
+			print np.std(hit_size)
+
+			counts = {} 
+			for w in self.database.values():
+				for _, s in w:
+					if s not in counts:
+						counts[s] = 1
+					else:
+						counts[s] += 1
+			print counts
 
 	def _dump_hirshberge(self, ref, qry, prob, rev = False):
 		row, column, middle, score = Hirschberge(ref, qry, prob)
@@ -80,18 +117,19 @@ class Blast:
 			print self.middle_rev
 			print self.column_rev
 
-	def search(self, query, w_size):
+	def search(self, query, w_size, min_hit_score):
 		# print self.database.keys()
 		max_score = 0
-		best_align = 0
+		best_align = -1000
+		best_align = -1000
 		l = len(query)
 
 		for i in range(0,l-w_size+1):
 			w = query[i:w_size+i]
-			# print w, i
 			if w in self.database:
-				self.hits = self.database[w]
-				for hit in self.database[w]:
+				for hit, s in self.database[w]:
+					if s < min_hit_score:
+						continue
 					# print '----------------'
 					score = 0
 					low = max(0,hit-i*HIT_SIZE)
@@ -114,11 +152,12 @@ class Blast:
 						score += self._dump_hirshberge(ref, qry, prob)
 
 					if score > max_score:
+						self.hits = [hit for hit, s in self.database[w] if s > min_hit_score]
 						max_score = score
 						best_align = hit-i
-			else:
-				return None
 
+		if best_align < 0:
+			return None
 		return max_score, best_align
 
 
@@ -131,14 +170,13 @@ def alter(w, s, diff=2, gap=1):
 		w = w[:index]+w[index+1:]
 	return w
 
-def rand_query(ref, s, n):
-	w = {}
+def rand_query(ref, s, n, diff=2, gap=1):
 	l = len(ref)
+	w = []
 	for i in range(n):
 		start = random.randint(0,l-s-1)
 		new_w = ref[start:start+s]
-		w[start] = alter(new_w, s)
-
+		w.append((start, alter(new_w, s, diff, gap)))
 	return w
 
 def build_solution(ref, prob, s):
@@ -173,51 +211,55 @@ if __name__ == '__main__':
 	# seqstr2 = list(readfq(getHandle(args.file2)))[0][1]
 	probabilities = map(float, getHandle(args.file2).readline().strip().split(' '))
 	
-	size = 9
-	sample = 10
+	size = 10
+	sample = 1000
+	diff = 2
+	gap = 1
+
 	l = len(reference)
-	soln = build_solution(reference, probabilities, size)
+	# soln = build_solution(reference, probabilities, size)
 
 	blast = Blast(reference, probabilities)
-	queries = rand_query(reference, size, sample)
 
-	suboptimal = 0
-	no_hit = 0
+	print 'Building queries'
+	queries = rand_query(reference, size, sample, diff, gap)
 
-	for i, q in queries.iteritems():
-		print q, i
+	for MIN_HIT_SCORE in range(-13, 14):
+		suboptimal = 0
+		no_hit = 0
+		wrong_hit = 0
+		print '>>> hit score > ', MIN_HIT_SCORE
 
-	# for q in rand_in_dict(soln):
-		predict = blast.search(q, 7)
-		if not predict:
-			# print 'No hit.'
-			no_hit += 1
-		else:
-			print predict
-			# true_score = match_score(q, reference[predict[1]:max(predict[1]+len(q), l)], probabilities[predict[1]:max(predict[1]+len(q), l)])
-			from_score = match_score(q, reference[i:max(i+len(q), l)], probabilities[i:max(i+len(q), l)])
-			if from_score - predict[0] > 0:
-				suboptimal += 1
-				print q,i,from_score
-				blast.dump_alignment()
-				print predict
-				# print true_score
-		# if q in soln:
-			# print q
-			# if abs(soln[q][1] - predict[1]) > 0:
-			# 	blast.dump_alignment()
-			# 	print predict
-			# 	print soln[q]
-			# 	print match_score(q, reference[predict[1]:size+1], probabilities[predict[1]:size+1])
-	print 'Suboptimal ', suboptimal
-	print 'No hit ', no_hit
+		for count, query_pair in enumerate(queries):
+			i, q = query_pair
+			_progress_bar(count)
+			# print q, i
 
-# for i in range(100):
-#   x = random.randint(0, n-40)
-#   y = random.randint(30, 40)
-#   query = seqstr1[max(0,x-2):x+y-15] + seqstr1[x+y-5:x+y-2]
-#   row, column, middle = Hirschberge(seqstr1[x:x+y], query, seqstr2[x:x+y])
-#   print '#' * 8, "Alignment %r" % i, '#' * 8
-#   print row
-#   print middle
-#   print column
+		# for q in rand_in_dict(soln):
+			predict = blast.search(q, W_MIN, MIN_HIT_SCORE)
+			if not predict:
+				# print 'No hit.'
+				no_hit += 1
+			else:
+				# print predict
+				# true_score = match_score(q, reference[predict[1]:max(predict[1]+len(q), l)], probabilities[predict[1]:max(predict[1]+len(q), l)])
+				from_score = match_score(q, reference[i:max(i+len(q), l)], probabilities[i:max(i+len(q), l)])
+				if from_score - predict[0] > 0:
+					suboptimal += 1
+					# print q,i,from_score
+					# blast.dump_alignment()
+					# print predict
+					if sum([1 if abs(i-a) > gap else 0 for a in blast.hits]) > 0:
+						wrong_hit += 1
+					# print true_score
+			# if q in soln:
+				# print q
+				# if abs(soln[q][1] - predict[1]) > 0:
+				# 	blast.dump_alignment()
+				# 	print predict
+				# 	print soln[q]
+				# 	print match_score(q, reference[predict[1]:size+1], probabilities[predict[1]:size+1])
+		print ''
+		print 'Suboptimal ', suboptimal
+		print 'Wrong hit ', wrong_hit
+		print 'No hit ', no_hit
