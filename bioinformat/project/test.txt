@@ -1,0 +1,372 @@
+123
+[100]
+7
+16384
+32.6689453125
+8.44200675131
+{0: 53825, 1: 14839, 2: 21544, 3: 12004, 4: 2153, 5: 5399, 6: 5662, 7: 1468, 8: 1, 9: 1220, 10: 616, 13: 117, -2: 29486, -13: 2944, -12: 10304, -11: 15456, -10: 13200, -9: 19304, -8: 39084, -7: 45970, -6: 35967, -5: 48876, -4: 64148, -3: 46147, -1: 45514}
+[100]
+8
+65536
+27.2568359375
+7.61137492317
+{0: 153646, 1: 72015, 2: 26724, 3: 24610, 4: 34017, 5: 18314, 6: 3185, 7: 7259, 8: 7410, 9: 1885, 11: 1386, 12: 696, 15: 116, -11: 43584, -15: 4608, -14: 18432, -13: 32256, -12: 32768, -1: 96990, -10: 86464, -9: 117824, -8: 99040, -7: 120434, -6: 188582, -5: 170474, -4: 120763, -3: 145624, -2: 157198}
+[100]
+9
+262144
+22.4951171875
+6.84919522145
+{0: 516467, 1: 118644, 2: 159873, 3: 123313, 4: 44602, 5: 37696, 6: 50671, 7: 25998, 8: 4445, 9: 9288, 10: 9408, 11: 2355, 13: 1546, 14: 776, 17: 115, -11: 281792, -17: 7168, -16: 32256, -15: 64512, -14: 76032, -13: 97664, -12: 186176, -1: 332978, -10: 276096, -9: 278620, -8: 460602, -7: 552814, -6: 437254, -5: 448536, -4: 547842, -3: 426433, -2: 284988}
+
+
+
+With > 0.90 unchanged 
+123
+[100]
+7
+136
+1.01470588235
+0.12037283488
+{9: 10, 10: 11, 13: 117}
+[100]
+8
+139
+1.0071942446
+0.0845132383055
+{11: 14, 12: 10, 15: 116}
+[100]
+9
+142
+1.0
+0.0
+{17: 115, 13: 16, 14: 11}
+[100]
+10
+144
+1.0
+0.0
+{16: 10, 19: 114, 15: 20}
+[100]
+11
+146
+1.0
+0.0
+{17: 22, 18: 11, 20: 3, 21: 110}
+[100]
+12
+148
+1.0
+0.0
+{19: 24, 20: 12, 22: 8, 23: 104}
+[100]
+13
+150
+1.0
+0.0
+{24: 9, 25: 102, 21: 26, 22: 13}
+[100]
+14
+152
+1.0
+0.0
+{24: 14, 26: 11, 27: 99, 23: 28}
+[100]
+15
+154
+1.0
+0.0
+{25: 30, 26: 15, 28: 12, 29: 97}
+
+
+123
+[100]
+7
+16384
+32.6689453125
+8.44200675131
+{0: 53825, 1: 14839, 2: 21544, 3: 12004, 4: 2153, 5: 5399, 6: 5662, 7: 1468, 8: 1, 9: 1220, 10: 616, 13: 117, -2: 29486, -13: 2944, -12: 10304, -11: 15456, -10: 13200, -9: 19304, -8: 39084, -7: 45970, -6: 35967, -5: 48876, -4: 64148, -3: 46147, -1: 45514}
+123
+Building queries
+>>> hit score >  -13
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -12
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -11
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -10
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -9
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -8
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -7
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -6
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -5
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -4
+[999]
+Suboptimal  54
+Wrong hit  54
+No hit  1
+>>> hit score >  -3
+[999]
+Suboptimal  55
+Wrong hit  55
+No hit  3
+>>> hit score >  -2
+[999]
+Suboptimal  55
+Wrong hit  55
+No hit  5
+>>> hit score >  -1
+[999]
+Suboptimal  56
+Wrong hit  55
+No hit  5
+>>> hit score >  0
+[999]
+Suboptimal  58
+Wrong hit  58
+No hit  7
+>>> hit score >  1
+[999]
+Suboptimal  64
+Wrong hit  60
+No hit  10
+>>> hit score >  2
+[999]
+Suboptimal  73
+Wrong hit  60
+No hit  15
+>>> hit score >  3
+[999]
+Suboptimal  88
+Wrong hit  67
+No hit  28
+>>> hit score >  4
+[999]
+Suboptimal  100
+Wrong hit  83
+No hit  36
+>>> hit score >  5
+[999]
+Suboptimal  99
+Wrong hit  59
+No hit  42
+>>> hit score >  6
+[999]
+Suboptimal  112
+Wrong hit  40
+No hit  76
+>>> hit score >  7
+[999]
+Suboptimal  117
+Wrong hit  36
+No hit  186
+>>> hit score >  8
+[999]
+Suboptimal  101
+Wrong hit  46
+No hit  250
+>>> hit score >  9
+[999]
+Suboptimal  101
+Wrong hit  20
+No hit  250
+>>> hit score >  10
+[999]
+Suboptimal  84
+Wrong hit  10
+No hit  503
+>>> hit score >  11
+[999]
+Suboptimal  36
+Wrong hit  11
+No hit  707
+>>> hit score >  12
+[999]
+Suboptimal  36
+Wrong hit  11
+No hit  707
+>>> hit score >  13
+[999]
+Suboptimal  36
+Wrong hit  0
+No hit  707
+
+
+>>>> 8 words 
+
+123
+[100]
+8
+65536
+27.2568359375
+7.61137492317
+{0: 153646, 1: 72015, 2: 26724, 3: 24610, 4: 34017, 5: 18314, 6: 3185, 7: 7259, 8: 7410, 9: 1885, 11: 1386, 12: 696, 15: 116, -11: 43584, -15: 4608, -14: 18432, -13: 32256, -12: 32768, -1: 96990, -10: 86464, -9: 117824, -8: 99040, -7: 120434, -6: 188582, -5: 170474, -4: 120763, -3: 145624, -2: 157198}
+Building queries
+>>> hit score >  -13
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -12
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -11
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -10
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -9
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -8
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -7
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -6
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -5
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -4
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -3
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -2
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  -1
+[999]
+Suboptimal  112
+Wrong hit  112
+No hit  9
+>>> hit score >  0
+[999]
+Suboptimal  112
+Wrong hit  111
+No hit  10
+>>> hit score >  1
+[999]
+Suboptimal  112
+Wrong hit  109
+No hit  12
+>>> hit score >  2
+[999]
+Suboptimal  114
+Wrong hit  108
+No hit  19
+>>> hit score >  3
+[999]
+Suboptimal  111
+Wrong hit  96
+No hit  24
+>>> hit score >  4
+[999]
+Suboptimal  104
+Wrong hit  73
+No hit  45
+>>> hit score >  5
+[999]
+Suboptimal  85
+Wrong hit  52
+No hit  110
+>>> hit score >  6
+[999]
+Suboptimal  69
+Wrong hit  51
+No hit  170
+>>> hit score >  7
+[999]
+Suboptimal  61
+Wrong hit  34
+No hit  194
+>>> hit score >  8
+[999]
+Suboptimal  51
+Wrong hit  8
+No hit  300
+>>> hit score >  9
+[999]
+Suboptimal  24
+Wrong hit  9
+No hit  469
+>>> hit score >  10
+[999]
+Suboptimal  21
+Wrong hit  10
+No hit  547
+>>> hit score >  11
+[999]
+Suboptimal  21
+Wrong hit  6
+No hit  547
+>>> hit score >  12
+[999]
+Suboptimal  19
+Wrong hit  1
+No hit  724
+>>> hit score >  13
+[999]
+Suboptimal  7
+Wrong hit  1
+No hit  864
+
