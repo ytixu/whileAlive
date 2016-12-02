@@ -10,15 +10,16 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-D_TH = 1.0
-W_MIN = 8
-W_MAX = 8
+D_TH = 0.9
+W_MIN = 7
+W_MAX = 7
 NUCS = ['A','G','T','C']
 HIT_SIZE = 1
 
-def _progress_bar(update):
+def _progress_bar(update=None):
 	sys.stdout.write('\r')
-	sys.stdout.write("[%d]" % (update))
+	if update:
+		sys.stdout.write("[%d]" % (update))
 	sys.stdout.flush()
 
 def get_combo(w, p):
@@ -56,12 +57,14 @@ class Blast:
 		self.size = len(refseq)
 		self.prob = prob
 		n = len(refseq)
-		print n
 		for w_len in range(W_MIN,W_MAX+1):
-			# self.database = pickle.load(open('database-'+str(w_len)+'.p', 'r'))
+			# self.database = pickle.load(open('database-long-'+str(w_len)+'.p', 'r'))
+			print (n-w_len-1)
 			self.database = {}
 			for i in range(n-w_len+1):
-				_progress_bar(i*100.0/(n-w_len-1))
+				if i > 1000:
+					break
+				_progress_bar(i)
 				w = refseq[i:w_len+i]
 				for c in map(str, get_combo(w, prob[i:w_len+i])):
 					score = int(match_score(c, w, prob[i:w_len+i]))
@@ -70,14 +73,14 @@ class Blast:
 						self.database[c] = [(i, score)]
 					else:
 						self.database[c].append((i, score))
-			pickle.dump(self.database, open('database-'+str(w_len)+'.p', 'wb'))
+			# pickle.dump(self.database, open('database-long-'+str(w_len)+'.p', 'wb'))
 
 			print ''
-			print w_len
-			print len(self.database.keys())
+			print 'word size = ', w_len
+			print 'key set size = ', len(self.database.keys())
 			hit_size = map(len, self.database.values())
-			print np.mean(hit_size)
-			print np.std(hit_size)
+			print 'hit mean = ', np.mean(hit_size)
+			print 'hit std = ', np.std(hit_size)
 
 			counts = {} 
 			for w in self.database.values():
@@ -117,7 +120,7 @@ class Blast:
 			print self.middle_rev
 			print self.column_rev
 
-	def search(self, query, w_size, min_hit_score):
+	def search(self, query, w_size, min_hit_score, hit_residue=0):
 		# print self.database.keys()
 		max_score = 0
 		best_align = -1000
@@ -132,7 +135,7 @@ class Blast:
 						continue
 					# print '----------------'
 					score = 0
-					low = max(0,hit-i*HIT_SIZE)
+					low = max(0,hit-i*HIT_SIZE+hit_residue)
 					ref = self.refseq[low:hit][::-1]
 					qry = query[:i][::-1]
 					if len(qry) > 0:
@@ -144,7 +147,7 @@ class Blast:
 					self.hit_word = w
 					self.hit_match = ref_match
 
-					high = min(self.size,hit+w_size+(l-i-w_size)*HIT_SIZE)
+					high = min(self.size,hit+w_size+(l-i-w_size)*HIT_SIZE-hit_residue)
 					ref = self.refseq[hit+w_size:high]
 					qry = query[i+w_size:]
 					if len(qry) > 0:
@@ -171,7 +174,7 @@ def alter(w, s, diff=2, gap=1):
 	return w
 
 def rand_query(ref, s, n, diff=2, gap=1):
-	l = len(ref)
+	l = 1000#len(ref)
 	w = []
 	for i in range(n):
 		start = random.randint(0,l-s-1)
@@ -211,55 +214,55 @@ if __name__ == '__main__':
 	# seqstr2 = list(readfq(getHandle(args.file2)))[0][1]
 	probabilities = map(float, getHandle(args.file2).readline().strip().split(' '))
 	
-	size = 10
+	sizes = [10, 13, 15]
 	sample = 1000
-	diff = 2
-	gap = 1
+	diffs = [2,4]
+	gaps = [0,2,4]
 
 	l = len(reference)
 	# soln = build_solution(reference, probabilities, size)
 
 	blast = Blast(reference, probabilities)
+	
+	print "size\tdiff\tgap\thit score\tSuboptimal\tWrong hit\tNo hit"
 
-	print 'Building queries'
-	queries = rand_query(reference, size, sample, diff, gap)
+	for size in sizes:
+		for diff in diffs:
+			for gap in gaps:
+				queries = rand_query(reference, size, sample, diff, gap)
 
-	for MIN_HIT_SCORE in range(-13, 14):
-		suboptimal = 0
-		no_hit = 0
-		wrong_hit = 0
-		print '>>> hit score > ', MIN_HIT_SCORE
+				for MIN_HIT_SCORE in range(-13,13):
+					suboptimal = 0
+					no_hit = 0
+					wrong_hit = 0
 
-		for count, query_pair in enumerate(queries):
-			i, q = query_pair
-			_progress_bar(count)
-			# print q, i
+					for count, query_pair in enumerate(queries):
+						i, q = query_pair
+						_progress_bar(count)
+						# print q, i
 
-		# for q in rand_in_dict(soln):
-			predict = blast.search(q, W_MIN, MIN_HIT_SCORE)
-			if not predict:
-				# print 'No hit.'
-				no_hit += 1
-			else:
-				# print predict
-				# true_score = match_score(q, reference[predict[1]:max(predict[1]+len(q), l)], probabilities[predict[1]:max(predict[1]+len(q), l)])
-				from_score = match_score(q, reference[i:max(i+len(q), l)], probabilities[i:max(i+len(q), l)])
-				if from_score - predict[0] > 0:
-					suboptimal += 1
-					# print q,i,from_score
-					# blast.dump_alignment()
-					# print predict
-					if sum([1 if abs(i-a) > gap else 0 for a in blast.hits]) > 0:
-						wrong_hit += 1
-					# print true_score
-			# if q in soln:
-				# print q
-				# if abs(soln[q][1] - predict[1]) > 0:
-				# 	blast.dump_alignment()
-				# 	print predict
-				# 	print soln[q]
-				# 	print match_score(q, reference[predict[1]:size+1], probabilities[predict[1]:size+1])
-		print ''
-		print 'Suboptimal ', suboptimal
-		print 'Wrong hit ', wrong_hit
-		print 'No hit ', no_hit
+					# for q in rand_in_dict(soln):
+						predict = blast.search(q, W_MIN, MIN_HIT_SCORE, gap)
+						if not predict:
+							# print 'No hit.'
+							no_hit += 1
+						else:
+							# print predict
+							# true_score = match_score(q, reference[predict[1]:max(predict[1]+len(q), l)], probabilities[predict[1]:max(predict[1]+len(q), l)])
+							from_score = match_score(q, reference[i:max(i+len(q), l)], probabilities[i:max(i+len(q), l)])
+							if from_score - predict[0] > 0:
+								suboptimal += 1
+								# print q,i,from_score
+								# blast.dump_alignment()
+								# print predict
+								if sum([1 if abs(i-a) > gap+size-W_MIN else 0 for a in blast.hits]) > 0:
+									wrong_hit += 1
+								# print true_score
+						# if q in soln:
+							# print q
+							# if abs(soln[q][1] - predict[1]) > 0:
+							# 	blast.dump_alignment()
+							# 	print predict
+							# 	print soln[q]
+							# 	print match_score(q, reference[predict[1]:size+1], probabilities[predict[1]:size+1])
+					print '\t', '\t'.join(map(str, [size, diff, gap, MIN_HIT_SCORE, suboptimal, wrong_hit, no_hit]))
