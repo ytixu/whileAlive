@@ -10,7 +10,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-D_TH = 0.9
+D_TH = 0.8
 W_MIN = 7
 W_MAX = 7
 NUCS = ['A','G','T','C']
@@ -58,22 +58,22 @@ class Blast:
 		self.prob = prob
 		n = len(refseq)
 		for w_len in range(W_MIN,W_MAX+1):
-			# self.database = pickle.load(open('database-long-'+str(w_len)+'.p', 'r'))
-			print (n-w_len-1)
-			self.database = {}
-			for i in range(n-w_len+1):
-				if i > 1000:
-					break
-				_progress_bar(i)
-				w = refseq[i:w_len+i]
-				for c in map(str, get_combo(w, prob[i:w_len+i])):
-					score = int(match_score(c, w, prob[i:w_len+i]))
-					# if score > MIN_HIT_SCORE:
-					if c not in self.database:
-						self.database[c] = [(i, score)]
-					else:
-						self.database[c].append((i, score))
-			# pickle.dump(self.database, open('database-long-'+str(w_len)+'.p', 'wb'))
+			self.database = pickle.load(open('database-real-'+str(w_len)+'.p', 'r'))
+			# print (n-w_len-1)
+			# self.database = {}
+			# for i in range(n-w_len+1):
+			# 	# if i > 1000:
+			# 	# 	break
+			# 	_progress_bar(i)
+			# 	w = refseq[i:w_len+i]
+			# 	for c in map(str, get_combo(w, prob[i:w_len+i])):
+			# 		score = int(match_score(c, w, prob[i:w_len+i]))
+			# 		if score > 0:
+			# 			if c not in self.database:
+			# 				self.database[c] = [(i, score)]
+			# 			else:
+			# 				self.database[c].append((i, score))
+			# pickle.dump(self.database, open('database-real-'+str(w_len)+'.p', 'wb'))
 
 			print ''
 			print 'word size = ', w_len
@@ -214,9 +214,9 @@ if __name__ == '__main__':
 	# seqstr2 = list(readfq(getHandle(args.file2)))[0][1]
 	probabilities = map(float, getHandle(args.file2).readline().strip().split(' '))
 	
-	sizes = [10, 13, 15]
+	sizes = [15]
 	sample = 1000
-	diffs = [2,4]
+	diffs = [4]
 	gaps = [0,2,4]
 
 	l = len(reference)
@@ -231,7 +231,7 @@ if __name__ == '__main__':
 			for gap in gaps:
 				queries = rand_query(reference, size, sample, diff, gap)
 
-				for MIN_HIT_SCORE in range(-13,13):
+				for MIN_HIT_SCORE in range(-8,9,2):
 					suboptimal = 0
 					no_hit = 0
 					wrong_hit = 0
