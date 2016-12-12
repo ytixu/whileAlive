@@ -211,7 +211,6 @@ def Hirschberge(x, y, probs=None):
     row = row_l + row_r
     column = column_u + column_d 
     middle = middle_l + middle_r
-    score += score_r + score_l
 
   return row, column, middle, score
         
@@ -287,4 +286,3 @@ if __name__ == '__main__':
     print middle
     print column
     print 
-
