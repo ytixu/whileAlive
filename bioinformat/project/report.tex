@@ -15,7 +15,7 @@
 
 
 \begin{document}
-\title{Partial Confidence in DNA Sequence Alignment}
+\title{Uncertainty in Local Sequence Alignment}
 \author{Yi Tian Xu\\260520039}
 
 \maketitle
@@ -26,17 +26,19 @@
 
 \section{Introduction}
 
-% for simplicity, we consider linear gap
+Basic Local Alignment Search Tool (BLAST) has become famous in bioinformatics for its capability in comparing a query sequence with a database of sequences. However, BLAST does not handle the case when the reference sequence contains probabilistic information. More specifically, we may not know with total certainty the exact base at certain position of the sequence. Such case may occur from the ambiguity at certain positions in the sequence data induced by experimental error. For example, state of the art DNA sequencers, such as Roche/454, Illumina and SOLiD, have an error rate between 0.1\% to 1\% that varies according to the read length. \cite{sequencers} This error can be modelled as a confidence score for each nucleotide according to its position in the reads. Another scenario where probabilistic information can be added to sequence data is ancestral sequence reconstruction. Such sequence, derived with seldom known true phylogeny, uncertainty in observational data and the assumption of maximal parsimony \cite{parsimony}, can also be expressed with a confidence score at each nucleotide. 
 
-\subsection{Data}
+BLAST maximizes a similarity measure between sequences to search for an alignment. This similarity measure assign a score for insertion, deletion and substitution base of the rarity of mutation. \cite{blast} For example, considering that transversions are less likely than transitions, a DNA sequence ``AAA" may have a higher similarity score when aligned to ``AAG" than ``AAT". Nevertheless, when we add information on the uncertainty of the sequence, we may expect a different bahaviour; if the last nucleotide in the sequence ``AAT" had much less confidence than the last nucleotide in ``AAG", we may want the alignment with ``AAT" to have a higher similarity score than with ``AAG". This behaviour must be incorporated in two phases of BLAST: (1) the database indexing phase and (2) the hit expansion phase.  
 
-A portion of CHR22, a predicted BoreoEutherian ancestor sequence, of 604,466 nucleotides was provided to us for the study and we use this data as the reference sequence. Each nucleotide $a$ in the sequence has an associated confidence value $p$ on the correctness of the prediction. We assume that each position in the sequence has equal chance of being one of the other three nucleotides if it were predicted wrong. 
+An local alignment search tool that utilizes probabilistic information in the reference sequence data not only allow us to find better alignments, but also contributes to the quality of our analysis in the subsequence steps of our research pipeline. To answer to this need, we generalize BLAST by modifying the similarity measure and by developing a new method for indexing the database. We test our method on a DNA sequence data; a portion of CHR22, a predicted BoreoEutherian ancestor sequence, of 604,466 nucleotides was used as our reference sequence. Each nucleotide in the sequence has an associated confidence value on the correctness of the prediction. We assume that each position in the sequence has equal chance of being one of the other three nucleotides if it were predicted wrong. 
 
 \section{Method}
 
+BLAST runs in three steps: (1) it preprocesses the reference sequence by constructing a database of high scoring words mapped to their position on the sequence, (2) upon input of a query sequence, it splits this sequence into words and for each subsequence, it searches for a match in the database, and finally (3) for each match, it extends the alignment using sequence alignment and select the alignment(s) with the highest score. \cite{blast} To include uncertainty information in this process, we modify the similarity measure in the local sequence alignment algorithm and develop conditions to find high scoring words. 
+
 \subsection{Similarity measure}
 
-Classical sequence alignment is based on a dynamic programming that computes some similarity measure for each pair of nucleotides of the input sequences. The similarity measure generally scores according to the likeness of the substitution, insertion and deletion. In our method, we use $m = 2$ for identity, $s_t = -1$ for transition and $s_v = -2$ for transversion substitutions, and a linear gap function $g(x)=-2x$. To formalize the substitution score, let $M$ be the substitution matrix. 
+Classical sequence alignment is based on a dynamic programming that computes some similarity measure for each pair of nucleotides of the input sequences. \cite{blast} The similarity measure generally scores according to the likeness of the substitution, insertion and deletion. In our method, we use $m = 2$ for identity, $s_t = -1$ for transition and $s_v = -2$ for transversion substitutions. For simplicity, we only consider linear gap function, $g(x)=-2x$. This measuring system can be formalized in the following way. Let $M$ be the substitution matrix. 
 \begin{equation}
 	M = \begin{bmatrix}
 		m & s_v & s_t & s_v\\
@@ -47,13 +49,13 @@ Classical sequence alignment is based on a dynamic programming that computes som
 \end{equation}
 Given the alphabet $\Sigma =$ \{A,C,G,C\}, we can represent a nucleotide $a \in \Sigma$ as a vector $\vec{u}_a = (u_{\mbox{A}}, u_{\mbox{C}}, u_{\mbox{G}}, u_{\mbox{T}})$ where each entry $u_x = 1$ if $x = a$ or 0 otherwise. Thus, the score for matching two nucleotides, $a$ and $b$ can be formulate as $s(a,b) = \vec{u}_aM\vec{u}_b$.
 
-To induce the probabilistic property in the reference sequence, we modify the similarity measure as the following. Given the reference nucleotide $a$ and its confidence probability $p$, we construct the vector $\vec{u}_{a,p} = (u_{\mbox{A}}, u_{\mbox{C}}, u_{\mbox{G}}, u_{\mbox{T}})$ where each entry $u_x = p$ if $x=a$ or $(1-p)/3$ otherwise. The score for matching a query nucleotide $b$ is $s(a,b,p) = \vec{u}_{a,p}M\vec{u}_b$. We can see that this preserves the scores in the total confidence setting since when $p=1$, $u_{a,p} = u_a$ for all $a \in \Sigma$. 
+To include the uncertainty information of the sequence, we use the expected similarity score. That is, given the reference nucleotide $a$ and its confidence probability $p$, we construct the vector $\vec{u}_{a,p} = (u_{\mbox{A}}, u_{\mbox{C}}, u_{\mbox{G}}, u_{\mbox{T}})$ where each entry $u_x = p$ if $x=a$ or $(1-p)/3$ otherwise. The score for matching a query nucleotide $b$ is $s(a,b,p) = \vec{u}_{a,p}M\vec{u}_b$. We can see that when there is no uncertainty, $p=1$, $u_{a,p} = u_a$ for all $a \in \Sigma$, and it involves no change in complexity of the local alignment algorithm. 
 
-For the chosen parameters $m, s_t$ and $s_v$, Figure \ref{figure:score_graphs} shows the substitution score according to the variation in the confidence $p$. 
+For the chosen parameters $m, s_t$ and $s_v$ as described previously, Figure \ref{figure:score_graphs} shows the substitution score according to the variation in the confidence $p$. We can see that, this scoring system penalize less for mismatches and rewards less for matches in the presence of uncertainty. It also allow a transversion to score higher than a transition when the confidence for the nucleotide at the transversion substitution is more than 0.6 less than the confidence at the transition substitution. It also allow a mismatch to score higher than a match when the confidence value is lower enough. Finally, it allows a transversion to more rewarding than a gap in the presence of uncertainty. 
 
 \begin{figure}[tbp]
 \begin{center}
-\caption{Substitution score variation according to the confidence value. When the confidence value is 1.00, the match, transition and transversion score reflect the case when the reference sequence is given with total confidence.}
+\caption{Substitution score variation according to the confidence value. When the confidence value is 1.00, the match, transition and transversion score reflect the case when the reference sequence has no uncertainty.}
    \includegraphics[width=0.50\textwidth]{score_graph}
 \label{figure:score_graphs}
 \end{center}
@@ -61,17 +63,17 @@ For the chosen parameters $m, s_t$ and $s_v$, Figure \ref{figure:score_graphs} s
 
 \subsection{Database Indexing}
 
-Smith-Waterman is unfeasible for aligning long sequence of millions of nucleotides. The standard heuristic to approach this problem is the basic local alignment search tool (BLAST) \cite{blast}. This method preprocesses the reference sequence $G$ by compiling a list of high-scoring $w$-mers. One can construct a hashtable keyed by all substrings of length $w$ in $G$ and valued by a list of the $w$-mers' occurred locations in $G$. Thus, the local alignment of a query sequence $q$ can be estimated at the locations in $G$ given by its $w$-mers that match the $w$-mers in $q$. When a matches, or hits, $h$ such that $q = q_1hq_2$ is found in the hashtable, BLAST subsequently perform the alignment of the prefix $q_1$ and suffix $q_2$ to obtain a complete alignment and score. The alignment with the highest score is then returned as best alignment.
+Classical sequence alignment algorithms (such as Smith-Waterman) are unfeasible for aligning long sequence of millions of nucleotides. Hence, the heuristic algorithm, BLAST, is developed. \cite{blast} This method preprocesses the reference sequence $G$ by compiling a list of high-scoring $w$-mers. One can construct a hashtable keyed by all substrings of length $w$ in $G$ and valued by a list of the $w$-mers' occurred locations in $G$. Thus, the local alignment of a query sequence $q$ can be estimated at the locations in $G$ given by its $w$-mers that match the $w$-mers in $q$. When a match, or hit, $h$ such that $q = q_1hq_2$ is found in the hashtable, BLAST subsequently perform the alignment of the prefix $q_1$ and suffix $q_2$ to obtain a complete alignment and score. The alignment with the highest score is then returned as best alignment.
 
-In the context of partial confidence, we constructs the $w$-mers by treating all positions in the reference sequence with less than a certain confidence threshold, $\delta_p$, as a wildcard character. For example, for $w = 3$, a reference substring ``AAA" with confidences 1.00, 0.97 and 0.91 respectively expands to a set of 16 3-mers if $\delta_p > 0.97$ or 4 3-mers if $0.91 < \delta_p \leq 0.97$. 
+In the context of uncertainty, we constructs the $w$-mers by treating all positions in the reference sequence with less than a certain confidence threshold, $\delta_p$, as a wildcard character. For example, for $w = 3$, a reference substring ``AAA" with confidences 1.00, 0.97 and 0.91 respectively expands to a set of 4 trimers, \{``AAA", ``AAC", ``AAG", ``AAT"\}, if $0.91 < \delta_p \leq 0.97$ or 16 trimers, \{``AAA", ``ACA", ``ACC", ..., ``ATT"\}, if $\delta_p > 0.97$. 
 
-This hashtable construction has two main issues. First, the running time for performing this construction has worst case $O(4^wL)$ where $L$ is the length of $G$. Depending on the distribution of the confidences, the method can be extremely inefficient for high $\delta_p$. In the case of our reference sequence, CHR22, Figure \ref{figure:conf_cum} shows the cumulative distribution of its confidence values. We observe a non-uniform distribution of the confidence values. In particular, around 80\% of the values are above 0.9, suggesting that a high confidence filtering threshold can be beneficial to the time efficiency of the method. 
+This hashtable construction has two main issues. First, the running time for performing this construction has worst case $O(4^wL)$ where $L$ is the length of $G$. Depending on the distribution of the confidences, the method can be extremely inefficient for high $\delta_p$. In the case of our reference sequence, CHR22, Figure \ref{figure:conf_cum} shows the cumulative distribution of its confidence values. First, we notice that there is no confidence values lower than 0.39, . Second, we observe a non-uniform distribution of the confidence values. In particular, around 80\% of the values are above 0.9, suggesting that a high confidence filtering threshold can be beneficial to the time efficiency of the method. 
 
-The second issue is that low-scoring $w$-mers can be introduced to the database by a substring with uncertainty at multiple positions. It can be unclear to where the line of separation between low and high-scoring $w$-mers should be defined. Figure \ref{figure:score_dist} which show the observed distribution of scores for matching two sequences of lengths 3 and 7. We observe that both score distributions are unlikely to follow a normal distribution with 0 mean. Instead, a large portion of their weights tilt to the negative region, suggesting that a high-scoring $w$-mer may not necessarily score positively. Acknowledging the distribution, we attempt to investigate more on this issue experimentally by setting up a score threshold, $\delta_s$, which filters hits with scores less than $\delta_s$.
+The second issue is that low-scoring $w$-mers can be introduced to the database when we have uncertainty at multiple consecutive positions. For example, the expansion of a trimer ``AAA" with confidence values 0.5 for every nucleotide contains ``CCC", but the similarity score between the two is -3.5. It can be unclear where the line of separation between low and high-scoring $w$-mers should be defined. Figure \ref{figure:score_dist} shows the observed distribution of scores for matching sequences of lengths 3 and 7. We observe that a large portion of their weights tilt to the negative region, suggesting that a high-scoring $w$-mer may not necessarily need to be close to the score of a complete match (6 for trimers and 14 for 7-mers). Acknowledging the distribution, we attempt to investigate more on this issue experimentally by setting up a score threshold, $\delta_s$, which filters hits with scores less than $\delta_s$.
 
 \begin{figure}[tbp]
 \begin{center}
-\caption{}
+\caption{Cumulative distribution of the confidence value in the entire reference sequence (on the left) and in the first 1000 nucleotides of the reference sequence (on the right).}
    \includegraphics[width=0.49\textwidth]{conf-cum}
    \includegraphics[width=0.49\textwidth]{conf-cum-1000}
 \label{figure:conf_cum}
@@ -80,7 +82,7 @@ The second issue is that low-scoring $w$-mers can be introduced to the database 
 \begin{figure}[tbp]
 \begin{center}
 
-\caption{Score distribution for $w \in \{3, 7\}$. The thicker line traces the observed score distribution for $w=7$, ranging between a score of $[-14, 14]$, which is sampled by randomly choosing 1000 words matching to a fixed words for each combination of confidence values formed with the set \{0.5, 0.75, 1\}. The lighter line corresponds to the case when $w=3$, ranging between of $[-6, 6]$, and we sampled similarity but using all the 64 words of length 3. Most scores lie on the negative side which suggests that a match with a positive score occurs rarely at random.}
+\caption{Score distribution for $w \in \{3, 7\}$. The thicker line traces the observed score distribution for $w=7$, ranging between a score of $[-14, 14]$, which is sampled by randomly choosing 1000 words matching to a fixed words for each combination of confidence values formed with the set \{0.25, 0.5, 0.75, 1\}. The lighter line corresponds to the case when $w=3$, ranging between of $[-6, 6]$, and we sampled similarity but using all the 64 words of length 3.}
    \includegraphics[width=0.60\textwidth]{score-dist}
 \label{figure:score_dist}
 \end{center}
@@ -88,9 +90,9 @@ The second issue is that low-scoring $w$-mers can be introduced to the database 
 
 \subsection{Implementation}
 
-Our implementation of partial confidence local search alignment has the following steps: (1) construct the database of $w$-mers for reference sequence, (2) for each $w$-mer in the query sequence, scan in the database for hits, (3) for each hit, run global alignment for the prefix and suffix of the query sequence, (4) return the alignment with the highest score. 
+Our implementation of local search alignment with uncertainty has the following steps: (1) collect and expand all $w$-mers from the reference sequence, (2) for each $w$-mer in the query sequence, scan in the database for hits, (3) for each hit, run sequence alignment on the prefix and suffix of the query sequence to extend the hit, (4) return the alignment with the highest score. 
 
-We use Hirschberg's algorithm for global alignment. This dynamic algorithm can has the advantage of performing in linear space, i.e.: $O(nm)$ where $n$ and $m$ are the lengths of the input sequences \cite{global_align}. We modified the open source Python software wuzhigang05/Dynamic-Programming-Linear-Space to match the similarity measures in our method. 
+We use Hirschberg's algorithm for the extension. This dynamic algorithm can has the advantage of performing in linear space, i.e.: $O(nm)$ where $n$ and $m$ are the lengths of the input sequences \cite{global_align}. We modified the open source Python software wuzhigang05/Dynamic-Programming-Linear-Space to match the similarity measures in our method. This implementation is however a global alignment algorithm, which may seem unconventional to use for this problem as BLAST originally uses local alignment for its extension phase. \cite{blast} Nonetheless, for the purpose of our experiment, we considered global and local alignment to be interchangeable. Since we estimate the regions in the reference sequence to which alignments of the prefix and suffix are most likely by closest nucleotides to the hits. When aligning the suffix of the query sequence, we perform the alignment between the reversed suffix and reverse of region of the reference sequence that we .
 
 We allows certain simplification of the implementation, ignoring certain possibilities for optimization, without hindering the purpose of the experiment. One of such simplification applies to step (3). When aligning the prefix and suffix of a query sequence, we restrict the region of the reference sequence to which we want to align with in order avoid unnecessary insertion of gaps. The second simplification is on the size of the $w$-mers. As the optimal word size for constructing the database has been studied in other researches and may depend on the design of the indexing stage, we will not focus on this issue in our study. Instead, we conduct all our experiments with $w=7$ and focus on developing a mean for choosing of the confidence and score thresholds generalizable to all word size. 
 
@@ -162,15 +164,24 @@ To further investigate the choice of $\delta_s$, we plot the score frequency of 
 \begin{thebibliography}{9}
 
 \bibitem{blast}
-	Stephen F. Altschu et al,
-	Basic Local Alignment Search Tool.
-	J. Mol. Biol. (1990) 215, 403-410 
+	Altschu, Stephen F. et al
+	\emph{Basic Local Alignment Search Tool.}
+	J. Mol. Biol. (1990) 215, 403-410.
+	
+\bibitem{sequencers}
+	Glenn, Travis C. 
+	\emph{Field guide to next-generation DNA sequencers.}
+	Mol Ecol Resour. (2011) 11, 759–769.
+
+\bibitem{parsimony}
+	Hanson-Smith, V., Kolaczkowski, B. \& Thornton, J. W. 
+	\emph{Robustness of ancestral sequence reconstruction to phylogenetic uncertainty.}
+	Mol. Biol. Evol. (2010) 27, 1988–1999.
 	
 \bibitem{global_align}
-  Zhigang Wu,
-  wuzhigang05/Dynamic-Programming-Linear-Space,
-  (2013),
-  Github Repository,
+  Wu, Zhigang,
+  \emph{wuzhigang05/Dynamic-Programming-Linear-Space}
+  Github Repository. (2013)
   https://github.com/wuzhigang05/Dynamic-Programming-Linear-Space
 
 \end{thebibliography}
