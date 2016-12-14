@@ -20,7 +20,7 @@
 
 \maketitle
 
-\abstract{}
+\abstract{We generalized Basic Local Alignment Search Tool  reference sequence with uncertainty information. }
 
 %\begin{multicols}{2}
 
@@ -67,7 +67,7 @@ Classical sequence alignment algorithms (such as Smith-Waterman) are unfeasible 
 
 In the context of uncertainty, we constructs the $w$-mers by treating all positions in the reference sequence with less than a certain confidence threshold, $\delta_p$, as a wildcard character. For example, for $w = 3$, a reference substring ``AAA" with confidences 1.00, 0.97 and 0.91 respectively expands to a set of 4 trimers, \{``AAA", ``AAC", ``AAG", ``AAT"\}, if $0.91 < \delta_p \leq 0.97$ or 16 trimers, \{``AAA", ``ACA", ``ACC", ..., ``ATT"\}, if $\delta_p > 0.97$. 
 
-This hashtable construction has two main issues. First, the running time for performing this construction has worst case $O(4^wL)$ where $L$ is the length of $G$. Depending on the distribution of the confidences, the method can be extremely inefficient for high $\delta_p$. In the case of our reference sequence, CHR22, Figure \ref{figure:conf_cum} shows the cumulative distribution of its confidence values. First, we notice that there is no confidence values lower than 0.39, . Second, we observe a non-uniform distribution of the confidence values. In particular, around 80\% of the values are above 0.9, suggesting that a high confidence filtering threshold can be beneficial to the time efficiency of the method. 
+This hashtable construction has two main issues. First, the running time for performing this construction has exponential worst case $O(4^wLw)$ where $L$ is the length of $G$. Depending on the distribution of the confidences, the method can be extremely inefficient for high $\delta_p$. In the case of our reference sequence, CHR22, Figure \ref{figure:conf_cum} shows the cumulative distribution of its confidence values. First, we notice that there is no confidence values lower than 0.39, . Second, we observe a non-uniform distribution of the confidence values. In particular, around 80\% of the values are above 0.9, suggesting that a high confidence filtering threshold can be beneficial to the time efficiency of the method. More precisely, if the the proportion of nucleotides with confidence value less than a chosen $\delta_p$ is $f$, then the expected number of nucleotides in a $w$-mer that need to be expanded is $fw$. Thus, assuming independence between w-mers and nucleotides, the worst case running time is $O(4^{fw}Lw)$. For example, we can choose $\delta_p$ such that $f = 1/w$ and the time complexity becomes polynomial, i.e.: $O(Lw)$. 
 
 The second issue is that low-scoring $w$-mers can be introduced to the database when we have uncertainty at multiple consecutive positions. For example, the expansion of a trimer ``AAA" with confidence values 0.5 for every nucleotide contains ``CCC", but the similarity score between the two is -3.5. It can be unclear where the line of separation between low and high-scoring $w$-mers should be defined. Figure \ref{figure:score_dist} shows the observed distribution of scores for matching sequences of lengths 3 and 7. We observe that a large portion of their weights tilt to the negative region, suggesting that a high-scoring $w$-mer may not necessarily need to be close to the score of a complete match (6 for trimers and 14 for 7-mers). Acknowledging the distribution, we attempt to investigate more on this issue experimentally by setting up a score threshold, $\delta_s$, which filters hits with scores less than $\delta_s$.
 
@@ -106,38 +106,56 @@ This method allows us to obtain counts for the number of suboptimal alignments a
 
 \subsection{On the Indexing Confidence and Score Thresholds}
 
-In this experiment, we study on the effect in the choice of the confidence and score thresholds, $\delta_p$ and $\delta_s$ respectively, for the indexing stage. In particular, we experiment on $\delta_p \in \{0.7, 0.8, 0.9\} $ and $\delta_s \in \{-13, -12, ... , 13\}$. Note that for a hit size of $w = 7$, with the substitution matrix $M$ of our choice, the lowest and highest hit scores are -14 and 14 respectively. As our implementation is not fully optimized, we use the first 1000 nucleotides of CHR22 as the reference sequence for the benefit of time and space efficiency. As shown in Figure \ref{figure:conf_cum}, the cumulative distribution of the confidence values for this portion of the sequence is similar to the one for the entire sequence. Therefore, we assume that some of the results for this portion of the sequence can be generalized for the entire sequence.
+In this experiment, we study on the effect in the choice of the confidence and score thresholds, $\delta_p$ and $\delta_s$ respectively, for the indexing stage. In particular, we experiment on $\delta_p \in \{0.7, 0.8, 0.9\} $ and $\delta_s \in \{-13, -12, ... , 13\}$. Note that for a hit size of $w = 7$, with the substitution matrix $M$ of our choice, the lowest and highest hit scores are -14 and 14 respectively and $\delta_s = 13$ is equivalent to $\delta_p = 0$. As our implementation is not fully optimized, we use the first 1000 nucleotides of CHR22 as the reference sequence for the benefit of time and space efficiency. As shown in Figure \ref{figure:conf_cum}, the cumulative distribution of the confidence values for this portion of the sequence is similar to the one for the entire sequence. Therefore, we assume that some of the results for this portion of the sequence can be generalized for the entire sequence.
 
 For each $\delta_p$, we run the experiment with $d \in \{2, 4\}$, $g \in \{0, 2, 4\}$ and $w_q \in \{10, 13, 15\}$. For each parameter settings, we sample 1000 alignments using our sequence randomization algorithm. The same sample is used to test for each of the $\delta_s$.
 
-\subsection{On Local Alignment}
+\subsection{On Local Alignment Search}
 
 In this experiment, we generate the database for our entire reference sequence with a particular confidence threshold, $\delta_p$, chosen using our previous experiment. We then test its performance by aligning randomized sequences using the same randomization technique as in the previous experiment with some selected $\delta_s$. Finally, we compare the result in both experiments. 
 
 \section{Analysis}
 
-From the result obtained from the experiment with the indexing confidence and score thresholds, we first analyze the impact of $\delta_s$ on the performance of the method. We observed that the occurrence of suboptimal alignment and no-hits is invariant when $\delta_s$ is small. As the threshold surpasses a certain value, the occurrence of suboptimal alignments starts decrease while the occurrence of no-hits beings to increase. For example, Figure \ref{figure:counts_10} shows the counts of suboptimal alignments and no-hits for $w_q = 10$ and $\delta_p = 0.9$, and we can see the transitions of the counts beginning around $\delta_s = 0$. We interpret this behaviour by the possibility that a significant portion of the low-scored $w$-mers lead to the suboptimal alignments, and are consequently excluded as $\delta_s$ grows larger, causing no more hits found for the previously suboptimally aligned query sequences. 
+We employ two measures to determine the performance of our method for a chosen set of threshold values: (1) the proportion of suboptimal alignments which can be detected when the output alignment resides far from the location where the query sequence comes from and scores lower than the alignment between the query sequence and its original form, and (2) the proportion of no-hits. 
 
-Another observation from Figure \ref{figure:counts_10} is that as the dissimilarity between the query sequence and the original sequence increases, the occurrence of suboptimal alignments and no-hits increases. An alternative way to reveal this trend is by comparing the percentage accuracy $A$ and hits $H$ which we defined as $A = 1 - \mbox{SUBOPTs}/(N - \mbox{NOHITs})$ and $H = 1 - \mbox{NOHITs}/N$ where SUBOPTs and NOHITs are the counts for suboptimal alignments and no-hits respectively, and $N$ is the number of samples. Figure \ref{figure:box_plot} plots the observed variability in the percentage accuracy and hits according to the different settings for $w_q$,  $d$ and $g$ in the randomization algorithm. In particular, the percentage accuracy appears to vary little compared to the percentage of hits. Notably, when dissimilarity of the query sequence increases ($d$ and $g$), the percentage of hits decreases dramatically, especially when increasing the number of insertions and deletions. Due to the nature of the randomization algorithm, certain location in the original sequence with confidence higher than $\delta_p$ might have been randomized, therefore they fail to lead to hits. We also observe in Figure \ref{figure:box_plots} that increasing the query sequence length $w_q$ can increase the percentage of hits. Perhaps, the most intuitive reason is that, due the small value of $w_q$ relative to $w$, an insertion or deletion can potentially destroy a location in the query sequence that would originally lead to a hit. 
+\subsection{On the Indexing Confidence and Score Thresholds}
 
-Figure \ref{figure:big_page} plots the correlation between percentage accuracy and hits for each chosen $\delta_p$. We observe that there exists experiments with some particular set of $(w_p, d, g, \delta_s)$ in our samples that yields a high ($\ge$ 0.85) percentage of both accuracy and hits invariant of $\delta_p$. However, as drawn form the previous discussion, this behaviour is likely to occur with query sequence with low dissimilarity. Yet, this may suggest that as long as $\delta_p$ is reasonably high (say between 0.7 and 1.0), we can find an optimal alignment for a query sequence with $w_p > w$ that has enough resemblance to a portion of the reference sequence.
-
-Figure \ref{figure:big_page} plots the correlation between percentage accuracy, hits and $\delta_s$ for each chosen $\delta_p$. As in Figure \ref{figure:counts_10}, the percentage accuracy and hits are invariant of $\delta_s$ when $\delta_s$ is small. Yet, the cutoff point that determines when variation begins may decrease as $\delta_p$ decreases. In this set of result, it may appear to lie between -3.5 and 3.5, which is half of $w$. 
-
-To further investigate the choice of $\delta_s$, we plot the score frequency of the $w$-mers used to index the database for each $\delta_p$ (see Figure \ref{figure:hit_freq}) and observed that the score frequencies of $w$-mers with scores above 0 are relatively invariant to $\delta_p$ compared to the $w$-mers with scores below 0. This suggests that setting $\delta_s = 0$ may cause minor variation is the sets of $w$-mers used to index the database if we need to change $\delta_p$. It may also suggests from a practical perspective that the size of the database 
+From the result obtained in the first experiment, we observed that the occurrence of suboptimal alignment and no-hits is invariant when $\delta_s$ is small. As the threshold surpasses a certain value, the occurrence of suboptimal alignments starts to decrease while the occurrence of no-hits beings to increase. For example, Figure \ref{figure:counts_10} shows the counts of suboptimal alignments and no-hits for $w_q = 10$ and $\delta_p = 0.9$. We can see the counts begin to shift around $\delta_s = 0$. We interpret this behaviour by the possibility that a significant portion of the low-scored $w$-mers lead to the suboptimal alignments, and are consequently excluded when $\delta_s$ becomes larger, causing no more hits found for the previously suboptimally aligned query sequences. This suggests that not expanding any $w$-mer, or choosing $\delta_p = 0$ or $\delta_s = 13$, may not be optimal. 
 
 \begin{figure}[tbp]
 \begin{center}
-\caption{}
+\caption{Counts of suboptimal alignment and no-hits when $w_q = 10$ and $\delta_p=0.9$ for each $d \in \{2, 4\}$, $g \in \{0, 2, 4\}$ and  minimum hit score $\delta_s \in \{-13, -12, ... , 13\}$ using the first 1000 nucleotides in CHR22 as the reference sequence.}
   \includegraphics[width=0.60\textwidth]{counts-10}
   \label{figure:counts_10}
 \end{center}
 \end{figure}
 
+An alternative way to analyze the proportion of suboptimal alignments and no-hits is to examine the percentage accuracy and hits which we define as the following.
+
+\begin{equation}
+\%\mbox{acc} = 1 - \mbox{SUBOPTs}/(N - \mbox{NOHITs})
+\end{equation}
+
+\begin{equation}
+\%\mbox{hits} = 1 - \mbox{NOHITs}/N
+\end{equation}
+SUBOPTs and NOHITs are the counts for suboptimal alignments and no-hits respectively, and $N$ is the number of samples. 
 
 \begin{figure}[tbp]
 \begin{center}
-\caption{}
+\caption{Correlation between \%acc and \%hit, and between the later two and the $\delta_s$ for each $\delta_p$. The 6 plots combine all results of the experiment using the first 1000 nucleotides in CHR22 as the reference sequence.}
+  \includegraphics[width=0.99\textwidth]{09}
+   \includegraphics[width=0.99\textwidth]{08}
+   \includegraphics[width=0.99\textwidth]{07}
+\label{figure:big_page}
+\end{center}
+\end{figure}
+
+Figure \ref{figure:big_page} plots the correlation between percentage accuracy and hits for each chosen $\delta_p$ and their correlation with $\delta_s$. These plots combine all results obtain for each $d \in \{2, 4\}$, $g \in \{0, 2, 4\}$ and $w_q \in \{10, 13, 15\}$. The relationship between $\delta_p$, $\delta_s$ and the performance of our method may appear unclear as we observe that there exists some samples that resulted a high percentage ($\ge$ 0.85) for both accuracy and hits for any chosen $\delta_p$, and the choice of $\delta_p$ has seemingly no imminent effect on the variation between $\delta_s$ and the frequency of suboptimal alignment and no-hits. However, the dissimilarity between the query sequence and its original form may have non-negligible correlation with the accuracy and hits. Hence, we construct box plots to examine the existence of such correlation. Figure \ref{figure:box_plots} shows the variability in the percentage accuracy and hits according to the different settings for $w_q$,  $d$ and $g$  in the randomization algorithm, and $\delta_p$. We found that the occurrence of suboptimal alignments and no-hits may indeed increase with the number of substitutions and gaps added to the query sequence. Notably, when $d$ and $g$ increases, the percentage of hits decreases dramatically, especially when increasing the number of insertions and deletions. We also observe that increasing the query sequence length $w_q$ can increase the percentage of hits. This can be interpreted this as a cause of the small length of query sequence, $w_q$, relative to the length of the database indices, $w$; an insertion or deletion can potentially destroy a location in the query sequence that would originally lead to a hit. This supports the experimental results of BLAST which states that choosing a relatively small $w$ compared to $w_q$, decreases the percentage of no-hits. \cite{blast} 
+
+\begin{figure}[tbp]
+\begin{center}
+\caption{Variation of \%acc and \%hit according to $w_q$, the dissimilarity of the query sequence ($d$, $g$) and $\delta_p$.}
    \includegraphics[width=0.49\textwidth]{size}
    \includegraphics[width=0.49\textwidth]{diff}
    \includegraphics[width=0.49\textwidth]{gap}
@@ -146,24 +164,47 @@ To further investigate the choice of $\delta_s$, we plot the score frequency of 
 \end{center}
 \end{figure}
 
+Perhaps, one of the most crucial observations resides in the box plot concerning the confidence threshold (see Figure \ref{figure:box_plots}). The percentage accuracy appears to stay invariant for each chosen $\delta_p$. If the proportion of no-hits can be controlled by choosing the appropriate $w$, we can potentially chose any $\delta_p$ that optimizes the database indexing efficiency without compromising the performance of the method. Indeed, Figure \ref{figure:small_page} rearrange the result according to the query sequence length. We observe strong correlation between the $w_q$, \%acc and \%hits. In particular, when $w_q$ is larger, \%acc and \%hits can reach higher and can vary less when $\delta_s$ changes. We also notice that the high values of \%acc and \%hits for $w_q=15$ is distributed across all \%acc and \%hits correlation plots of Figure \ref{figure:big_page}. 
 
 \begin{figure}[tbp]
 \begin{center}
-\caption{}
-  \includegraphics[width=0.99\textwidth]{09}
-   \includegraphics[width=0.99\textwidth]{08}
-   \includegraphics[width=0.99\textwidth]{07}
-\label{figure:big_page}
+\caption{Correlation between \%acc and \%hit, and between the later two and the $\delta_s$ for each $w_q \in \{10, 15\}$.}
+  \includegraphics[width=0.99\textwidth]{10}
+   \includegraphics[width=0.99\textwidth]{15}
+\label{figure:small_page}
 \end{center}
 \end{figure}
 
+Our analysis suggests that the nature of the query sequence ($d$ and $g$) and $w$ have more effect on the performance of the method. One may argue that the correlation plots as in Figure \ref{figure:big_page} can be a reliable procedure for choosing the value for the two thresholds, and that $\delta_p = 0.7$ and any $\delta_s \in [-3, 3]$ appear to be reasonable choices for the first 1000 nucleotides of CHR22. Perhaps, one can also choose $\delta_s$ with the most statistical significance that bisects the value space between where \%acc and \%hits vary and do not vary. Yet, do to the small size of our sample, it may be early to determine whether the exact choice of the two thresholds ($\delta_p$ and $\delta_s$) can be based on resource availability. Nonetheless, we can examine their impact on the memory complexity of the algorithm. We have already discussed about the time complexity of database indexing phase in the Method section. Figure \ref{figure:hit_freq} shows the observed w-mers score distribution for different $\delta_p$. We note that it follows closely to the distribution in Figure \ref{figure:score_dist} for $w=7$ and that the $\delta_p$ acts like a rescaling factor of the score distribution. Upon examining the counts, we see that $w$-mers with high scores ($\ge$ 11) are always in the database and the counts for those high scoring $w$-mers are the same for all chosen $\delta_p$. Overall, the number of $w$-mers decreases by more than a half when changing $\delta_p$ from 0.9 to 0.7. Thus, we can use $\delta_p$ and $\delta_s$ to efficiently resize the database according to the memory availability and consequently, change the average number of locations in the reference sequence we need to iterate for each hit during the extension phase. 
+
 \begin{figure}[tbp]
 \begin{center}
 \caption{}
-  \includegraphics[width=0.60\textwidth]{hit-score-freq-1000}
+  \includegraphics[width=0.99\textwidth]{hit-score-freq-1000}
 \label{figure:hit_freq}
 \end{center}
 \end{figure}
+
+\subsection{On Local Alignment Search}
+
+Based on our previous analysis, we chose $\delta_p = 0.7$ and $\delta_s \in \{0, 3, 6, 9, 13\}$. We keep $d \in \{2, 4\}$, $g \in \{0, 2, 4\}$, $w_q \in \{10, 13, 15\}$ and $w=7$. Our implementation takes 33 minutes to build the database for all the 604,466 nucleotides of our reference sequence, and 2.44 days to run the experiment. Figure \ref{figure:true_result} shows the results. We observe, similar to our previous experiment's result, that the occurrence of suboptimal alignment and no-hits is high when the dissimilarity between the query sequences and their original form is large, and that \%acc and \%hits start to change when $\delta_s$ reaches a certain value. The later may appear much higher than what we have observed in the previous experiment, which is between 9 and 13. As we only sampled with positive $\delta_s$, one may argue that the value for which $\delta_s$ has the most statistical significance for separating where \%acc and \%hits vary and do not vary may be negative. However, it may be possible that \%acc and \%hits stay constant for all negative $\delta_s$ if we assume that the shape of the correlation graph between $\delta_s$, \%acc and \%hits should be same regardless of the reference sequence length, thus should resembles the correlation graph in Figure \ref{figure:big_page}.
+
+We also observer an increase in \%acc and \%hits compared to the previous experiment (see Figure \ref{figure:true_result}). We interpret this as the increase in the chance for query sequence to match closely to a region in the reference sequence. $w_q$ is much smaller compared to 604,466 than to 1000 nucleotides. Any alternated substring of size 10 to 15 originated from the reference sequence has a higher chance of matching exactly another region in the reference sequence. Thus, this increase in \%acc and \%hits should not be regarded as an effect from the choice of $\delta_s$ and $\delta_p$. 
+
+Concerning the complexity, we found that the mean number of locations in the reference sequence we need to iterate for each hit during the extension phase is 523.4 with standard deviation 305.2. The total number of location entries in the database is 8.57 millions, which is 14 times more than the length of the reference sequence. In the previous experiment, the mean and standard deviation never pass 21 and 4 respectively. Perhaps, for long reference sequences, we can raise $\delta_s$ even higher to reduce more cost in time and memory.
+
+\begin{figure}[tbp]
+\begin{center}
+\caption{}
+  \includegraphics[width=0.99\textwidth]{true-10}
+  \includegraphics[width=0.99\textwidth]{true-07}
+\label{figure:true_result}
+\end{center}
+\end{figure}
+
+\section{Conclusion}
+
+Uncertainty in biological sequence data, when considered during sequence alignment, can give more trueful results. We attempted to adapt Basic Local Alignment Search Tool (BLAST) to reference sequences with uncertainty by modifying the similarity measure and adding a new feature to its database indexing procedure. To handle complexity issues, we introduced two parameters: the confidence and score thresholds. Aside from the complexity, our experiments showed these two parameters are unlikely to have strong correlation with the performance of our method. The main factor that influences the accuracy and the proportion of no-hits was found to be the length of the high-scoring $w$-mers. However, these two thresholds should still be chosen with care, perhaps with a significance test or through the mentioned theoretical results, as they can strongly affect the time and space requirements. Future study can test more on the method with an optimized version of BLAST and longer query sequence length. 
 
 \begin{thebibliography}{9}
 
