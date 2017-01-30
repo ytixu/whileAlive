@@ -8,7 +8,3 @@ function I = makecheckerboard(N)
             I(i:i+s-1, j:j+s-1, 3) = rand(1)*ones(s,s);
         end
     end
-    
-    I(1:N*s,N*s/2+1:N*s,1) = 0.2*I(1:N*s,N*s/2+1:N*s,1);
-    I(1:N*s,N*s/2+1:N*s,2) = 0.2*I(1:N*s,N*s/2+1:N*s,2);
-    I(1:N*s,N*s/2+1:N*s,3) = 0.2*I(1:N*s,N*s/2+1:N*s,3);
