@@ -51,12 +51,23 @@ plot([11:2:samples*2+11], response);
 % R-G opponency
 N = 10;
 I = randomCheckboardWithNoBlue(N);
-rgopp = rgOpp(I, 0);
+rgopp = rgOpp(I, 0, 0, 0);
 g = make2DGaussian(blurWidth, 5);
-rgopp_local = rgOpp(I, g);
+rgopp_local = rgOpp(I, g, g, 0);
 madeImage(I, 'Normal checkboard');
 madeImage(rgopp, 'R-G opponency');
 madeImage(rgopp_local, 'R-G opponency with local normalization');
+% using DOG
+g1 = make2DGaussian(blurWidth, 2);
+g2 = make2DGaussian(blurWidth, 4);
+rgopp = rgOpp(I, g1, g2, 0);
+madeImage(rgopp, 'R-G opponency with DOG');
+% image of high red-gree contrast 
+I =  imread('r-g.jpg');
+rgopp = rgOpp(I, g1, g2, 0);
+madeImage(rgopp, 'lady bugs');
+rgopp = rgOpp(I, g1, g2, 1);
+madeImage(rgopp, 'lady bugs');
 
 
 function newI = normalizeToImage(I)
@@ -165,21 +176,31 @@ function I = randomCheckboardWithNoBlue(N)
     I(1:N*10, 1:N*10, 3) = zeros(N*10, N*10);
 end
 
-function newI = rgOpp(I, g)
-    R = squeeze( double( I(:,:,1) ) );    % 'squeeze' is useful for having compatible matrix sizes. 
+function newI = rgOpp(I, g1, g2, rec)
+    R = squeeze( double( I(:,:,1) ) );
     G = squeeze( double( I(:,:,2) ) );
-    B = squeeze( double( I(:,:,3) ) );
-    rgopp = R - B;
+    rgopp = R - G;
 
-    if g == 0
-        new_rgopp = normalizeToImage(rgopp);
+    if g1 == 0
+        localrgmean = (R + G)/2;
     else
-        Rlocalmean  = filter2( g, R ); 
-        Glocalmean  = filter2( g, G );
+        Rlocalmean  = filter2( g1, R ); 
+        Glocalmean  = filter2( g2, G );
         localrgmean = (Rlocalmean + Glocalmean)/2;
-        localrgopp  = (rgopp - localrgmean) ./ localrgmean;
+    end
+    localrgopp  = (rgopp - localrgmean) ./ localrgmean;
+    
+    N = size(I);
+    Nx = N(1);
+    Ny = N(2);
+    
+    if rec == 1
+        % rectification
+        new_rgopp = max(zeros(Nx, Ny), localrgopp);
+    else
         new_rgopp = normalizeToImage(localrgopp);
     end
+    
     N = size(I);
     Nx = N(1);
     Ny = N(2);
