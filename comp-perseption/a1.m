@@ -19,35 +19,61 @@ I(1:N*s,N*s/2+1:N*s,2) = 0.2*I(1:N*s,N*s/2+1:N*s,2);
 I(1:N*s,N*s/2+1:N*s,3) = 0.2*I(1:N*s,N*s/2+1:N*s,3);
 madeImage(I, 'Checkboard 10x10 Shaded');
 % local contrast for checkboard
-g = make2DGaussian(blurWidth, 10);
-cI = localContrast(I, g);
-madeImage(cI, 'Checkboard 10x10 Shaded - Local Contrast sig=10');
+for i=4:2:10
+    g = make2DGaussian(blurWidth, i);
+    cI = localContrast(I, g);
+    madeImage(cI, sprintf('Checkboard 10x10 Shaded - Local Contrast sig=%d', i));
+end
 % % illusions
 N = 256;
-g = make2DGaussian(blurWidth, 10);
-I =  makeImageSimultaneousContrast(N);
-cI = localContrast(I, g);
-madeImage(cI, 'Illusion Local Contrast sig=10');
-I =  imread('Whites_illusion.jpg');
-cI = localContrast(I, g);
-madeImage(cI, 'Illusion Local Contrast sig=10');
-% DOG
-I = makeStipes();
-dog = makeDOG(5,1,2);
-cI = dogResponse(I, dog, 1);
-madeImage(I, 'Stipes');
-madeImage(cI, 'Stipes DOG sig=1,4 w=5');
-% plot with square
-dog = makeDOG(30,30,60);
+for i=4:4:20
+    g = make2DGaussian(blurWidth, i);
+    I =  makeImageSimultaneousContrast(N);
+    cI = localContrast(I, g);
+    madeImage(cI, sprintf('Illusion Local Contrast sig=%d', i));
+    I =  imread('Whites_illusion.jpg');
+    cI = localContrast(I, g);
+    madeImage(cI, sprintf('Illusion Local Contrast sig=%d', i));
+end
+% plot for DOG
+% stripes
+dog = makeDOG(blurWidth,10,20);
 samples= 50;
 response = ones(1,samples+1);
 for i=0:samples
-    I = makeSquare(i);
-    max_res = dogResponse(I, dog, 0);
-    response(i+1) = max_res;
+    I = makeStipes(i+2);
+    cI = dogResponse(I, dog, 1);
+    % take the middle response because on the edge, it's wrong due to by the
+    % edge of the image.
+    response(i+1) = max(max(cI));
 end
 figure
-plot([11:2:samples*2+11], response);
+plot([2:samples+2], response);
+title('Response vs stripe size');
+xlabel('stripe size');
+ylabel('peak response');
+I = makeStipes(33);
+cI = dogResponse(I, dog, 0);
+madeImage(I, sprintf('Peak response for stripes'));
+madeImage(cI, sprintf('Peak response for stripes'));
+% square 
+dog = makeDOG(blurWidth,10,20);
+samples= 50;
+response = ones(1,samples+1);
+for i=0:samples
+    I = makeSquare(i+30);
+    cI = dogResponse(I, dog, 1);
+    response(i+1) = max(max(cI));
+end
+figure
+plot([30:samples+30], response);
+title('Response vs square size');
+xlabel('square size');
+ylabel('peak response');
+I = makeSquare(55);
+cI = dogResponse(I, dog, 0);
+madeImage(I, sprintf('Peak response for square'));
+madeImage(cI, sprintf('Peak response for square'));
 % R-G opponency
 N = 10;
 I = randomCheckboardWithNoBlue(N);
@@ -100,7 +126,8 @@ function newI = localContrast(I, g)
     % The ./  operator divides pointwise.
     localcontrast  =    (intensity - intensityLocalMean) ./ intensityLocalMean;
     % normalize to output as picture
-    new_localcontrast = normalizeToImage(localcontrast);
+%     new_localcontrast = normalizeToImage(localcontrast);
+    new_localcontrast = localcontrast;
     newI = ones(Nx, Ny, 3);
     newI(1:Nx, 1:Ny, 1) = new_localcontrast;
     newI(1:Nx, 1:Ny, 2) = new_localcontrast;
@@ -110,32 +137,31 @@ end
 function d = madeImage(I, t)
     figure
     image(I);
-    title(t)
+    title(t);
     d = 1;
 end
 
 % make stipes for question 5
-function I = makeStipes()
-    N = 10;
-    s = 10;
-    I = ones(N*s, N*s, 3);
+function I = makeStipes(s)
+    N = max(10, ceil(100/s));
+    I = ones(N*s, 100, 3);
     for i = 1:2*s:N*s
-        I(i:i+s-1, 1:N*s, 1) = zeros(s,N*s);
-        I(i:i+s-1, 1:N*s, 2) = zeros(s,N*s);
-        I(i:i+s-1, 1:N*s, 3) = zeros(s,N*s);
+        I(i:i+s-1, 1:100, 1) = zeros(s,100);
+        I(i:i+s-1, 1:100, 2) = zeros(s,100);
+        I(i:i+s-1, 1:100, 3) = zeros(s,100);
     end
 end
 
 % make a square on a uniform background
 function I = makeSquare(size)
-    s = 11;
-    I = ones(s*s, s*s, 3);
-    start = s*(s/2-0.5)-size;
-    ending = s*(s/2+0.5)-1+size;    
-    square = s+2*size;
-    I(start:ending, start:ending, 1) = 0.8*ones(square,square);
-    I(start:ending, start:ending, 2) = 0.8*ones(square,square);
-    I(start:ending, start:ending, 3) = 0.8*ones(square,square);
+    N = 100;
+    I = ones(N, N, 3);
+    start = floor((N-size)/2);
+    ending = start+size-1;
+    square = size;
+    I(start:ending, start:ending, 1) = zeros(square,square);
+    I(start:ending, start:ending, 2) = zeros(square,square);
+    I(start:ending, start:ending, 3) = zeros(square,square);
 end
 
 % make DOG
@@ -145,7 +171,7 @@ function dog = makeDOG(w, sig1, sig2)
     dog = dog1 - dog2;
 end
 
-function newI = dogResponse(I, f, normalize)
+function newI = dogResponse(I, f, justResponse)
     R = squeeze( double( I(:,:,1) ) );
     G = squeeze( double( I(:,:,2) ) );
     B = squeeze( double( I(:,:,3) ) );
@@ -157,16 +183,16 @@ function newI = dogResponse(I, f, normalize)
     Nx = N(1);
     Ny = N(2);
     
-    if normalize == 1
-        % Normalize to output to image 
-        res = normalizeToImage(response);
-
+    if justResponse == 1
+        newI = response;
+    % Normalize to output to image 
+%   res = normalizeToImage(response);
+    else
+        res = response;
         newI = ones(Nx, Ny, 3);
         newI(1:Nx, 1:Ny, 1) = res;
         newI(1:Nx, 1:Ny, 2) = res;
         newI(1:Nx, 1:Ny, 3) = res;
-    else
-        newI = max(max(response));
     end
 end
 
