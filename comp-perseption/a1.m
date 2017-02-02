@@ -1,10 +1,3 @@
-%   A1.m  (posted)
-%
-%   author:  Michael Langer
-%
-%   COMP 546,  Winter 2017
-%   Assignment 1 
-
 close all
 clear
 blurWidth = 128;
@@ -43,8 +36,6 @@ response = ones(1,samples+1);
 for i=0:samples
     I = makeStipes(i+2);
     cI = dogResponse(I, dog, 1);
-    % take the middle response because on the edge, it's wrong due to by the
-    % edge of the image.
     response(i+1) = max(max(cI));
 end
 figure
@@ -84,16 +75,20 @@ madeImage(I, 'Normal checkboard');
 madeImage(rgopp, 'R-G opponency');
 madeImage(rgopp_local, 'R-G opponency with local normalization');
 % using DOG
-g1 = make2DGaussian(blurWidth, 2);
-g2 = make2DGaussian(blurWidth, 4);
+g1 = make2DGaussian(blurWidth, 5);
+g2 = make2DGaussian(blurWidth, 8);
 rgopp = rgOpp(I, g1, g2, 0);
 madeImage(rgopp, 'R-G opponency with DOG');
 % image of high red-gree contrast 
 I =  imread('r-g.jpg');
 rgopp = rgOpp(I, g1, g2, 0);
 madeImage(rgopp, 'lady bugs');
-rgopp = rgOpp(I, g1, g2, 1);
-madeImage(rgopp, 'lady bugs');
+I =  imread('r-g-r.jpg');
+rgopp = rgOpp(I, g1, g2, 0);
+madeImage(rgopp, 'birds');
+I =  imread('r-g-g.jpg');
+rgopp = rgOpp(I, g1, g2, 0);
+madeImage(rgopp, 'glass');
 
 
 function newI = normalizeToImage(I)
@@ -177,9 +172,9 @@ function newI = dogResponse(I, f, justResponse)
     B = squeeze( double( I(:,:,3) ) );
     intensity = (R + G + B)/3;
 
-    response  = filter2( f, intensity );
+    response  = filter2( f, intensity);
     
-    N = size(I);
+    N = size(response);
     Nx = N(1);
     Ny = N(2);
     
@@ -205,16 +200,23 @@ end
 function newI = rgOpp(I, g1, g2, rec)
     R = squeeze( double( I(:,:,1) ) );
     G = squeeze( double( I(:,:,2) ) );
-    rgopp = R - G;
+    
+    if g2 == g1
+        rgopp = R - G;
+    else
+        Rlocalmean  = filter2( g1, R ); 
+        Glocalmean  = filter2( g2, G );
+        rgopp = Rlocalmean - Glocalmean;
+    end
 
     if g1 == 0
         localrgmean = (R + G)/2;
     else
         Rlocalmean  = filter2( g1, R ); 
-        Glocalmean  = filter2( g2, G );
+        Glocalmean  = filter2( g1, G );
         localrgmean = (Rlocalmean + Glocalmean)/2;
     end
-    localrgopp  = (rgopp - localrgmean) ./ localrgmean;
+    localrgopp  = ((rgopp + localrgmean)/2) ./ localrgmean;
     
     N = size(I);
     Nx = N(1);
@@ -222,10 +224,11 @@ function newI = rgOpp(I, g1, g2, rec)
     
     if rec == 1
         % rectification
-        new_rgopp = max(zeros(Nx, Ny), localrgopp);
-    else
-        new_rgopp = normalizeToImage(localrgopp);
+        localrgopp = max(zeros(Nx, Ny), localrgopp);
+%     else
+%         new_rgopp = normalizeToImage(localrgopp);
     end
+    new_rgopp = localrgopp;
     
     N = size(I);
     Nx = N(1);
