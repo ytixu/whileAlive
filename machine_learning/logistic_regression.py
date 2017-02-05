@@ -98,8 +98,8 @@ def plotGraph(x, y, labels, loc=2, save=None):
 		plt.plot(x, y)
 
 	#########	UNCOMMENT THIS TO SAVE
-	# if save:
-	# 	fg.savefig(save, dpi=fg.dpi)
+	#if save:
+	#	fg.savefig(save, dpi=fg.dpi)
 
 	plt.show()
 
@@ -158,8 +158,8 @@ for s in sigmas:
 	e[1] += e_g[1]
 
 print "q1, f"
-plotGraph(sigmas, acc, [‘sigma’, 'accuracy', 'Accuracy v.s. STD'], save="q1-f-acc.png")
-plotGraph(sigmas, e, [‘sigma’, 'entropy', 'Entropy v.s. STD'], save="q1-f-e.png")
+plotGraph(sigmas, acc, ['sigma', 'accuracy', 'Accuracy v.s. STD'], save="q1-f-acc.png")
+plotGraph(sigmas, e, ['sigma', 'entropy', 'Entropy v.s. STD'], save="q1-f-e.png")
 
 # part g
 accuracy, entropy = [[],[]], [[],[]]
@@ -208,5 +208,5 @@ for d in ld:
 	entropy[1] += e[1]
 
 print "q2"
-plotGraph(ld, accuracy, [‘d’, 'accuracy', 'Accuracy v.s. d’], save="q2-acc.png")
-plotGraph(ld, entropy, [‘d’, 'entropy', 'Entropy v.s. d’], save="q2-e.png")
+plotGraph(ld, accuracy, ['d', 'accuracy', 'Accuracy v.s. d'], save="q2-acc.png")
+plotGraph(ld, entropy, ['d', 'entropy', 'Entropy v.s. d'], save="q2-e.png")
