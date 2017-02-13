@@ -98,8 +98,8 @@ def plotGraph(x, y, labels, loc=2, save=None):
 		plt.plot(x, y)
 
 	#########	UNCOMMENT THIS TO SAVE
-	if save:
-		fg.savefig(save, dpi=fg.dpi)
+	#if save:
+	#	fg.savefig(save, dpi=fg.dpi)
 
 	plt.show()
 
