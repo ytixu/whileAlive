@@ -12,8 +12,11 @@ M = 32;    % window width on which Gabor is defined
 k = 2;    % frequency
 %  wavelength of underlying sinusoid is M/k pixels per cycle.
 
-[cosGabor, sinGabor] = make2DGabor(M,2,0);
-
+if (1) % put 0 to get horizontally oriented gabor
+    [cosGabor, sinGabor] = make2DGabor(M,k,0);
+else
+    [cosGabor, sinGabor] = make2DGabor(M,0,k);
+end
 %  Make a random dot stereogram with a central square protruding from a 
 %  plane.  The plane has disparity = 0.  The central square has some positive
 %  disparity.
@@ -69,18 +72,25 @@ responses = zeros(N,N,numdisparities);    %  compute responses for all different
 % Ileft_filtered_sin  = filter2( sinGabor, Ileft, 'same');
 Iright_filtered_cos = filter2( cosGabor, Iright, 'same');
 Iright_filtered_sin = filter2( sinGabor, Iright, 'same');
-
+% makeImage(cosGabor, 'cosine gabor');
+% makeImage(sinGabor, 'sine gabor');
 
 %%%---------   ADD YOUR CODE BELOW HERE    
 for i=1:numel(disparities)
     d = disparities(i);
     d_cosGabor = circshift(cosGabor,d,2);
     d_sinGabor = circshift(sinGabor,d,2);
-%     makeImage(d_cosGabor, 'cos gabor');
-%     makeImage(d_sinGabor, 'sin gabor');
+    if d == 16
+        makeImage(d_cosGabor, 'cosine gabor, shiftedby 16 px');
+        makeImage(d_sinGabor, 'sine gabor, shifted by 16 px');
+    end
     Ileft_filtered_cos  = filter2( d_cosGabor, Ileft, 'same');
     Ileft_filtered_sin  = filter2( d_sinGabor, Ileft, 'same');
-    responses(1:N, 1:N, i) = (Ileft_filtered_cos + Iright_filtered_cos).^2 + (Ileft_filtered_sin + Iright_filtered_sin).^2;
+    if (1) % put 0 here to get difference instead of sum response
+        responses(1:N, 1:N, i) = (Ileft_filtered_cos + Iright_filtered_cos).^2 + (Ileft_filtered_sin + Iright_filtered_sin).^2;
+    else
+        responses(1:N, 1:N, i) = (Ileft_filtered_cos - Iright_filtered_cos).^2 + (Ileft_filtered_sin - Iright_filtered_sin).^2;
+    end
 end
 
 
