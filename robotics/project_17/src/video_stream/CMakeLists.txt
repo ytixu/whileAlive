@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(video_stream)
+find_package(catkin REQUIRED rospy std_msgs cv_bridge sensort_msgs)
+find_package(OpenCV)
+catkin_package()
