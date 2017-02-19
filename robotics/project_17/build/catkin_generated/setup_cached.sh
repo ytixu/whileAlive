@@ -7,5 +7,5 @@
 # new environment variables
 
 # modified environment variables
-export PKG_CONFIG_PATH="/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
+export CPATH="/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/include:$CPATH"
 export PWD="/home/ytixu/gitHTML/whileAlive/robotics/project_17/build"

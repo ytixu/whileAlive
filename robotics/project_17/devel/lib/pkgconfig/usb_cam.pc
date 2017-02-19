@@ -1,0 +1,8 @@
+prefix=/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel
+
+Name: usb_cam
+Description: Description of usb_cam
+Version: 0.3.4
+Cflags: -I/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/usb_cam/include
+Libs: -L/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib -lusb_cam
+Requires: 
