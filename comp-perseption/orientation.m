@@ -1,7 +1,7 @@
 clear;  close all
 
 
-if (1)
+if (0)
     readImage  ; 
     sizeI = size(I);
     NX = sizeI(2);
@@ -71,6 +71,7 @@ for i = 1:numel(thetaRange)
 %     makeImage(sinResponse, 'sinegabor response');
     % get measures
     filterResponse = (cosResponse.^2 + sinResponse.^2).^(1/2);
+%     makeImage(filterResponse, 'sinegabor response');
 
     mask = (filterResponse > maxResponse);
     maxResponse = mask .* filterResponse + ~mask .* maxResponse;    
@@ -90,7 +91,7 @@ figure
 %
 hsvImage = zeros(NY,NX,3);
 %  hue is orientation.   Required to be in 0 to 1. 
-hsvImage(:,:,1) = peakTheta/180;  
+hsvImage(:,:,1) = peakTheta/pi;  
 %  saturation indicates whether there is a big difference between 
 %  max and min
 hsvImage(:,:,2) = (maxResponse-minResponse)./(maxResponse + minResponse);  % 
