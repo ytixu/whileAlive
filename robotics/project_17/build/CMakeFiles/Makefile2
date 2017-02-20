@@ -956,12 +956,107 @@ video_stream/all:
 .PHONY : video_stream/all
 
 # Convenience name for "clean" pass in the directory.
-video_stream/clean:
+video_stream/clean: video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/clean
+video_stream/clean: video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/clean
+video_stream/clean: video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/clean
 .PHONY : video_stream/clean
 
 # Convenience name for "preinstall" pass in the directory.
 video_stream/preinstall:
 .PHONY : video_stream/preinstall
+
+#=============================================================================
+# Target rules for target video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir
+
+# All Build rule for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/all:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/depend
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 
+	@echo "Built target posedetection_msgs_generate_messages_cpp"
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/all
+
+# Build rule for subdir invocation for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 0
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+posedetection_msgs_generate_messages_cpp: video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/rule
+.PHONY : posedetection_msgs_generate_messages_cpp
+
+# clean rule for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/clean:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/clean
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/clean
+
+# clean rule for target.
+clean: video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir
+
+# All Build rule for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/all:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/depend
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 
+	@echo "Built target posedetection_msgs_generate_messages_lisp"
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 0
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+posedetection_msgs_generate_messages_lisp: video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/rule
+.PHONY : posedetection_msgs_generate_messages_lisp
+
+# clean rule for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/clean:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/clean
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/clean
+
+# clean rule for target.
+clean: video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir
+
+# All Build rule for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/all:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/depend
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 
+	@echo "Built target posedetection_msgs_generate_messages_py"
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ytixu/gitHTML/whileAlive/robotics/project_17/build/CMakeFiles 0
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+posedetection_msgs_generate_messages_py: video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/rule
+.PHONY : posedetection_msgs_generate_messages_py
+
+# clean rule for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/clean:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/clean
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/clean
+
+# clean rule for target.
+clean: video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/clean
+.PHONY : clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

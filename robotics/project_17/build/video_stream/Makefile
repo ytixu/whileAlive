@@ -149,6 +149,48 @@ depend:
 	cd /home/ytixu/gitHTML/whileAlive/robotics/project_17/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/rule:
+	cd /home/ytixu/gitHTML/whileAlive/robotics/project_17/build && $(MAKE) -f CMakeFiles/Makefile2 video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/rule
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+posedetection_msgs_generate_messages_cpp: video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/rule
+.PHONY : posedetection_msgs_generate_messages_cpp
+
+# fast build rule for target.
+posedetection_msgs_generate_messages_cpp/fast:
+	cd /home/ytixu/gitHTML/whileAlive/robotics/project_17/build && $(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/build
+.PHONY : posedetection_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/rule:
+	cd /home/ytixu/gitHTML/whileAlive/robotics/project_17/build && $(MAKE) -f CMakeFiles/Makefile2 video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/rule
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+posedetection_msgs_generate_messages_lisp: video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/rule
+.PHONY : posedetection_msgs_generate_messages_lisp
+
+# fast build rule for target.
+posedetection_msgs_generate_messages_lisp/fast:
+	cd /home/ytixu/gitHTML/whileAlive/robotics/project_17/build && $(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/build
+.PHONY : posedetection_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/rule:
+	cd /home/ytixu/gitHTML/whileAlive/robotics/project_17/build && $(MAKE) -f CMakeFiles/Makefile2 video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/rule
+.PHONY : video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+posedetection_msgs_generate_messages_py: video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/rule
+.PHONY : posedetection_msgs_generate_messages_py
+
+# fast build rule for target.
+posedetection_msgs_generate_messages_py/fast:
+	cd /home/ytixu/gitHTML/whileAlive/robotics/project_17/build && $(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/build
+.PHONY : posedetection_msgs_generate_messages_py/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -160,6 +202,9 @@ help:
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
+	@echo "... posedetection_msgs_generate_messages_cpp"
+	@echo "... posedetection_msgs_generate_messages_lisp"
+	@echo "... posedetection_msgs_generate_messages_py"
 	@echo "... rebuild_cache"
 	@echo "... test"
 .PHONY : help

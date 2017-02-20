@@ -2,7 +2,12 @@
   <name>video_stream</name>
   <version>0.0.0</version>
   <description>
-    Provide visual data: images.
+    Subscriber of usb_cam.
+    ``roslaunch usb_cam usb_cam-test.launch``
+    ``rosrun video_stream reco_streamer``
+
+    Switch webcam in usb_cam launch file.
+    ``ls -ltr /dev/video*``
   </description>
   <maintainer email="yi.t.xu@mail.mcgill.ca">Xu</maintainer>
   <license>Goushi</license>

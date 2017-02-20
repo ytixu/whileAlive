@@ -2,15 +2,13 @@
 
 import rospy
 from record.record_streamer import record_streamer
-from record.record_viewer import record_viewer
 
 if __name__ == '__main__':
-	# streamer = record_streamer('/home/ytixu/gitHTML/whileAlive/robotics/cap1.avi')
-	viewer = record_viewer()
-	# rospy.init_node('record_viewer', anonymous=True)
+	rospy.init_node('record_streamer', anonymous=True)
+	streamer = record_streamer("/usb_cam/image_raw")
 
 	try:
-		# streamer.publish()
   		rospy.spin()
 	except rospy.ROSInterruptException:
-		viewer.destroy()
+		# viewer.destroy()
+		pass

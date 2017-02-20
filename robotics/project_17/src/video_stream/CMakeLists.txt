@@ -5,7 +5,7 @@ project(video_stream)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rospy std_msgs cv_bridge sensor_msgs
+  rospy std_msgs cv_bridge sensor_msgs imagesift
 )
 
 find_package(OpenCV)

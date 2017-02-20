@@ -1,32 +1,60 @@
 #!/usr/bin/env python
 
 import rospy
-from sensor_msgs.msg import Image
 import cv2
+from sensor_msgs.msg import Image
+from std_msgs.msg import Header
 from cv_bridge import CvBridge, CvBridgeError
+# import imagesift
 
 class record_streamer:
 
-	def __init__(self, video_file):
-		self.pub = rospy.Publisher('image', Image, queue_size=2)
+	def __init__(self, subTopic):
+		self.image_sub = rospy.Subscriber(subTopic,Image,self.callback)
 		self.bridge = CvBridge()
-		self.video = cv2.VideoCapture(video_file)
+		self.hue_pub = rospy.Publisher('input/hue', Image, queue_size=10)
+		self.sat_pub = rospy.Publisher('input/saturation', Image, queue_size=10)
+		self.start_pub = rospy.Publisher('start', Header, queue_size=10)
+		self.stop_pub = rospy.Publisher('stop', Header, queue_size=10)
+		self.header = Header()
+		self.started = False
 
-	def publish(self):
-		rospy.init_node('record_streamer', anonymous=True)
+	def callback(self,data):
+		try:
+			cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
+		except CvBridgeError as e:
+			print(e)
 
-		rate = rospy.Rate(1) # 10hz
-		while self.video.isOpened() and not rospy.is_shutdown():
-			ret, frame = self.video.read()
-			cv2.imshow("Video", frame)
+		# gray_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+		hsv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2HSV)
+		hue, sat, val = cv2.split(hsv_image);
 
-			try:
-				self.pub.publish(self.bridge.cv2_to_imgmsg(frame, "bgr8"))
-			except CvBridgeError as e:
-				print(e)
+		if self.started:
+			self.header.stamp = rospy.Time.now()
+			self.stop_pub.publish(self.header)
+		else:
+			self.started = True
 
-			rate.sleep()
+		try:
+			hue_image = self.bridge.cv2_to_imgmsg(hue, "mono8")
+			sat_image = self.bridge.cv2_to_imgmsg(sat, "mono8")
 
+			self.hue_pub.publish(hue_image)
+			self.sat_pub.publish(sat_image)
+		except CvBridgeError as e:
+			print(e)
 
-		self.video.release()
+		self.header.stamp = rospy.Time.now()
+		self.start_pub.publish(self.header)
+
+		# print hue.shape
+
+		# frames, desc = imagesift.get_sift_keypoints(gray_image)
+		# cv_image = imagesift.draw_sift_frames(gray_image, frames)
+
+		cv2.imshow("Hue window", hue)
+		cv2.imshow("Sat window", sat)
+		cv2.waitKey(1)
+
+	def destroy(self):
 		cv2.destroyAllWindows()

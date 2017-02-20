@@ -500,6 +500,45 @@ usb_cam_node/fast:
 	$(MAKE) -f usb_cam/CMakeFiles/usb_cam_node.dir/build.make usb_cam/CMakeFiles/usb_cam_node.dir/build
 .PHONY : usb_cam_node/fast
 
+#=============================================================================
+# Target rules for targets named posedetection_msgs_generate_messages_cpp
+
+# Build rule for target.
+posedetection_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 posedetection_msgs_generate_messages_cpp
+.PHONY : posedetection_msgs_generate_messages_cpp
+
+# fast build rule for target.
+posedetection_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_cpp.dir/build
+.PHONY : posedetection_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named posedetection_msgs_generate_messages_lisp
+
+# Build rule for target.
+posedetection_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 posedetection_msgs_generate_messages_lisp
+.PHONY : posedetection_msgs_generate_messages_lisp
+
+# fast build rule for target.
+posedetection_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_lisp.dir/build
+.PHONY : posedetection_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named posedetection_msgs_generate_messages_py
+
+# Build rule for target.
+posedetection_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 posedetection_msgs_generate_messages_py
+.PHONY : posedetection_msgs_generate_messages_py
+
+# fast build rule for target.
+posedetection_msgs_generate_messages_py/fast:
+	$(MAKE) -f video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/build.make video_stream/CMakeFiles/posedetection_msgs_generate_messages_py.dir/build
+.PHONY : posedetection_msgs_generate_messages_py/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -540,6 +579,9 @@ help:
 	@echo "... std_srvs_generate_messages_py"
 	@echo "... usb_cam"
 	@echo "... usb_cam_node"
+	@echo "... posedetection_msgs_generate_messages_cpp"
+	@echo "... posedetection_msgs_generate_messages_lisp"
+	@echo "... posedetection_msgs_generate_messages_py"
 .PHONY : help
 
 

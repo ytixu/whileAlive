@@ -5,7 +5,10 @@
 # it emulates the modifications of the setup script without recurring computations
 
 # new environment variables
+export ARCHDIR="Linux64"
+export EUSDIR="/opt/ros/indigo/share/euslisp/jskeus/eus/"
 
 # modified environment variables
-export CPATH="/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/include:$CPATH"
+export LD_LIBRARY_PATH="/opt/ros/indigo/share/euslisp/jskeus/eus//Linux64/lib:$LD_LIBRARY_PATH"
+export PATH="/opt/ros/indigo/share/euslisp/jskeus/eus//Linux64/bin:$PATH"
 export PWD="/home/ytixu/gitHTML/whileAlive/robotics/project_17/build"
