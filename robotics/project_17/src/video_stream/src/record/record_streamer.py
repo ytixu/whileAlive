@@ -3,21 +3,18 @@
 import rospy
 import cv2
 from sensor_msgs.msg import Image
-from std_msgs.msg import Header
 from cv_bridge import CvBridge, CvBridgeError
-# import imagesift
+
+MIN_MOTION = 333
 
 class record_streamer:
 
 	def __init__(self, subTopic):
 		self.image_sub = rospy.Subscriber(subTopic,Image,self.callback)
 		self.bridge = CvBridge()
-		self.hue_pub = rospy.Publisher('input/hue', Image, queue_size=10)
-		self.sat_pub = rospy.Publisher('input/saturation', Image, queue_size=10)
-		self.start_pub = rospy.Publisher('start', Header, queue_size=10)
-		self.stop_pub = rospy.Publisher('stop', Header, queue_size=10)
-		self.header = Header()
-		self.started = False
+		self.motion_pub = rospy.Publisher('motion_pub', Image, queue_size=10)
+		# self.header = Header()
+		self.lastImage = None
 
 	def callback(self,data):
 		try:
@@ -25,35 +22,37 @@ class record_streamer:
 		except CvBridgeError as e:
 			print(e)
 
-		# gray_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
-		hsv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2HSV)
-		hue, sat, val = cv2.split(hsv_image);
+		gray = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
+		gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
-		if self.started:
-			self.header.stamp = rospy.Time.now()
-			self.stop_pub.publish(self.header)
+		if self.lastImage is None:
+			self.lastImage = gray
 		else:
-			self.started = True
+			firstFrame = self.lastImage
+			frameDelta = cv2.absdiff(firstFrame, gray)
+			thresh = cv2.threshold(frameDelta, 25, 255, cv2.THRESH_BINARY)[1]
 
-		try:
-			hue_image = self.bridge.cv2_to_imgmsg(hue, "mono8")
-			sat_image = self.bridge.cv2_to_imgmsg(sat, "mono8")
+			# dilate the thresholded image to fill in holes, then find contours
+			# on thresholded image
+			thresh = cv2.dilate(thresh, None, iterations=2)
+			(cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
+				cv2.CHAIN_APPROX_SIMPLE)
 
-			self.hue_pub.publish(hue_image)
-			self.sat_pub.publish(sat_image)
-		except CvBridgeError as e:
-			print(e)
+			# loop over the contours
+			for c in cnts:
+				# if the contour is too small, ignore it
+				if cv2.contourArea(c) < MIN_MOTION:
+					continue
 
-		self.header.stamp = rospy.Time.now()
-		self.start_pub.publish(self.header)
+				# compute the bounding box for the contour, draw it on the frame,
+				# and update the text
+				(x, y, w, h) = cv2.boundingRect(c)
+				cv2.rectangle(cv_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-		# print hue.shape
+			self.lastImage = gray
 
-		# frames, desc = imagesift.get_sift_keypoints(gray_image)
-		# cv_image = imagesift.draw_sift_frames(gray_image, frames)
+			cv2.imshow("Motion", cv_image)
 
-		cv2.imshow("Hue window", hue)
-		cv2.imshow("Sat window", sat)
 		cv2.waitKey(1)
 
 	def destroy(self):

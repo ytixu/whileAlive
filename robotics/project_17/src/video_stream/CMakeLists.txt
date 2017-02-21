@@ -5,7 +5,7 @@ project(video_stream)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rospy std_msgs cv_bridge sensor_msgs imagesift
+  rospy std_msgs cv_bridge sensor_msgs imagesift jsk_perception
 )
 
 find_package(OpenCV)
@@ -24,7 +24,6 @@ catkin_python_setup()
 
 catkin_install_python(PROGRAMS bin/record_streamer
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
 
 ################################################
 ## Declare ROS messages, services and actions ##
