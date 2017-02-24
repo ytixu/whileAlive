@@ -52,7 +52,7 @@ IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/video_stream" TYPE PROGRAM FILES "/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/video_stream/catkin_generated/installspace/record_streamer")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/video_stream" TYPE PROGRAM FILES "/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/video_stream/catkin_generated/installspace/motion_detector")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")

@@ -2,9 +2,10 @@
   <name>video_stream</name>
   <version>0.0.0</version>
   <description>
-    Subscriber of usb_cam.
+    Subscriber of usb_cam and detect motion.
+
     ``roslaunch usb_cam usb_cam-test.launch``
-    ``rosrun video_stream reco_streamer``
+    ``rosrun video_stream motion_detector``
 
     Switch webcam in usb_cam launch file.
     ``ls -ltr /dev/video*``

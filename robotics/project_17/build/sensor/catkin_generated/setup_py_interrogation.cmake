@@ -1,0 +1,6 @@
+set(sensor_SETUP_PY_VERSION "0.0.0")
+set(sensor_SETUP_PY_SCRIPTS "")
+set(sensor_SETUP_PY_PACKAGES "camera")
+set(sensor_SETUP_PY_PACKAGE_DIRS "src/camera")
+set(sensor_SETUP_PY_MODULES "")
+set(sensor_SETUP_PY_MODULE_DIRS "")

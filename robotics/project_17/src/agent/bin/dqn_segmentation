@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import rospy
+from dqn.dqn_segmentation import dqn_segmentation
+
+dqn_segmentation()

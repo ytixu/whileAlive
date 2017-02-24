@@ -1,0 +1,32 @@
+<package>
+  <name>agent</name>
+  <version>0.0.0</version>
+  <description>
+    Subscriber of video_stream.
+    ``rosrun agent [agent_name]``
+
+    USING Keras!!!
+    If using theano, change the backend in the file ~/.keras/keras.json
+  </description>
+  <maintainer email="yi.t.xu@mail.mcgill.ca">Xu</maintainer>
+  <license>Goushi</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>opencv2</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>theano/tensorflow</build_depend>
+  <build_depend>keras</build_depend>
+  <build_depend>rl</build_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>opencv2</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>theano/tensorflow</run_depend>
+  <run_depend>keras</run_depend>
+  <run_depend>rl</run_depend>
+</package>
+

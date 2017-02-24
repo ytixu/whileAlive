@@ -117,8 +117,9 @@ ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unsp
 IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   INCLUDE("/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/gtest/cmake_install.cmake")
+  INCLUDE("/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/agent/cmake_install.cmake")
+  INCLUDE("/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/sensor/cmake_install.cmake")
   INCLUDE("/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/usb_cam/cmake_install.cmake")
-  INCLUDE("/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/video_stream/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 

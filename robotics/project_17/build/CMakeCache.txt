@@ -284,6 +284,12 @@ actionlib_DIR:PATH=/opt/ros/indigo/share/actionlib/cmake
 //The directory containing a CMake configuration file for actionlib_msgs.
 actionlib_msgs_DIR:PATH=/opt/ros/indigo/share/actionlib_msgs/cmake
 
+//Value Computed by CMake
+agent_BINARY_DIR:STATIC=/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/agent
+
+//Value Computed by CMake
+agent_SOURCE_DIR:STATIC=/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/agent
+
 //The directory containing a CMake configuration file for bond.
 bond_DIR:PATH=/opt/ros/indigo/share/bond/cmake
 
@@ -375,8 +381,11 @@ jsk_recognition_msgs_DIR:PATH=/opt/ros/indigo/share/jsk_recognition_msgs/cmake
 //The directory containing a CMake configuration file for jsk_recognition_utils.
 jsk_recognition_utils_DIR:PATH=/opt/ros/indigo/share/jsk_recognition_utils/cmake
 
+//The directory containing a CMake configuration file for keras.
+keras_DIR:PATH=keras_DIR-NOTFOUND
+
 //Path to a library.
-lib:FILEPATH=/opt/ros/indigo/lib/libtf2.so
+lib:FILEPATH=/opt/ros/indigo/lib/libcamera_info_manager.so
 
 //The directory containing a CMake configuration file for libuvc.
 libuvc_DIR:PATH=/opt/ros/indigo/lib/cmake/libuvc
@@ -461,6 +470,12 @@ rospy_DIR:PATH=/opt/ros/indigo/share/rospy/cmake
 
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/indigo/share/rostime/cmake
+
+//Value Computed by CMake
+sensor_BINARY_DIR:STATIC=/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/sensor
+
+//Value Computed by CMake
+sensor_SOURCE_DIR:STATIC=/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/sensor
 
 //The directory containing a CMake configuration file for sensor_msgs.
 sensor_msgs_DIR:PATH=/opt/ros/indigo/share/sensor_msgs/cmake
@@ -628,7 +643,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=4
+CMAKE_NUMBER_OF_LOCAL_GENERATORS:INTERNAL=5
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

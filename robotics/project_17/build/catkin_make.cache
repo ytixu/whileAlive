@@ -1,2 +1,2 @@
-usb_cam:video_stream
+agent:sensor:usb_cam
 -DCATKIN_DEVEL_PREFIX=/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel -DCMAKE_INSTALL_PREFIX=/home/ytixu/gitHTML/whileAlive/robotics/project_17/install -G Unix Makefiles
