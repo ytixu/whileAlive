@@ -1,6 +1,6 @@
 set(agent_SETUP_PY_VERSION "0.0.0")
 set(agent_SETUP_PY_SCRIPTS "")
-set(agent_SETUP_PY_PACKAGES "dqn;env")
-set(agent_SETUP_PY_PACKAGE_DIRS "src/dqn;src/env")
+set(agent_SETUP_PY_PACKAGES "dqn;env;fcn")
+set(agent_SETUP_PY_PACKAGE_DIRS "src/dqn;src/env;src/fcn")
 set(agent_SETUP_PY_MODULES "")
 set(agent_SETUP_PY_MODULE_DIRS "")

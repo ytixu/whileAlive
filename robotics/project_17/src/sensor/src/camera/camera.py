@@ -76,13 +76,13 @@ class camera:
 			(cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
 				cv2.CHAIN_APPROX_SIMPLE)
 
-			# has_motion = False
+			has_motion = False
 			# loop over the contours
-			# for i, c in enumerate(cnts):
-			# 	# if the contour is too small, ignore it
-			# 	if cv2.contourArea(c) < MIN_MOTION:
-			# 		continue
-				# has_motion = True
+			for i, c in enumerate(cnts):
+				# if the contour is too small, ignore it
+				if cv2.contourArea(c) < MIN_MOTION:
+					continue
+				has_motion = True
 				# # compute the bounding box for the contour, draw it on the frame,
 				# # and update the text
 				# (x, y, w, h) = cv2.boundingRect(c)
@@ -91,8 +91,8 @@ class camera:
 
 			self.lastImage = gray
 
-			# if has_motion:
-			return thresh
+			if has_motion:
+				return thresh
 
 		return None
 

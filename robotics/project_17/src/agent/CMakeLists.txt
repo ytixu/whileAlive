@@ -25,7 +25,7 @@ catkin_package()
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 catkin_python_setup()
 
-catkin_install_python(PROGRAMS bin/dqn_segmentation
+catkin_install_python(PROGRAMS bin/fcn_agent
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 ################################################
