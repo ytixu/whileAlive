@@ -3,6 +3,6 @@ prefix=/home/ytixu/gitHTML/whileAlive/robotics/project_17/install
 Name: sensor
 Description: Description of sensor
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/ytixu/gitHTML/whileAlive/robotics/project_17/install/include
 Libs: -L/home/ytixu/gitHTML/whileAlive/robotics/project_17/install/lib 
-Requires: 
+Requires: message_runtime

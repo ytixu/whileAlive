@@ -474,6 +474,8 @@ rostime_DIR:PATH=/opt/ros/indigo/share/rostime/cmake
 //Value Computed by CMake
 sensor_BINARY_DIR:STATIC=/home/ytixu/gitHTML/whileAlive/robotics/project_17/build/sensor
 
+sensor_DIR:PATH=
+
 //Value Computed by CMake
 sensor_SOURCE_DIR:STATIC=/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/sensor
 

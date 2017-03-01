@@ -8,7 +8,7 @@ project(agent)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rospy std_msgs cv_bridge sensor_msgs
+  rospy std_msgs cv_bridge std_msgs sensor_msgs
 )
 
 find_package(OpenCV)

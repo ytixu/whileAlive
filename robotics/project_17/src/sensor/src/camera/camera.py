@@ -23,7 +23,7 @@ import cv2
 
 import rospy
 from sensor_msgs.msg import Image
-# from std_msgs.msg import Header
+from sensor.msg import SensorImages
 from cv_bridge import CvBridge, CvBridgeError
 
 MIN_MOTION = 333
@@ -39,10 +39,10 @@ BACKGROUND_noise = 10
 class camera:
 
 	def __init__(self, subTopic, method=0):
-		self.image_sub = rospy.Subscriber(subTopic,Image,self.motion_callback)
+		self.image_sub = rospy.Subscriber(subTopic, Image, self.motion_callback)
 		self.bridge = CvBridge()
-		self.motion_pub = rospy.Publisher('motion_pub', Image, queue_size=10)
-		self.snapshot_pub = rospy.Publisher('snapshot', Image, queue_size=10)
+		self.camera_pub = rospy.Publisher('camera_pub', SensorImages, queue_size=10)
+		# self.snapshot_pub = rospy.Publisher('snapshot', Image, queue_size=10)
 		# self.h = Header()
 
 		if method == 1:
@@ -157,12 +157,16 @@ class camera:
 			cv2.waitKey(1)
 
 			try:
-				pub_image = self.bridge.cv2_to_imgmsg(motion_image, "mono8")
+				motion_pub = self.bridge.cv2_to_imgmsg(motion_image, "mono8")
 			except CvBridgeError as e:
 				print(e)
 
-			self.motion_pub.publish(pub_image)
-			self.snapshot_pub.publish(data)
+			msg = SensorImages()
+			msg.input = data
+			msg.motion = motion_pub
+			self.camera_pub.publish(msg)
+
+
 
 	def destroy(self):
 		cv2.destroyAllWindows()
