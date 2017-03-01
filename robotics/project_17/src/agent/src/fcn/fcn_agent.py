@@ -9,21 +9,38 @@ import numpy as np
 from sensor.msg import SensorImages
 from cv_bridge import CvBridge, CvBridgeError
 
-from keras.models import Model
+from keras.optimizers import Adam
+from keras.models import Model, load_model
 from keras.layers import Input, merge, Convolution2D, MaxPooling2D, UpSampling2D
 
 N_CLASSES = 2
 BATCH_SIZE = 32
 
+def dice_coef(y_true, y_pred):
+    y_true_f = K.flatten(y_true)
+    y_pred_f = K.flatten(y_pred)
+    intersection = K.sum(y_true_f * y_pred_f)
+    return (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
+
+def dice_coef_loss(y_true, y_pred):
+    return -dice_coef(y_true, y_pred)
+
+
 class fcn_agent:
-	def __init__(self, data_topic):
+	def __init__(self, data_topic, load_file=None):
 		self.data_sub = rospy.Subscriber(data_topic,SensorImages,self.data_update)
 
 		self.bridge = CvBridge()
 		self.training_data = [None, None]
 		self.compiled = False
 		self.trained = False
+		self.training = False
 		self.sample_n = 0
+
+		if load_file:
+			self.model = load_model(load_file)
+			self.compiled = True
+			self.trained = True
 
 	def _build_model(self, shape):
 		inputs = Input((3, shape[0], shape[1]))
@@ -37,24 +54,24 @@ class fcn_agent:
 
 		conv3 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(pool2)
 		conv3 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(conv3)
-		# pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
+		pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
 
-		# conv4 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(pool3)
-		# conv4 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(conv4)
-		# pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
+		conv4 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(pool3)
+		conv4 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(conv4)
+		pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
 
-		# conv5 = Convolution2D(512, 3, 3, activation='relu', border_mode='same')(pool4)
-		# conv5 = Convolution2D(512, 3, 3, activation='relu', border_mode='same')(conv5)
+		conv5 = Convolution2D(512, 3, 3, activation='relu', border_mode='same')(pool4)
+		conv5 = Convolution2D(512, 3, 3, activation='relu', border_mode='same')(conv5)
 
-		# up6 = merge([UpSampling2D(size=(2, 2))(conv5), conv4], mode='concat', concat_axis=1)
-		# conv6 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(up6)
-		# conv6 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(conv6)
+		up6 = merge([UpSampling2D(size=(2, 2))(conv5), conv4], mode='concat', concat_axis=1)
+		conv6 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(up6)
+		conv6 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(conv6)
 
-		# up7 = merge([UpSampling2D(size=(2, 2))(conv6), conv3], mode='concat', concat_axis=1)
-		# conv7 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(up7)
-		# conv7 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(conv7)
+		up7 = merge([UpSampling2D(size=(2, 2))(conv6), conv3], mode='concat', concat_axis=1)
+		conv7 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(up7)
+		conv7 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(conv7)
 
-		up8 = merge([UpSampling2D(size=(2, 2))(conv3), conv2], mode='concat', concat_axis=1)
+		up8 = merge([UpSampling2D(size=(2, 2))(conv7), conv2], mode='concat', concat_axis=1)
 		conv8 = Convolution2D(64, 3, 3, activation='relu', border_mode='same')(up8)
 		conv8 = Convolution2D(64, 3, 3, activation='relu', border_mode='same')(conv8)
 
@@ -66,10 +83,10 @@ class fcn_agent:
 
 		self.model = Model(input=inputs, output=conv10)
 
-		# model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
+		model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
 
 
-		self.model.compile(optimizer='sgd', loss='mse', metrics=['accuracy'])
+		# self.model.compile(optimizer='sgd', loss='mse', metrics=['accuracy'])
 		###'MSE' -- >  'binary_crossentropy'
 
 		self.compiled = True
@@ -102,15 +119,22 @@ class fcn_agent:
 			return
 
 		if self.trained:
-			prediction = self.model.predict_on_batch([in_image])
-			print prediction
-			cv2.imshow('Prediction', prediction)
+			prediction = self.model.predict_on_batch(np.array([cv2.split(in_image)]))
+			image = np.array(prediction[0][0])
+			image_gray = np.zeros([image.shape[0],image.shape[1],1])
+			image_gray[:,:,0] = image
+			cv2.imshow('Prediction', image_gray)
 			cv2.waitKey(1)
 
 
 	def update(self):
 		# self.lock.acquire()
 		# try:
+		if self.training:
+			return
+
+		self.training= True
+
 		print 'training'
 		x = self.training_data[0]
 		y = self.training_data[1]
@@ -124,6 +148,7 @@ class fcn_agent:
 		# self.trained = True
 		# finally:
 		# 	self.lock.release()
+		self.model.save('model.h5')
 
 
 	def destroy(self):

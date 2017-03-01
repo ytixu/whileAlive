@@ -87,7 +87,10 @@ class camera:
 				# # and update the text
 				# (x, y, w, h) = cv2.boundingRect(c)
 				# cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-			# cv2.drawContours(image, cnts, -1, (0, 255, 0), thickness=-1)
+
+			# if has_motion:
+			# 	cv2.drawContours(image, cnts, -1, (0, 255, 0), thickness=-1)
+			# 	cv2.imshow("Contour", image)
 
 			self.lastImage = gray
 
@@ -153,7 +156,6 @@ class camera:
 
 		if motion_image != None:
 			cv2.imshow("Motion", motion_image)
-			# cv2.imshow("Contour", cv_image)
 			cv2.waitKey(1)
 
 			try:
