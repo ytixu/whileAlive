@@ -10,11 +10,13 @@ from sensor.msg import SensorImages
 from cv_bridge import CvBridge, CvBridgeError
 
 from keras.optimizers import Adam
+from keras import backend as K
 from keras.models import Model, load_model
 from keras.layers import Input, merge, Convolution2D, MaxPooling2D, UpSampling2D
 
 N_CLASSES = 2
 BATCH_SIZE = 32
+smooth = 1
 
 def dice_coef(y_true, y_pred):
     y_true_f = K.flatten(y_true)
@@ -60,14 +62,14 @@ class fcn_agent:
 		conv4 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(conv4)
 		pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
 
-		conv5 = Convolution2D(512, 3, 3, activation='relu', border_mode='same')(pool4)
-		conv5 = Convolution2D(512, 3, 3, activation='relu', border_mode='same')(conv5)
+		# conv5 = Convolution2D(512, 3, 3, activation='relu', border_mode='same')(pool4)
+		# conv5 = Convolution2D(512, 3, 3, activation='relu', border_mode='same')(conv5)
 
-		up6 = merge([UpSampling2D(size=(2, 2))(conv5), conv4], mode='concat', concat_axis=1)
-		conv6 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(up6)
-		conv6 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(conv6)
+		# up6 = merge([UpSampling2D(size=(2, 2))(conv5), conv4], mode='concat', concat_axis=1)
+		# conv6 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(up6)
+		# conv6 = Convolution2D(256, 3, 3, activation='relu', border_mode='same')(conv6)
 
-		up7 = merge([UpSampling2D(size=(2, 2))(conv6), conv3], mode='concat', concat_axis=1)
+		up7 = merge([UpSampling2D(size=(2, 2))(conv4), conv3], mode='concat', concat_axis=1)
 		conv7 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(up7)
 		conv7 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(conv7)
 
@@ -83,7 +85,7 @@ class fcn_agent:
 
 		self.model = Model(input=inputs, output=conv10)
 
-		model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
+		self.model.compile(optimizer=Adam(lr=1e-5), loss=dice_coef_loss, metrics=[dice_coef])
 
 
 		# self.model.compile(optimizer='sgd', loss='mse', metrics=['accuracy'])
@@ -94,6 +96,8 @@ class fcn_agent:
 
 
 	def data_update(self, data):
+		if self.training:
+			return
 		try:
 			in_image = self.bridge.imgmsg_to_cv2(data.input, "bgr8")
 			out_image = self.bridge.imgmsg_to_cv2(data.motion, "mono8")
