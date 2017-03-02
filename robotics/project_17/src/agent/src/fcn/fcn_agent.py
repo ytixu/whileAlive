@@ -15,7 +15,7 @@ from keras.models import Model, load_model
 from keras.layers import Input, merge, Convolution2D, MaxPooling2D, UpSampling2D
 
 N_CLASSES = 2
-BATCH_SIZE = 32
+BATCH_SIZE = 65
 smooth = 1
 
 def dice_coef(y_true, y_pred):
@@ -40,7 +40,9 @@ class fcn_agent:
 		self.sample_n = 0
 
 		if load_file:
-			self.model = load_model(load_file)
+			self.model = load_model(load_file,
+				custom_objects={'dice_coef_loss' : dice_coef_loss,
+								'dice_coef' : dice_coef})
 			self.compiled = True
 			self.trained = True
 
@@ -91,6 +93,9 @@ class fcn_agent:
 		# self.model.compile(optimizer='sgd', loss='mse', metrics=['accuracy'])
 		###'MSE' -- >  'binary_crossentropy'
 
+		from keras.utils.visualize_util import plot
+		plot(self.model, to_file='model.png')
+
 		self.compiled = True
 		print 'compiled'
 
@@ -104,31 +109,37 @@ class fcn_agent:
 		except CvBridgeError as e:
 			print(e)
 
-		if self.training_data[1] == None:
-			self.training_data[0] = np.array([cv2.split(in_image)])
-			self.training_data[1] = np.array([cv2.split(out_image)])
-		else:
-			self.training_data[0] = np.append(self.training_data[0],
-											  np.array([cv2.split(in_image)]),
-											  axis=0)
-			self.training_data[1] = np.append(self.training_data[1],
-											  np.array([cv2.split(out_image)]),
-											  axis=0)
-		self.sample_n += 1
-		if self.sample_n > BATCH_SIZE:
-			self.update()
+		_,out_image = cv2.threshold(out_image,127,255,cv2.THRESH_BINARY)
+		# cv2.imshow('training', out_image)
 
-		if not self.compiled:
-			self._build_model(in_image.shape)
-			return
+		# if self.training_data[1] == None:
+		# 	self.training_data[0] = np.array([cv2.split(in_image)])
+		# 	self.training_data[1] = np.array([cv2.split(out_image)])
+		# else:
+		# 	self.training_data[0] = np.append(self.training_data[0],
+		# 									  np.array([cv2.split(in_image)]),
+		# 									  axis=0)
+		# 	self.training_data[1] = np.append(self.training_data[1],
+		# 									  np.array([cv2.split(out_image)]),
+		# 									  axis=0)
+		# self.sample_n += 1
+		# if not self.trained and self.sample_n > BATCH_SIZE:
+		# 	self.update()
+
+		# if not self.compiled:
+		# 	self._build_model(in_image.shape)
+		# 	return
 
 		if self.trained:
 			prediction = self.model.predict_on_batch(np.array([cv2.split(in_image)]))
 			image = np.array(prediction[0][0])
-			image_gray = np.zeros([image.shape[0],image.shape[1],1])
-			image_gray[:,:,0] = image
+			_,image_gray = cv2.threshold(image,0.75,1,cv2.THRESH_BINARY)
+			# image = np.zeros([image.shape[0],image.shape[1],1])
+			# image[:,:,0] = image
+			# image_gray = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
 			cv2.imshow('Prediction', image_gray)
 			cv2.waitKey(1)
+			# print dice_coef_loss(out_image, prediction)
 
 
 	def update(self):
@@ -148,11 +159,11 @@ class fcn_agent:
 
 		self.model.fit(x, y, verbose=1)
 
-		print 'trained'
 		# self.trained = True
 		# finally:
 		# 	self.lock.release()
 		self.model.save('model.h5')
+		print 'trained'
 
 
 	def destroy(self):
