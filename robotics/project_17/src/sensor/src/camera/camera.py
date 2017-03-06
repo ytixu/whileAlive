@@ -27,7 +27,7 @@ from sensor.msg import SensorImages
 from cv_bridge import CvBridge, CvBridgeError
 
 MIN_MOTION = 333
-OBS_BOX = 33
+OBS_BOX = 3
 SPIN_RATE = 0.33
 
 BACKGROUND_acc_weight = 0.01
@@ -35,6 +35,7 @@ BACKGROUND_history = 10
 BACKGROUND_nGauss = 5
 BACKGROUND_bgThresh = 0.5
 BACKGROUND_noise = 10
+SKIP_GROUND = 10
 
 class camera:
 
@@ -47,13 +48,16 @@ class camera:
 
 		if method == 1:
 			# background subtraction
-			self.background_avg = None
+			self.skip_ground = 0
 			self.bgs = cv2.BackgroundSubtractorMOG(BACKGROUND_history,
 				BACKGROUND_nGauss,BACKGROUND_bgThresh,BACKGROUND_noise)
 		elif method == 2:
 			pass
 		else:
+			self.background_avg = None
 			self.lastImage = None
+			self.gabor_lastImage = None
+			self.gabor_filters = None
 
 		self.method = method
 
@@ -110,13 +114,20 @@ class camera:
 		return None
 
 	def background_subtract(self, image):
-		foremat=self.bgs.apply(image, learningRate=BACKGROUND_acc_weight)
-		# foremat=self.bgs.apply(image)
-		# ret,thresh = cv2.threshold(foremat,127,255,0)
-		# contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-		# if len(contours) > 0:
-		# 	m= np.mean(contours[0],axis=0)
-		return foremat
+		if self.skip_ground == SKIP_GROUND:
+			self.skip_ground = 0
+			# image = cv2.GaussianBlur(image, (21, 21), 0)
+			foremat = self.bgs.apply(image, learningRate=BACKGROUND_acc_weight)
+			# foremat=self.bgs.apply(image)
+			# ret,thresh = cv2.threshold(foremat,127,255,0)
+			# contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+			# if len(contours) > 0:
+			# 	m= np.mean(contours[0],axis=0)
+			return foremat
+		else:
+			self.skip_ground += 1
+		return None
+
 
 	def mincut_maxflow(self, image):
 		# Create the graph.
@@ -137,6 +148,57 @@ class camera:
 		img2 = np.logical_not(sgm) * image
 		return img2
 
+	def withGaborFilter(self, image_seq):
+		if self.gabor_filters == None:
+			filters = {}
+			n = 0
+			ksize = 16
+			for theta in np.arange(0, np.pi, np.pi / 16):
+				kern = cv2.getGaborKernel((ksize, ksize), 4.0, theta, 10.0, 0.5, 0, ktype=cv2.CV_32F)
+				kern /= 1.5*kern.sum()
+				filters[n] = kern
+				n += 1
+			self.gabor_filters = filters.values()
+
+		responses = None
+		for i, image in enumerate(image_seq[:-1]):
+			response = None
+			image1 = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+			image1 = cv2.GaussianBlur(image1, (21, 21), 0)
+			image2 = cv2.cvtColor(image_seq[i+1], cv2.COLOR_BGR2GRAY)
+			image2 = cv2.GaussianBlur(image2, (21, 21), 0)
+			# cv2.imshow("image2", image2)
+
+			for kern in self.gabor_filters:
+				img1 = cv2.filter2D(image1, cv2.CV_8UC3, kern)
+				# mean = np.mean(img1)
+				# std = np.std(img1)
+				# print mean, std
+				img1 = cv2.threshold(img1, 200, 255, cv2.THRESH_BINARY)[1]
+				cv2.imshow("img1", img1)
+
+				img2 = cv2.filter2D(image2, cv2.CV_8UC3, kern)
+				img2 = cv2.threshold(img2, 200, 255, cv2.THRESH_BINARY)[1]
+				cv2.imshow("img2", img2)
+
+				img = np.abs(np.subtract(img2, img1))
+
+				if response == None:
+					response = img
+				else:
+					response = np.maximum(response, img)
+
+			response = cv2.GaussianBlur(response, (21, 21), 0)
+			cv2.imshow("response", response)
+			cv2.waitKey(1)
+			response = cv2.threshold(response, 80, 255, cv2.THRESH_BINARY)[1]
+			if responses == None:
+				responses = np.array([response])
+			else:
+				responses = np.append(responses, np.array([response]), axis=0)
+
+		return responses
+
 	def motion_callback(self, data):
 		try:
 			cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
@@ -144,18 +206,23 @@ class camera:
 			print(e)
 
 		motion_image = None
+		background = self.background(cv_image)
 
 		if self.method == 1:
 			motion_image = self.background_subtract(cv_image)
-			# background = self.background(cv_image)
 			# motion_image = cv_image - background
 		elif self.method == 2:
 			motion_image = self.mincut_maxflow(cv_image)
-		else:
-			motion_image = self.image_diff(cv_image)
+		elif self.image_diff(cv_image) != None:
+			# if self.gabor_lastImage == None:
+			# 	self.gabor_lastImage = cv_image
+			# else:
+			motion_image = self.withGaborFilter([background, cv_image])[0]
+				# self.gabor_lastImage = cv_image
 
 		if motion_image != None:
 			cv2.imshow("Motion", motion_image)
+			cv2.imshow("Masked", cv2.bitwise_and(cv_image, cv_image, mask=motion_image))
 			cv2.waitKey(1)
 
 			try:

@@ -14,7 +14,7 @@ from keras.models import Model, load_model
 from keras.layers import Input, merge, Convolution2D, MaxPooling2D, UpSampling2D
 
 N_CLASSES = 2
-BATCH_SIZE = 33
+BATCH_SIZE = 31
 SMOOTH = 1
 
 GABOR_FILTERS = None
@@ -87,20 +87,26 @@ class fcn_agent:
 		# pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
 
 		conv2 = Convolution2D(32, 5, 5, activation='sigmoid', border_mode='same')(inputs)
-		conv2 = Convolution2D(32, 5, 5, activation='sigmoid', border_mode='same')(conv2)
+		conv2 = Convolution2D(32, 5, 5, activation='relu', border_mode='same')(conv2)
 		pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
 
 		conv3 = Convolution2D(64, 5, 5, activation='sigmoid', border_mode='same')(pool2)
-		conv3 = Convolution2D(64, 5, 5, activation='sigmoid', border_mode='same')(conv3)
+		conv3 = Convolution2D(64, 5, 5, activation='relu', border_mode='same')(conv3)
 		pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
 
 		conv4 = Convolution2D(128, 5, 5, activation='sigmoid', border_mode='same')(pool3)
-		conv4 = Convolution2D(128, 5, 5, activation='sigmoid', border_mode='same')(conv4)
+		conv4 = Convolution2D(128, 5, 5, activation='relu', border_mode='same')(conv4)
 		# pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
 
 		up5 = merge([UpSampling2D(size=(2, 2))(conv4), conv3], mode='concat', concat_axis=1)
+		conv5 = Convolution2D(64, 5, 5, activation='sigmoid', border_mode='same')(up5)
+		conv5 = Convolution2D(64, 5, 5, activation='relu', border_mode='same')(conv5)
+
 		up6 = merge([UpSampling2D(size=(2, 2))(up5), conv2], mode='concat', concat_axis=1)
-		conv7 = Convolution2D(1, 1, 1, activation='relu')(up6)
+		conv6 = Convolution2D(64, 5, 5, activation='sigmoid', border_mode='same')(up6)
+		conv6 = Convolution2D(64, 5, 5, activation='relu', border_mode='same')(conv6)
+
+		conv7 = Convolution2D(1, 1, 1, activation='sigmoid')(up6)
 
 		# conv1 = Convolution2D(32, 5, 5, activation='sigmoid', border_mode='same')(inputs)
 		# conv1 = Convolution2D(32, 5, 5, activation='sigmoid', border_mode='same')(conv1)
@@ -172,15 +178,15 @@ class fcn_agent:
 
 
 		if self.trained:
-			prediction = self.model.predict_on_batch(np.array([cv2.split(in_image)]))
+			prediction = self.model.predict_on_batch(np.array([in_image]))
 			image = np.array(prediction[0][0])
+			print np.max(image), np.min(image), np.mean(image)
+			cv2.imshow('Prediction', image)
 			_,image_gray = cv2.threshold(image,0.5,1,cv2.THRESH_BINARY)
 			# image = np.zeros([image.shape[0],image.shape[1],1])
 			# image[:,:,0] = image
 			# image_gray = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
-			cv2.imshow('Prediction', image_gray)
 			cv2.waitKey(1)
-			print image
 			# print dice_coef_loss(out_image, prediction)
 		else:
 			if self.training_data[1] == None:
@@ -225,6 +231,8 @@ class fcn_agent:
 		# finally:
 		# 	self.lock.release()
 		self.model.save('model.h5')
+		self.trained= True
+		self.training = False
 		print 'trained'
 
 
