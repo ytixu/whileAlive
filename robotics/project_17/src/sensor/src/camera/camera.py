@@ -31,7 +31,7 @@ MIN_MOTION = 333
 OBS_BOX = 3
 SPIN_RATE = 0.33
 
-BACKGROUND_acc_weight = 0.01
+BACKGROUND_acc_weight = 0.1
 BACKGROUND_history = 10
 BACKGROUND_nGauss = 5
 BACKGROUND_bgThresh = 0.5
@@ -40,10 +40,13 @@ SKIP_GROUND = 10
 GABOR_SIZE = 12
 BLUR_SIZE = 11
 
-def diffImg(t0, t1, t2):
-	d1 = cv2.absdiff(t2, t1)
-	d2 = cv2.absdiff(t1, t0)
-	return cv2.bitwise_and(d1, d2)
+def color_map(color):
+	new_c = [0,0,0]
+	for i, c in enumerate(color):
+		if i > 2 : break
+		new_c[i] = int(255 - (int(255-c)/80)*80)
+	return (new_c[0], new_c[1], new_c[2], 0)
+
 
 class camera:
 
@@ -65,9 +68,7 @@ class camera:
 			self.background_avg = None
 			self.lastImage = None
 			self.gabor_filters = None
-			self.t0 = None
-			self.t1 = None
-			self.t2 = None
+			self.lastSegments = None
 
 		self.method = method
 
@@ -184,8 +185,8 @@ class camera:
 		# cv2.imshow("2", response2)
 		mean = np.mean(response2)
 		std = np.std(response2)
-		print mean, std
 		cut = max(150, mean+1.7*std)
+		print mean, std, cut
 		response1 = cv2.threshold(response1, cut, 255, cv2.THRESH_BINARY)[1]
 		response2 = cv2.threshold(response2, cut, 255, cv2.THRESH_BINARY)[1]
 		response = np.abs(np.subtract(response2, response1))
@@ -197,32 +198,18 @@ class camera:
 		return response[6:-6, 6:-6, :]
 
 	def getSegments(self, image, motion_image):
-		cnts, _ = cv2.findContours(motion_image, cv2.RETR_EXTERNAL,
+		cnts, _ = cv2.findContours(motion_image, cv2.RETR_TREE,
 									cv2.CHAIN_APPROX_SIMPLE)
 		final = np.zeros(image.shape, np.uint8)
 		mask = np.zeros(motion_image.shape, np.uint8)
 		for i,_ in enumerate(cnts):
 			mask[...] = 0
 			cv2.drawContours(mask, cnts, i, 255, -1)
-			cv2.drawContours(final, cnts, i, cv2.mean(image, mask), -1)
+			# color = color_map(cv2.mean(image, mask))
+			color = cv2.mean(image, mask)
+			cv2.drawContours(final, cnts, i, color, -1)
 
 		return final
-
-	def getImageGradient(self, currentImage):
-		if self.t2 == None:
-			if self.t1 == None:
-				if self.t0 == None:
-					self.t0 = currentImage
-				else:
-					self.t1 = currentImage
-			else:
-				self.t2 = currentImage
-		else:
-			self.t0 = self.t1
-			self.t1 = self.t2
-			self.t2 = currentImage
-
-		return diffImg(self.t0 , self.t1 , self.t2)
 
 	def motion_callback(self, data):
 		try:
@@ -243,10 +230,7 @@ class camera:
 			motion_image = self.withGaborFilter(cv_image, background)
 
 		if motion_image != None:
-			gradient = self.getImageGradient(cv_image)
-			print gradient
-
-			cv2.imshow("Motion", gradient)
+			cv2.imshow("Motion", motion_image)
 			cv2.imshow("cv_image", cv_image)
 			motion_image = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
 			segments = self.getSegments(cv_image, motion_image)
