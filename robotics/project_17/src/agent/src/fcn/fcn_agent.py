@@ -14,7 +14,7 @@ from keras.models import Model, load_model
 from keras.layers import Input, merge, Convolution2D, MaxPooling2D, UpSampling2D
 
 N_CLASSES = 2
-BATCH_SIZE = 31
+BATCH_SIZE = 100
 SMOOTH = 1
 
 GABOR_FILTERS = None
@@ -76,6 +76,7 @@ class fcn_agent:
 
 		self.bridge = CvBridge()
 		self.training_data = [None, None]
+		self.predict_data = [None, None]
 		self.training = False
 		self.sample_n = 0
 
@@ -86,25 +87,35 @@ class fcn_agent:
 		# conv1 = Convolution2D(32, 5, 5, activation='sigmoid', border_mode='same')(conv1)
 		# pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
 
-		conv2 = Convolution2D(32, 5, 5, activation='sigmoid', border_mode='same')(inputs)
-		conv2 = Convolution2D(32, 5, 5, activation='relu', border_mode='same')(conv2)
+		conv2 = Convolution2D(32, 3, 3, activation='sigmoid', border_mode='same')(inputs)
+		conv2 = Convolution2D(32, 3, 3, activation='relu', border_mode='same')(conv2)
+		# conv2 = Convolution2D(32, 3, 3, activation='sigmoid', border_mode='same')(conv2)
+		# conv2 = Convolution2D(32, 3, 3, activation='relu', border_mode='same')(conv2)
 		pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
 
-		conv3 = Convolution2D(64, 5, 5, activation='sigmoid', border_mode='same')(pool2)
-		conv3 = Convolution2D(64, 5, 5, activation='relu', border_mode='same')(conv3)
+		conv3 = Convolution2D(64, 3, 3, activation='sigmoid', border_mode='same')(pool2)
+		conv3 = Convolution2D(64, 3, 3, activation='relu', border_mode='same')(conv3)
+		# conv3 = Convolution2D(64, 3, 3, activation='sigmoid', border_mode='same')(conv3)
+		# conv3 = Convolution2D(64, 3, 3, activation='relu', border_mode='same')(conv3)
 		pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
 
-		conv4 = Convolution2D(128, 5, 5, activation='sigmoid', border_mode='same')(pool3)
-		conv4 = Convolution2D(128, 5, 5, activation='relu', border_mode='same')(conv4)
+		conv4 = Convolution2D(128, 3, 3, activation='sigmoid', border_mode='same')(pool3)
+		conv4 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(conv4)
+		# conv4 = Convolution2D(128, 3, 3, activation='sigmoid', border_mode='same')(conv4)
+		# conv4 = Convolution2D(128, 3, 3, activation='relu', border_mode='same')(conv4)
 		# pool4 = MaxPooling2D(pool_size=(2, 2))(conv4)
 
 		up5 = merge([UpSampling2D(size=(2, 2))(conv4), conv3], mode='concat', concat_axis=1)
-		conv5 = Convolution2D(64, 5, 5, activation='sigmoid', border_mode='same')(up5)
-		conv5 = Convolution2D(64, 5, 5, activation='relu', border_mode='same')(conv5)
+		conv5 = Convolution2D(64, 3, 3, activation='sigmoid', border_mode='same')(up5)
+		conv5 = Convolution2D(64, 3, 3, activation='relu', border_mode='same')(conv5)
+		# conv5 = Convolution2D(64, 3, 3, activation='sigmoid', border_mode='same')(conv5)
+		# conv5 = Convolution2D(64, 3, 3, activation='relu', border_mode='same')(conv5)
 
 		up6 = merge([UpSampling2D(size=(2, 2))(up5), conv2], mode='concat', concat_axis=1)
-		conv6 = Convolution2D(64, 5, 5, activation='sigmoid', border_mode='same')(up6)
-		conv6 = Convolution2D(64, 5, 5, activation='relu', border_mode='same')(conv6)
+		conv6 = Convolution2D(64, 3, 3, activation='sigmoid', border_mode='same')(up6)
+		conv6 = Convolution2D(64, 3, 3, activation='relu', border_mode='same')(conv6)
+		# conv6 = Convolution2D(64, 3, 3, activation='sigmoid', border_mode='same')(conv6)
+		# conv6 = Convolution2D(64, 3, 3, activation='relu', border_mode='same')(conv6)
 
 		conv7 = Convolution2D(1, 1, 1, activation='sigmoid')(up6)
 
@@ -166,48 +177,50 @@ class fcn_agent:
 		if self.training:
 			return
 		try:
-			in_image = self.bridge.imgmsg_to_cv2(data.input, "bgr8")
-			out_image = self.bridge.imgmsg_to_cv2(data.motion, "mono8")
+			in_image_raw = self.bridge.imgmsg_to_cv2(data.input, "bgr8")
+			out_image_raw = self.bridge.imgmsg_to_cv2(data.motion, "bgr8")
 		except CvBridgeError as e:
 			print(e)
 
 		# simulate first layers of gabor filters
-		_,out_image = cv2.threshold(out_image,127,255,cv2.THRESH_BINARY)
+		in_image = withGaborFilter(in_image_raw)
+		# out_image = out_image_raw / 255
+		out_image_raw = cv2.cvtColor(out_image_raw, cv2.COLOR_BGR2GRAY)
+		_,out_image = cv2.threshold(out_image_raw,10,255,cv2.THRESH_BINARY)
 		self.sample_n += 1
-		in_image = withGaborFilter(in_image)
-
 
 		if self.trained:
+			# x_r, x, y = self.predict_data
 			prediction = self.model.predict_on_batch(np.array([in_image]))
-			image = np.array(prediction[0][0])
+			# image = np.zeros((prediction[0].shape[1], prediction[0].shape[2], 3))
+			image = 255*prediction[0][0]
+			# image[:,:,1] = 255*prediction[0][1]
+			# image[:,:,2] = 255*prediction[0][2]
+			image = image.astype('uint8')
 			print np.max(image), np.min(image), np.mean(image)
 			cv2.imshow('Prediction', image)
-			_,image_gray = cv2.threshold(image,0.5,1,cv2.THRESH_BINARY)
-			# image = np.zeros([image.shape[0],image.shape[1],1])
-			# image[:,:,0] = image
-			# image_gray = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+			cv2.imshow('True Input', in_image_raw)
+			cv2.imshow('True Output', out_image)
 			cv2.waitKey(1)
-			# print dice_coef_loss(out_image, prediction)
+		# else:
+		if self.training_data[1] == None:
+			self.training_data[0] = np.array([in_image])
+			self.training_data[1] = np.array([cv2.split(out_image)])
 		else:
-			if self.training_data[1] == None:
-				self.training_data[0] = np.array([in_image])
-				self.training_data[1] = np.array([cv2.split(out_image)])
-			else:
-				self.training_data[0] = np.append(self.training_data[0],
-												  np.array([in_image]),
-												  axis=0)
-				self.training_data[1] = np.append(self.training_data[1],
-												  np.array([cv2.split(out_image)]),
-												  axis=0)
+			self.training_data[0] = np.append(self.training_data[0],
+											  np.array([in_image]),
+											  axis=0)
+			self.training_data[1] = np.append(self.training_data[1],
+											  np.array([cv2.split(out_image)]),
+											  axis=0)
 
-			if not self.trained and self.sample_n > BATCH_SIZE:
-				self.update()
+		if not self.trained and self.sample_n > BATCH_SIZE:
+			self.predict_data = (in_image_raw, in_image, out_image)
+			self.update()
 
-			if not self.compiled:
-				self._build_model(in_image.shape)
-				return
-
-
+		if not self.compiled:
+			self._build_model(in_image.shape)
+			return
 
 
 	def update(self):
