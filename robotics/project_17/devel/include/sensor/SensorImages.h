@@ -17,6 +17,7 @@
 
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/Image.h>
 
 namespace sensor
 {
@@ -27,11 +28,13 @@ struct SensorImages_
 
   SensorImages_()
     : input()
-    , motion()  {
+    , motion()
+    , segment_viz()  {
     }
   SensorImages_(const ContainerAllocator& _alloc)
     : input(_alloc)
-    , motion(_alloc)  {
+    , motion(_alloc)
+    , segment_viz(_alloc)  {
   (void)_alloc;
     }
 
@@ -42,6 +45,9 @@ struct SensorImages_
 
    typedef  ::sensor_msgs::Image_<ContainerAllocator>  _motion_type;
   _motion_type motion;
+
+   typedef  ::sensor_msgs::Image_<ContainerAllocator>  _segment_viz_type;
+  _segment_viz_type segment_viz;
 
 
 
@@ -120,12 +126,12 @@ struct MD5Sum< ::sensor::SensorImages_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "bb637f3ba152005be77e67ac5a5e1020";
+    return "915977008f098b0d3dd8dab35bc4244c";
   }
 
   static const char* value(const ::sensor::SensorImages_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xbb637f3ba152005bULL;
-  static const uint64_t static_value2 = 0xe77e67ac5a5e1020ULL;
+  static const uint64_t static_value1 = 0x915977008f098b0dULL;
+  static const uint64_t static_value2 = 0x3dd8dab35bc4244cULL;
 };
 
 template<class ContainerAllocator>
@@ -146,6 +152,7 @@ struct Definition< ::sensor::SensorImages_<ContainerAllocator> >
   {
     return "sensor_msgs/Image input\n\
 sensor_msgs/Image motion\n\
+sensor_msgs/Image segment_viz\n\
 ================================================================================\n\
 MSG: sensor_msgs/Image\n\
 # This message contains an uncompressed image\n\
@@ -213,6 +220,7 @@ namespace serialization
     {
       stream.next(m.input);
       stream.next(m.motion);
+      stream.next(m.segment_viz);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -237,6 +245,9 @@ struct Printer< ::sensor::SensorImages_<ContainerAllocator> >
     s << indent << "motion: ";
     s << std::endl;
     Printer< ::sensor_msgs::Image_<ContainerAllocator> >::stream(s, indent + "  ", v.motion);
+    s << indent << "segment_viz: ";
+    s << std::endl;
+    Printer< ::sensor_msgs::Image_<ContainerAllocator> >::stream(s, indent + "  ", v.segment_viz);
   }
 };
 

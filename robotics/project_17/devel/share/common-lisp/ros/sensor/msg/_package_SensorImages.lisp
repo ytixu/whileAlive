@@ -3,4 +3,6 @@
           INPUT
           MOTION-VAL
           MOTION
+          SEGMENT_VIZ-VAL
+          SEGMENT_VIZ
 ))

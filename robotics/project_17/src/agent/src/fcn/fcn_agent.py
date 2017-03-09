@@ -7,6 +7,8 @@ import numpy as np
 from sensor.msg import SensorImages
 from cv_bridge import CvBridge, CvBridgeError
 
+from mi import mutual_information
+
 # from keras.optimizers import Adam
 # from keras import backend as K
 # from keras.models import Model, load_model
@@ -17,6 +19,14 @@ MHI_DURATION = 2
 MAX_TIME_DELTA = 2
 MIN_TIME_DELTA = 1
 
+def color_map(color):
+	new_c = [0,0,0]
+	for i, c in enumerate(color):
+		if i > 2 : break
+		new_c[i] = int(255 - (int(255-c)/80)*80)
+	return (new_c[0], new_c[1], new_c[2], 0)
+
+
 class fcn_agent:
 	def __init__(self, data_topic):
 		self.bridge = CvBridge()
@@ -26,23 +36,111 @@ class fcn_agent:
 		self.orient = None
 		self.prev_frame = None
 
+		self.estimate_segments = None
+		self.color_map = {}
+
 		self.data_sub = rospy.Subscriber(data_topic,SensorImages,self.data_update)
 
+	def renderSegments(self, segments):
+		seg_array = np.array([])
+		final = np.zeros(self.prev_frame.shape, np.uint8)
+		for i,_ in enumerate(segments):
+			final[...] = 0
+			cv2.drawContours(final, segments, i, 1, -1)
+			seg_array = np.append(seg_array, final)
+
+		return seg_array
+
+	def matchSegments(self, new_segments):
+		new_seg = np.zeros(self.prev_frame.shape, np.uint8)
+		labels = {}
+		new_label = self.estimate_segments.shape[0]
+		for i,_ in enumerate(new_segments):
+			new_seg[...] = 0
+			max_label = new_label
+			max_entropy = 0
+			cv2.drawContours(new_seg, new_segments, i, 1, -1)
+			for j, old_seg in enumerate(self.estimate_segments):
+				h = mutual_information(old_seg, new_seg)
+				if h > max_entropy:
+					max_entropy = h
+					max_label = j
+			if max_label in labels:
+				labels[max_label] += [i]
+			else:
+				labels[max_label] = [i]
+
+		return labels
+
+	def updateSegments(self, new_segments, labels):
+		seg_array = np.array([])
+		final = np.zeros(self.prev_frame.shape, np.uint8)
+		for label, segs in enumerate(labels):
+			final[...] = 0
+			for seg_id in segs:
+				cv2.drawContours(final, segs, seg_id, 1, -1)
+			seg_array = np.append(seg_array, final)
+		return seg_array
+
+	def getSegments(self, motion_image):
+		cnts, _ = cv2.findContours(motion_image, cv2.RETR_TREE,
+									cv2.CHAIN_APPROX_SIMPLE)
+		return cnts
+
+	def assignmentColor(self, image):
+		# final = np.zeros(image.shape, np.uint8)
+		mask = np.zeros(image.shape, np.uint8)
+		for i,_ in enumerate(self.estimate_segments):
+			mask[...] = 0
+			cv2.drawContours(mask, self.estimate_segments, i, 255, -1)
+			self.color_map[i] = cv2.mean(image, mask)
+			# cv2.drawContours(final, cnts, i, color, -1)
+
+		# return (cnts, final)
+
+	def viz(self):
+		final = np.zeros(image.shape, np.uint8)
+		mask = np.zeros(image.shape, np.uint8)
+		for i, seg in enumerate(self.segments):
+			mask[...] = self.color_map[i]
+			final = final + cv2.bitwise_and(mask, mask, mask=seg)
+
+		return final
 
 	def data_update(self, data):
 		try:
 			in_image_raw = self.bridge.imgmsg_to_cv2(data.input, "bgr8")
-			out_image_raw = self.bridge.imgmsg_to_cv2(data.motion, "bgr8")
+			motion_image = self.bridge.imgmsg_to_cv2(data.motion, "mono8")
+			seg_viz = self.bridge.imgmsg_to_cv2(data.segment_viz, "bgr8")
 		except CvBridgeError as e:
 			print(e)
 
-		self.update_mhi(out_image_raw)
+		segments = self.getSegments(motion_image)
+
+		if self.estimate_segments == None:
+			self.prev_frame = seg_viz.copy()
+			self.estimate_segments = self.renderSegments(segments)
+			self.assignmentColor(in_image_raw)
+		else:
+			labels = self.matchSegments(segments)
+			self.estimate_segments = self.updateSegments(segments, labels)
+			self.assignmentColor(in_image_raw)
+
+			# moved_segments = self.update_mhi(seg_viz)
+			# (cnts, _) = cv2.findContours(moved_segments.copy(), cv2.RETR_EXTERNAL,
+			# 	cv2.CHAIN_APPROX_SIMPLE)
+
+			# print mutual_information(self.prev_frame, seg_viz)
+			cv2.imshow('seg', seg_viz)
+			cv2.imshow('acc seg', self.viz())
+ 			cv2.waitKey(1)
+
+ 			self.prev_frame = seg_viz.copy()
 
 
 	def update_mhi(self, img):
 		if self.mhi == None:
 			h, w = img.shape[:2]
-			self.prev_frame = img.copy()
 			self.mhi = np.zeros((h, w), np.float32)
 			self.mask = np.zeros((h, w), np.float32)
 			self.orient = np.zeros((h, w), np.float32)
@@ -63,10 +161,10 @@ class fcn_agent:
 		mg_orient = mg_orient.astype('uint8')
 		masked_data = cv2.bitwise_and(img, img, mask=mg_mask)
 		masked_data = cv2.bitwise_and(img, img, mask=mg_orient)
-		cv2.imshow('motempl', masked_data)
 		# cv2.imshow('raw', img)
+		cv2.imshow('motempl', masked_data)
  		cv2.waitKey(1)
-		prev_frame = img.copy()
+		return masked_data
 
 	def destroy(self):
 		cv2.destroyAllWindows()

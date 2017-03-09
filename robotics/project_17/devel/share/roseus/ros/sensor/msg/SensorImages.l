@@ -16,17 +16,19 @@
 
 (defclass sensor::SensorImages
   :super ros::object
-  :slots (_input _motion ))
+  :slots (_input _motion _segment_viz ))
 
 (defmethod sensor::SensorImages
   (:init
    (&key
     ((:input __input) (instance sensor_msgs::Image :init))
     ((:motion __motion) (instance sensor_msgs::Image :init))
+    ((:segment_viz __segment_viz) (instance sensor_msgs::Image :init))
     )
    (send-super :init)
    (setq _input __input)
    (setq _motion __motion)
+   (setq _segment_viz __segment_viz)
    self)
   (:input
    (&rest __input)
@@ -42,6 +44,13 @@
      (progn
        (if __motion (setq _motion (car __motion)))
        _motion)))
+  (:segment_viz
+   (&rest __segment_viz)
+   (if (keywordp (car __segment_viz))
+       (send* _segment_viz __segment_viz)
+     (progn
+       (if __segment_viz (setq _segment_viz (car __segment_viz)))
+       _segment_viz)))
   (:serialization-length
    ()
    (+
@@ -49,6 +58,8 @@
     (send _input :serialization-length)
     ;; sensor_msgs/Image _motion
     (send _motion :serialization-length)
+    ;; sensor_msgs/Image _segment_viz
+    (send _segment_viz :serialization-length)
     ))
   (:serialize
    (&optional strm)
@@ -58,6 +69,8 @@
        (send _input :serialize s)
      ;; sensor_msgs/Image _motion
        (send _motion :serialize s)
+     ;; sensor_msgs/Image _segment_viz
+       (send _segment_viz :serialize s)
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -66,15 +79,18 @@
      (send _input :deserialize buf ptr-) (incf ptr- (send _input :serialization-length))
    ;; sensor_msgs/Image _motion
      (send _motion :deserialize buf ptr-) (incf ptr- (send _motion :serialization-length))
+   ;; sensor_msgs/Image _segment_viz
+     (send _segment_viz :deserialize buf ptr-) (incf ptr- (send _segment_viz :serialization-length))
    ;;
    self)
   )
 
-(setf (get sensor::SensorImages :md5sum-) "bb637f3ba152005be77e67ac5a5e1020")
+(setf (get sensor::SensorImages :md5sum-) "915977008f098b0d3dd8dab35bc4244c")
 (setf (get sensor::SensorImages :datatype-) "sensor/SensorImages")
 (setf (get sensor::SensorImages :definition-)
       "sensor_msgs/Image input
 sensor_msgs/Image motion
+sensor_msgs/Image segment_viz
 ================================================================================
 MSG: sensor_msgs/Image
 # This message contains an uncompressed image
@@ -127,6 +143,6 @@ string frame_id
 
 
 
-(provide :sensor/SensorImages "bb637f3ba152005be77e67ac5a5e1020")
+(provide :sensor/SensorImages "915977008f098b0d3dd8dab35bc4244c")
 
 

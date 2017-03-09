@@ -31,22 +31,15 @@ MIN_MOTION = 333
 OBS_BOX = 3
 SPIN_RATE = 0.33
 
-BACKGROUND_acc_weight = 0.1
-BACKGROUND_history = 10
-BACKGROUND_nGauss = 5
-BACKGROUND_bgThresh = 0.5
-BACKGROUND_noise = 10
+BACKGROUND_acc_weight = 0.01
+# BACKGROUND_history = 10
+# BACKGROUND_nGauss = 5
+# BACKGROUND_bgThresh = 0.5
+# BACKGROUND_noise = 10
 SKIP_GROUND = 10
 GABOR_SIZE = 12
 BLUR_SIZE = 11
-
-def color_map(color):
-	new_c = [0,0,0]
-	for i, c in enumerate(color):
-		if i > 2 : break
-		new_c[i] = int(255 - (int(255-c)/80)*80)
-	return (new_c[0], new_c[1], new_c[2], 0)
-
+N_GABORS = 55
 
 class camera:
 
@@ -57,20 +50,20 @@ class camera:
 		# self.snapshot_pub = rospy.Publisher('snapshot', Image, queue_size=10)
 		# self.h = Header()
 
-		if method == 1:
-			# background subtraction
-			self.skip_ground = 0
-			self.bgs = cv2.BackgroundSubtractorMOG(BACKGROUND_history,
-				BACKGROUND_nGauss,BACKGROUND_bgThresh,BACKGROUND_noise)
-		elif method == 2:
-			pass
-		else:
-			self.background_avg = None
-			self.lastImage = None
-			self.gabor_filters = None
-			self.lastSegments = None
+		# if method == 1:
+		# 	# background subtraction
+		# 	self.skip_ground = 0
+		# 	self.bgs = cv2.BackgroundSubtractorMOG(BACKGROUND_history,
+		# 		BACKGROUND_nGauss,BACKGROUND_bgThresh,BACKGROUND_noise)
+		# elif method == 2:
+		# 	pass
+		# else:
+		self.background_avg = None
+		self.lastImage = None
+		self.gabor_filters = None
+		self.lastSegments = None
 
-		self.method = method
+		# self.method = method
 
 	def image_diff(self, image):
 		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -116,41 +109,41 @@ class camera:
 
 		return None
 
-	def background_subtract(self, image):
-		if self.skip_ground == SKIP_GROUND:
-			self.skip_ground = 0
-			foremat = self.bgs.apply(image, learningRate=BACKGROUND_acc_weight)
-			return foremat
-		else:
-			self.skip_ground += 1
-		return None
+	# def background_subtract(self, image):
+	# 	if self.skip_ground == SKIP_GROUND:
+	# 		self.skip_ground = 0
+	# 		foremat = self.bgs.apply(image, learningRate=BACKGROUND_acc_weight)
+	# 		return foremat
+	# 	else:
+	# 		self.skip_ground += 1
+	# 	return None
 
 
-	def mincut_maxflow(self, image):
-		# Create the graph.
-		g = maxflow.Graph[int]()
-		# Add the nodes. nodeids has the identifiers of the nodes in the grid.
-		nodeids = g.add_grid_nodes(image.shape)
-		# Add non-terminal edges with the same capacity.
-		g.add_grid_edges(nodeids, 50)
-		# Add the terminal edges. The image pixels are the capacities
-		# of the edges from the source node. The inverted image pixels
-		# are the capacities of the edges to the sink node.
-		g.add_grid_tedges(nodeids, image, 255-image)
-		# Find the maximum flow.
-		g.maxflow()
-		# Get the segments of the nodes in the grid.
-		sgm = g.get_grid_segments(nodeids)
-		# The labels should be 1 where sgm is False and 0 otherwise.
-		img2 = np.logical_not(sgm) * image
-		return img2
+	# def mincut_maxflow(self, image):
+	# 	# Create the graph.
+	# 	g = maxflow.Graph[int]()
+	# 	# Add the nodes. nodeids has the identifiers of the nodes in the grid.
+	# 	nodeids = g.add_grid_nodes(image.shape)
+	# 	# Add non-terminal edges with the same capacity.
+	# 	g.add_grid_edges(nodeids, 50)
+	# 	# Add the terminal edges. The image pixels are the capacities
+	# 	# of the edges from the source node. The inverted image pixels
+	# 	# are the capacities of the edges to the sink node.
+	# 	g.add_grid_tedges(nodeids, image, 255-image)
+	# 	# Find the maximum flow.
+	# 	g.maxflow()
+	# 	# Get the segments of the nodes in the grid.
+	# 	sgm = g.get_grid_segments(nodeids)
+	# 	# The labels should be 1 where sgm is False and 0 otherwise.
+	# 	img2 = np.logical_not(sgm) * image
+	# 	return img2
 
 	def withGaborFilter(self, new_image, background_image):
 		if self.gabor_filters == None:
 			filters = {}
 			n = 0
 			ksize = GABOR_SIZE
-			for theta in np.arange(0, np.pi, np.pi / 64):
+			for theta in np.arange(0, np.pi, np.pi / N_GABORS):
 				kern = cv2.getGaborKernel((ksize, ksize), 4.0, theta, 10.0, 0.5, 0, ktype=cv2.CV_32F)
 				kern /= 1.5*kern.sum()
 				filters[n] = kern
@@ -167,7 +160,7 @@ class camera:
 		image1 = cv2.GaussianBlur(image1, (BLUR_SIZE, BLUR_SIZE), 0)
 		# image2 = cv2.cvtColor(background_image, cv2.COLOR_BGR2GRAY)
 		image2 = cv2.GaussianBlur(image2, (BLUR_SIZE, BLUR_SIZE), 0)
-		# cv2.imshow("image1", image1)
+		# cv2.imshow("image1", image1)_
 		# cv2.imshow("image2", image2)
 
 		for kern in self.gabor_filters:
@@ -185,7 +178,7 @@ class camera:
 		# cv2.imshow("2", response2)
 		mean = np.mean(response2)
 		std = np.std(response2)
-		cut = max(150, mean+1.7*std)
+		cut = max(mean+1.7*std, 150)
 		print mean, std, cut
 		response1 = cv2.threshold(response1, cut, 255, cv2.THRESH_BINARY)[1]
 		response2 = cv2.threshold(response2, cut, 255, cv2.THRESH_BINARY)[1]
@@ -200,6 +193,7 @@ class camera:
 	def getSegments(self, image, motion_image):
 		cnts, _ = cv2.findContours(motion_image, cv2.RETR_TREE,
 									cv2.CHAIN_APPROX_SIMPLE)
+		# just for visualization
 		final = np.zeros(image.shape, np.uint8)
 		mask = np.zeros(motion_image.shape, np.uint8)
 		for i,_ in enumerate(cnts):
@@ -209,7 +203,7 @@ class camera:
 			color = cv2.mean(image, mask)
 			cv2.drawContours(final, cnts, i, color, -1)
 
-		return final
+		return (cnts, final)
 
 	def motion_callback(self, data):
 		try:
@@ -220,31 +214,33 @@ class camera:
 		motion_image = None
 		background = self.background(cv_image)
 
-		if self.method == 1:
-			motion_image = self.background_subtract(cv_image)
-			# motion_image = cv_image - background
-		elif self.method == 2:
-			motion_image = self.mincut_maxflow(cv_image)
+		# if self.method == 1:
+		# 	motion_image = self.background_subtract(cv_image)
+		# 	# motion_image = cv_image - background
+		# elif self.method == 2:
+		# 	motion_image = self.mincut_maxflow(cv_image)
 
-		elif self.image_diff(cv_image) != None:
+		if self.image_diff(cv_image) != None:
 			motion_image = self.withGaborFilter(cv_image, background)
 
 		if motion_image != None:
 			cv2.imshow("Motion", motion_image)
-			cv2.imshow("cv_image", cv_image)
+			# cv2.imshow("cv_image", cv_image)
 			motion_image = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
-			segments = self.getSegments(cv_image, motion_image)
-			cv2.imshow("segments", segments)
+			segments, seg_viz = self.getSegments(cv_image, motion_image)
+			# cv2.imshow("segments", seg_viz)
 			cv2.waitKey(1)
 
 			try:
-				motion_pub = self.bridge.cv2_to_imgmsg(segments, "bgr8")
+				motion_pub = self.bridge.cv2_to_imgmsg(motion_image, "mono8")
+				seg_viz = self.bridge.cv2_to_imgmsg(seg_viz, "bgr8")
 			except CvBridgeError as e:
 				print(e)
 
 			msg = SensorImages()
 			msg.input = data
 			msg.motion = motion_pub
+			msg.segment_viz = seg_viz
 			self.camera_pub.publish(msg)
 
 	def destroy(self):

@@ -9,11 +9,12 @@ import std_msgs.msg
 import sensor_msgs.msg
 
 class SensorImages(genpy.Message):
-  _md5sum = "bb637f3ba152005be77e67ac5a5e1020"
+  _md5sum = "915977008f098b0d3dd8dab35bc4244c"
   _type = "sensor/SensorImages"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """sensor_msgs/Image input
 sensor_msgs/Image motion
+sensor_msgs/Image segment_viz
 ================================================================================
 MSG: sensor_msgs/Image
 # This message contains an uncompressed image
@@ -62,8 +63,8 @@ time stamp
 # 1: global frame
 string frame_id
 """
-  __slots__ = ['input','motion']
-  _slot_types = ['sensor_msgs/Image','sensor_msgs/Image']
+  __slots__ = ['input','motion','segment_viz']
+  _slot_types = ['sensor_msgs/Image','sensor_msgs/Image','sensor_msgs/Image']
 
   def __init__(self, *args, **kwds):
     """
@@ -73,7 +74,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       input,motion
+       input,motion,segment_viz
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -86,9 +87,12 @@ string frame_id
         self.input = sensor_msgs.msg.Image()
       if self.motion is None:
         self.motion = sensor_msgs.msg.Image()
+      if self.segment_viz is None:
+        self.segment_viz = sensor_msgs.msg.Image()
     else:
       self.input = sensor_msgs.msg.Image()
       self.motion = sensor_msgs.msg.Image()
+      self.segment_viz = sensor_msgs.msg.Image()
 
   def _get_types(self):
     """
@@ -164,6 +168,37 @@ string frame_id
         buff.write(struct.pack('<I%sB'%length, length, *_x))
       else:
         buff.write(struct.pack('<I%ss'%length, length, _x))
+      _x = self
+      buff.write(_struct_3I.pack(_x.segment_viz.header.seq, _x.segment_viz.header.stamp.secs, _x.segment_viz.header.stamp.nsecs))
+      _x = self.segment_viz.header.frame_id
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      if python3:
+        buff.write(struct.pack('<I%sB'%length, length, *_x))
+      else:
+        buff.write(struct.pack('<I%ss'%length, length, _x))
+      _x = self
+      buff.write(_struct_2I.pack(_x.segment_viz.height, _x.segment_viz.width))
+      _x = self.segment_viz.encoding
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      if python3:
+        buff.write(struct.pack('<I%sB'%length, length, *_x))
+      else:
+        buff.write(struct.pack('<I%ss'%length, length, _x))
+      _x = self
+      buff.write(_struct_BI.pack(_x.segment_viz.is_bigendian, _x.segment_viz.step))
+      _x = self.segment_viz.data
+      length = len(_x)
+      # - if encoded as a list instead, serialize as bytes instead of string
+      if type(_x) in [list, tuple]:
+        buff.write(struct.pack('<I%sB'%length, length, *_x))
+      else:
+        buff.write(struct.pack('<I%ss'%length, length, _x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -177,6 +212,8 @@ string frame_id
         self.input = sensor_msgs.msg.Image()
       if self.motion is None:
         self.motion = sensor_msgs.msg.Image()
+      if self.segment_viz is None:
+        self.segment_viz = sensor_msgs.msg.Image()
       end = 0
       _x = self
       start = end
@@ -250,6 +287,42 @@ string frame_id
       start = end
       end += length
       self.motion.data = str[start:end]
+      _x = self
+      start = end
+      end += 12
+      (_x.segment_viz.header.seq, _x.segment_viz.header.stamp.secs, _x.segment_viz.header.stamp.nsecs,) = _struct_3I.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.segment_viz.header.frame_id = str[start:end].decode('utf-8')
+      else:
+        self.segment_viz.header.frame_id = str[start:end]
+      _x = self
+      start = end
+      end += 8
+      (_x.segment_viz.height, _x.segment_viz.width,) = _struct_2I.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.segment_viz.encoding = str[start:end].decode('utf-8')
+      else:
+        self.segment_viz.encoding = str[start:end]
+      _x = self
+      start = end
+      end += 5
+      (_x.segment_viz.is_bigendian, _x.segment_viz.step,) = _struct_BI.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      self.segment_viz.data = str[start:end]
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -324,6 +397,37 @@ string frame_id
         buff.write(struct.pack('<I%sB'%length, length, *_x))
       else:
         buff.write(struct.pack('<I%ss'%length, length, _x))
+      _x = self
+      buff.write(_struct_3I.pack(_x.segment_viz.header.seq, _x.segment_viz.header.stamp.secs, _x.segment_viz.header.stamp.nsecs))
+      _x = self.segment_viz.header.frame_id
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      if python3:
+        buff.write(struct.pack('<I%sB'%length, length, *_x))
+      else:
+        buff.write(struct.pack('<I%ss'%length, length, _x))
+      _x = self
+      buff.write(_struct_2I.pack(_x.segment_viz.height, _x.segment_viz.width))
+      _x = self.segment_viz.encoding
+      length = len(_x)
+      if python3 or type(_x) == unicode:
+        _x = _x.encode('utf-8')
+        length = len(_x)
+      if python3:
+        buff.write(struct.pack('<I%sB'%length, length, *_x))
+      else:
+        buff.write(struct.pack('<I%ss'%length, length, _x))
+      _x = self
+      buff.write(_struct_BI.pack(_x.segment_viz.is_bigendian, _x.segment_viz.step))
+      _x = self.segment_viz.data
+      length = len(_x)
+      # - if encoded as a list instead, serialize as bytes instead of string
+      if type(_x) in [list, tuple]:
+        buff.write(struct.pack('<I%sB'%length, length, *_x))
+      else:
+        buff.write(struct.pack('<I%ss'%length, length, _x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -338,6 +442,8 @@ string frame_id
         self.input = sensor_msgs.msg.Image()
       if self.motion is None:
         self.motion = sensor_msgs.msg.Image()
+      if self.segment_viz is None:
+        self.segment_viz = sensor_msgs.msg.Image()
       end = 0
       _x = self
       start = end
@@ -411,6 +517,42 @@ string frame_id
       start = end
       end += length
       self.motion.data = str[start:end]
+      _x = self
+      start = end
+      end += 12
+      (_x.segment_viz.header.seq, _x.segment_viz.header.stamp.secs, _x.segment_viz.header.stamp.nsecs,) = _struct_3I.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.segment_viz.header.frame_id = str[start:end].decode('utf-8')
+      else:
+        self.segment_viz.header.frame_id = str[start:end]
+      _x = self
+      start = end
+      end += 8
+      (_x.segment_viz.height, _x.segment_viz.width,) = _struct_2I.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      if python3:
+        self.segment_viz.encoding = str[start:end].decode('utf-8')
+      else:
+        self.segment_viz.encoding = str[start:end]
+      _x = self
+      start = end
+      end += 5
+      (_x.segment_viz.is_bigendian, _x.segment_viz.step,) = _struct_BI.unpack(str[start:end])
+      start = end
+      end += 4
+      (length,) = _struct_I.unpack(str[start:end])
+      start = end
+      end += length
+      self.segment_viz.data = str[start:end]
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
