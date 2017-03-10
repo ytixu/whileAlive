@@ -52,7 +52,7 @@ class fcn_agent:
 
 		return seg_array
 
-	def matchSegments(self, new_segments):
+	def matchSegments(self, new_segments, motion):
 		new_seg = np.zeros(self.shape, np.uint8)
 		labels = {}
 		new_label = len(self.estimate_segments)
@@ -126,11 +126,11 @@ class fcn_agent:
 			self.estimate_segments = self.renderSegments(segments)
 			self.assignmentColor(in_image_raw)
 		else:
-			labels = self.matchSegments(segments)
+			motion = self.update_mhi(seg_viz)
+			labels = self.matchSegments(segments, motion)
 			self.estimate_segments = self.updateSegments(segments, labels)
 			self.assignmentColor(in_image_raw)
 
-			# moved_segments = self.update_mhi(seg_viz)
 			# (cnts, _) = cv2.findContours(moved_segments.copy(), cv2.RETR_EXTERNAL,
 			# 	cv2.CHAIN_APPROX_SIMPLE)
 
@@ -163,12 +163,13 @@ class fcn_agent:
 		mg_mask, mg_orient = cv2.calcMotionGradient(self.mhi, MAX_TIME_DELTA, MIN_TIME_DELTA, apertureSize=5)
 		mg_orient = cv2.threshold(mg_orient, 1, 255, cv2.THRESH_BINARY)[1]/255
 		mg_orient = mg_orient.astype('uint8')
-		masked_data = cv2.bitwise_and(img, img, mask=mg_mask)
-		masked_data = cv2.bitwise_and(img, img, mask=mg_orient)
+		# masked_data = cv2.bitwise_and(img, img, mask=mg_mask)
+		# masked_data = cv2.bitwise_and(img, img, mask=mg_orient)
 		# cv2.imshow('raw', img)
-		cv2.imshow('motempl', masked_data)
- 		cv2.waitKey(1)
-		return masked_data
+		# cv2.imshow('motempl', mg_mask)
+		# cv2.imshow('orient', mg_orient)
+ 	# 	cv2.waitKey(1)
+		return mg_orient
 
 	def destroy(self):
 		cv2.destroyAllWindows()
