@@ -138,6 +138,26 @@ class camera:
 	# 	img2 = np.logical_not(sgm) * image
 	# 	return img2
 
+	def withEdgeFilter(self, new_image, background_image):
+		image1 = background_image.copy()
+		image1 = cv2.copyMakeBorder(image1, top=6, bottom=6, left=6,
+										right=6, borderType=cv2.BORDER_REPLICATE)
+		image2 = image1.copy()
+		image2[6:-6, 6:-6, :] = new_image
+
+		image1 = cv2.GaussianBlur(image1, (9, 9), 0)
+		image2 = cv2.GaussianBlur(image2, (9, 9), 0)
+		edge1 = cv2.Canny(image1, 100, 200)
+		edge2 = cv2.Canny(image2, 100, 200)
+		mean = np.mean(edge1)
+		std = np.std(edge1)
+		cut = mean+1.7*std
+		print mean,std,cut
+		# response1 = cv2.threshold(edge1, cut, 255, cv2.THRESH_BINARY)[1]
+		# response2 = cv2.threshold(edge2, cut, 255, cv2.THRESH_BINARY)[1]
+		response = np.abs(np.subtract(edge2, edge1))
+		return response[6:-6, 6:-6]
+
 	def withGaborFilter(self, new_image, background_image):
 		if self.gabor_filters == None:
 			filters = {}
@@ -152,7 +172,8 @@ class camera:
 
 		response1 = None
 		response2 = None
-		image1 = cv2.copyMakeBorder(background_image, top=6, bottom=6, left=6,
+		image1 = background_image.copy()
+		image1 = cv2.copyMakeBorder(image1, top=6, bottom=6, left=6,
 										right=6, borderType=cv2.BORDER_REPLICATE)
 		image2 = image1.copy()
 		image2[6:-6, 6:-6, :] = new_image
@@ -162,6 +183,8 @@ class camera:
 		image2 = cv2.GaussianBlur(image2, (BLUR_SIZE, BLUR_SIZE), 0)
 		# cv2.imshow("image1", image1)_
 		# cv2.imshow("image2", image2)
+		# cv2.imshow("1", image1)
+		# cv2.imshow("2", image2)
 
 		for kern in self.gabor_filters:
 			img1 = cv2.filter2D(image1, cv2.CV_8UC3, kern)
@@ -174,11 +197,9 @@ class camera:
 				response1 = np.maximum(response1, img1)
 				response2 = np.maximum(response2, img2)
 
-		# cv2.imshow("1", response1)
-		# cv2.imshow("2", response2)
 		mean = np.mean(response2)
 		std = np.std(response2)
-		cut = max(mean+1.7*std, 150)
+		cut = min(max(mean+1.7*std, 150), 200)
 		print mean, std, cut
 		response1 = cv2.threshold(response1, cut, 255, cv2.THRESH_BINARY)[1]
 		response2 = cv2.threshold(response2, cut, 255, cv2.THRESH_BINARY)[1]
@@ -228,7 +249,7 @@ class camera:
 			# cv2.imshow("cv_image", cv_image)
 			motion_image = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
 			segments, seg_viz = self.getSegments(cv_image, motion_image)
-			# cv2.imshow("segments", seg_viz)
+			cv2.imshow("segments", seg_viz)
 			cv2.waitKey(1)
 
 			try:
