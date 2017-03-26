@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# https://groups.google.com/forum/#!topic/keras-users/EAZJORgWUbI
 
 import rospy
 import cv2
@@ -7,6 +8,16 @@ from sensor.msg import SensorImages
 from cv_bridge import CvBridge, CvBridgeError
 
 from mi import mutual_information, entropy
+
+# from keras.optimizers import Adam
+# from keras import backend as K
+# from keras.models import Model, load_model
+# from keras.layers import Input, merge, Convolution2D, MaxPooling2D, UpSampling2D
+
+DEFAULT_THRESHOLD = 32
+MHI_DURATION = 2
+MAX_TIME_DELTA = 2
+MIN_TIME_DELTA = 1
 
 def color_map(color):
 	new_c = [0,0,0]
@@ -19,6 +30,11 @@ def color_map(color):
 class fcn_agent:
 	def __init__(self, data_topic):
 		self.bridge = CvBridge()
+		self.timestamp = 0
+		self.mhi = None
+		self.mask = None
+		self.orient = None
+		self.prev_frame = None
 		self.shape = None
 
 		self.estimate_segments = {}
@@ -26,7 +42,7 @@ class fcn_agent:
 
 		self.data_sub = rospy.Subscriber(data_topic,SensorImages,self.data_update)
 
-	def renderSegments(self, segments, all=False):
+	def renderSegments(self, segments):
 		seg_array = {}
 		final = np.zeros(self.shape, np.uint8)
 		for i,_ in enumerate(segments):
@@ -84,8 +100,8 @@ class fcn_agent:
 		# return (cnts, final)
 
 	def viz(self):
-		final = np.zeros(self.shape, np.uint8)
-		mask = np.zeros(self.shape, np.uint8)
+		final = np.zeros(self.prev_frame.shape, np.uint8)
+		mask = np.zeros(self.prev_frame.shape, np.uint8)
 		for i, seg in self.estimate_segments.iteritems():
 			mask[:,:,0] = self.color_map[i][0]
 			mask[:,:,1] = self.color_map[i][1]
@@ -102,16 +118,16 @@ class fcn_agent:
 		except CvBridgeError as e:
 			print(e)
 
-		segments = self.getSegments(seg_viz)
+		segments = self.getSegments(motion_image)
 
-		if self.shape == None:
+		if self.prev_frame == None:
 			self.shape = motion_image.shape
-			# self.prev_frame = seg_viz.copy()
-			self.estimate_segments = self.renderSegments(segments, all=True)
+			self.prev_frame = seg_viz.copy()
+			self.estimate_segments = self.renderSegments(segments)
 			self.assignmentColor(in_image_raw)
 		else:
-			# motion = self.update_mhi(seg_viz)
-			labels = self.matchSegments(segments, motion_image)
+			motion = self.update_mhi(seg_viz)
+			labels = self.matchSegments(segments, motion)
 			self.estimate_segments = self.updateSegments(segments, labels)
 			self.assignmentColor(in_image_raw)
 
@@ -123,7 +139,37 @@ class fcn_agent:
 			cv2.imshow('acc seg', self.viz())
  			cv2.waitKey(1)
 
- 			# self.prev_frame = seg_viz.copy()
+ 			self.prev_frame = seg_viz.copy()
+
+
+	def update_mhi(self, img):
+		if self.mhi == None:
+			h, w = img.shape[:2]
+			self.mhi = np.zeros((h, w), np.float32)
+			self.mask = np.zeros((h, w), np.float32)
+			self.orient = np.zeros((h, w), np.float32)
+			return
+
+		frame_diff = cv2.absdiff(img, self.prev_frame)
+		gray_diff = cv2.cvtColor(frame_diff, cv2.COLOR_BGR2GRAY)
+		ret, fgmask = cv2.threshold(gray_diff, DEFAULT_THRESHOLD, 1, cv2.THRESH_BINARY)
+		self.timestamp += 1
+
+		# update motion history
+		cv2.updateMotionHistory(fgmask, self.mhi, self.timestamp, MHI_DURATION)
+
+		# normalize motion history
+		# cv2.cvtScale(self.mhi, self.mask, 255./MHI_DURATION,(MHI_DURATION - timestamp)*255./MHI_DURATION)
+		mg_mask, mg_orient = cv2.calcMotionGradient(self.mhi, MAX_TIME_DELTA, MIN_TIME_DELTA, apertureSize=5)
+		mg_orient = cv2.threshold(mg_orient, 1, 255, cv2.THRESH_BINARY)[1]/255
+		mg_orient = mg_orient.astype('uint8')
+		# masked_data = cv2.bitwise_and(img, img, mask=mg_mask)
+		# masked_data = cv2.bitwise_and(img, img, mask=mg_orient)
+		# cv2.imshow('raw', img)
+		# cv2.imshow('motempl', mg_mask)
+		# cv2.imshow('orient', mg_orient)
+ 	# 	cv2.waitKey(1)
+		return mg_orient
 
 	def destroy(self):
 		cv2.destroyAllWindows()

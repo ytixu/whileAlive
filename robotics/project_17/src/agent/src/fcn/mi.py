@@ -26,8 +26,10 @@
 # third-party modules
 import numpy
 
+bins=256
+
 # code
-def mutual_information(i1, i2, bins=256):
+def mutual_information(i1, i2, i1_d, i2_d):
     """
     Computes the mutual information (MI) (a measure of entropy) between two images.
 
@@ -75,30 +77,40 @@ def mutual_information(i1, i2, bins=256):
     ArgumentError
         If the supplied arrays are of different shape.
     """
-    # pre-process function arguments
-    i1 = numpy.asarray(i1)
-    i2 = numpy.asarray(i2)
+    # # pre-process function arguments
+    # i1 = numpy.asarray(i1)
+    # i2 = numpy.asarray(i2)
 
-    # validate function arguments
-    if not i1.shape == i2.shape:
-        return 0
+    # # validate function arguments
+    # if not i1.shape == i2.shape:
+    #     return 0
 
-    # compute i1 and i2 histogram range
-    i1_range = __range(i1, bins)
-    i2_range = __range(i2, bins)
+    # # compute i1 and i2 histogram range
+    # i1_range = __range(i1, bins)
+    # i2_range = __range(i2, bins)
+    i1_range, i1_entropy = i1_d
+    i2_range, i2_entropy = i2_d
 
     # compute joined and separated normed histograms
     i1i2_hist, _, _ = numpy.histogram2d(i1.flatten(), i2.flatten(), bins=bins, range=[i1_range, i2_range]) # Note: histogram2d does not flatten array on its own
-    i1_hist, _ = numpy.histogram(i1, bins=bins, range=i1_range)
-    i2_hist, _ = numpy.histogram(i2, bins=bins, range=i2_range)
+    # i1i2_hist, _, _ = numpy.histogram2d(i1.flatten(), i2.flatten(), bins=bins, range=[i1_range, i2_range]) # Note: histogram2d does not flatten array on its own
+    # i1_hist, _ = numpy.histogram(i1, bins=bins, range=i1_range)
+    # i2_hist, _ = numpy.histogram(i2, bins=bins, range=i2_range)
 
     # compute joined and separated entropy
     i1i2_entropy = __entropy(i1i2_hist)
-    i1_entropy = __entropy(i1_hist)
-    i2_entropy = __entropy(i2_hist)
+    # i1_entropy = __entropy(i1_hist)
+    # i2_entropy = __entropy(i2_hist)
 
     # compute and return the mutual information distance
     return i1_entropy + i2_entropy - i1i2_entropy
+
+def entropy(image):
+    i_range = __range(image, bins)
+    i_hist = numpy.histogram(image, bins=bins, range=i_range)
+    i_entropy = __entropy(i_hist)
+    return (i_range, i_entropy)
+
 
 def __range(a, bins):
     '''Compute the histogram range of the values in the array a according to

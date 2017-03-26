@@ -5,7 +5,8 @@ from camera.camera import camera
 
 if __name__ == '__main__':
 	rospy.init_node('motion_detector', anonymous=True)
-	sensor = camera('/usb_cam/image_raw')
+	# sensor = camera('/usb_cam/image_raw')
+	sensor = camera()
 
 	try:
   		rospy.spin()
