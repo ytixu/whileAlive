@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import time
 import numpy as np
 import cv2
 import rospy
@@ -7,12 +8,9 @@ from sensor_msgs.msg import Image
 from sensor.msg import SensorImages
 from cv_bridge import CvBridge, CvBridgeError
 
-MIN_MOTION = 333
-OBS_BOX = 3
-SPIN_RATE = 0.33
+MIN_MOTION = 222
 
-BACKGROUND_acc_weight = 0.01
-SKIP_GROUND = 10
+BACKGROUND_acc_weight = 0.05
 GABOR_SIZE = 12
 BLUR_SIZE = 11
 N_GABORS = 55
@@ -24,15 +22,13 @@ class camera:
 		self.bridge = CvBridge()
 		self.camera_pub = rospy.Publisher('camera_pub', SensorImages, queue_size=10)
 
-
 		self.background_avg = None
 		self.lastImage = None
 		self.gabor_filters = None
 		self.cap = None
 
 		rate = rospy.Rate(15) # 10hz
-		while not rospy.is_shutdown():
-			self.spin()
+		while not rospy.is_shutdown() and self.spin():
 			rate.sleep()
 
 	def getNextFrame(self):
@@ -40,6 +36,8 @@ class camera:
 			self.cap = cv2.VideoCapture('/home/ytixu/gitHTML/whileAlive/robotics/ob1.avi')
 
 		if type(self.cap) != type(1) and self.cap.isOpened():
+			self.cap.read()
+			self.cap.read()
 			return self.cap.read()
 		else:
 			self.cap.release()
@@ -135,26 +133,30 @@ class camera:
 		std = np.std(response2)
 		cut = min(max(mean+1.7*std, 150), 200)
 		print mean, std, cut
-		response1 = cv2.threshold(response1, cut, 255, cv2.THRESH_BINARY)[1]
-		response2 = cv2.threshold(response2, cut, 255, cv2.THRESH_BINARY)[1]
-		response = np.abs(np.subtract(response2, response1))
+		resp1 = cv2.threshold(response1, cut, 255, cv2.THRESH_BINARY)[1]
+		resp2 = cv2.threshold(response2, cut, 255, cv2.THRESH_BINARY)[1]
+		response = np.abs(np.subtract(resp2, resp1))
 		response = cv2.GaussianBlur(response, (BLUR_SIZE, BLUR_SIZE), 0)
 		response = cv2.threshold(response, std, 255, cv2.THRESH_BINARY)[1]
 		# cv2.imshow("response", response)
 		# cv2.waitKey(1)
 
-		return response[6:-6, 6:-6, :]
+		return (response[6:-6, 6:-6, :], response2[6:-6, 6:-6, :])
 
 	def getSegments(self, image, motion_image):
-		cnts, _ = cv2.findContours(motion_image, cv2.RETR_TREE,
-									cv2.CHAIN_APPROX_SIMPLE)
-		# just for visualization
+		cnts, _ = cv2.findContours(motion_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 		final = np.zeros(image.shape, np.uint8)
 		mask = np.zeros(motion_image.shape, np.uint8)
 		for i,_ in enumerate(cnts):
 			mask[...] = 0
 			cv2.drawContours(mask, cnts, i, 255, -1)
-			# color = color_map(cv2.mean(image, mask))
+
+
+				# cv2.imshow("TR", color_filter)
+				# cv2.waitKey(1)
+				# time.sleep(0.2)
+
+			# if np.sum(diff) < np.sum(mask):
 			color = cv2.mean(image, mask)
 			cv2.drawContours(final, cnts, i, color, -1)
 
@@ -162,27 +164,45 @@ class camera:
 
 	def spin(self):
 		ret, frame = self.getNextFrame()
+		if frame == None:
+			return False
+
 		cv_image = cv2.resize(frame, None, fx=0.25, fy=0.25)
 		motion_image = None
 		background = self.background(cv_image)
 		cv2.imshow("frame", cv_image)
 		cv2.waitKey(1)
 
-		if self.image_diff(cv_image) != None:
-			motion_image = self.withGaborFilter(cv_image, background)
+		motion = self.image_diff(cv_image)
+
+		if motion != None:
+			motion_image, filtered_image = self.withGaborFilter(cv_image, background)
+			# motion_image = motion
 
 		if motion_image != None:
-			cv2.imshow("Background", background)
-			cv2.imshow("Motion", motion_image)
+			# shifted = cv2.pyrMeanShiftFiltering(cv_image, 22.0, 22.0)
+			# cv2.imshow("Background", background)
 			# cv2.imshow("cv_image", cv_image)
-			motion_image = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
-			segments, seg_viz = self.getSegments(cv_image, motion_image)
-			cv2.imshow("segments", seg_viz)
-			cv2.waitKey(1)
+
+			# cv2.imshow("Motion", filtered_image)
+			# imgray = cv2.cvtColor(filtered_image,cv2.COLOR_BGR2GRAY)
+			# ret,thresh = cv2.threshold(imgray,120,255,0)
+			# count, _ = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+			# final = np.zeros(imgray.shape, np.uint8)
+			# cv2.drawContours(final, count, -1, 255)
+			# cv2.imshow("countours", final)
+
+			# motion_image = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
+			# filtered_image = cv2.bitwise_and(filtered_image, filtered_image, mask=motion_image)
+			# cv2.imshow("shifted", shifted)
+			cv2.imshow("motion_image", motion_image)
+			# segments, seg_viz = self.getSegments(cv_image, motion_image)
+			# cv2.imshow("segments", seg_viz)
+			# cv2.waitKey(1)
 
 			try:
-				motion_pub = self.bridge.cv2_to_imgmsg(motion_image, "mono8")
-				seg_viz = self.bridge.cv2_to_imgmsg(seg_viz, "bgr8")
+				motion_pub = self.bridge.cv2_to_imgmsg(motion, "mono8")
+				seg_viz = self.bridge.cv2_to_imgmsg(motion_image, "bgr8")
 				data = self.bridge.cv2_to_imgmsg(cv_image, "bgr8")
 			except CvBridgeError as e:
 				print(e)
@@ -192,6 +212,8 @@ class camera:
 			msg.motion = motion_pub
 			msg.segment_viz = seg_viz
 			self.camera_pub.publish(msg)
+
+		return True
 
 	def destroy(self):
 		cv2.destroyAllWindows()

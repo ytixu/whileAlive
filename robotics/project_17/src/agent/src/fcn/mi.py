@@ -29,7 +29,7 @@ import numpy
 bins=256
 
 # code
-def mutual_information(i1, i2, i1_d, i2_d):
+def mutual_information(i1, i1_d, i2, i2_d):
     """
     Computes the mutual information (MI) (a measure of entropy) between two images.
 
@@ -107,7 +107,7 @@ def mutual_information(i1, i2, i1_d, i2_d):
 
 def entropy(image):
     i_range = __range(image, bins)
-    i_hist = numpy.histogram(image, bins=bins, range=i_range)
+    i_hist,_ = numpy.histogram(image, bins=bins, range=i_range)
     i_entropy = __entropy(i_hist)
     return (i_range, i_entropy)
 

@@ -122,7 +122,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/ytixu/gitHTML/whileAlive/robotics/project_17/install/lib;/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib;/home/ytixu/Dropbox/2014fall/comp417/ass1/devel/lib;/opt/ros/indigo/lib)
+    foreach(path /home/ytixu/gitHTML/whileAlive/robotics/project_17/install/lib;/home/ytixu/Dropbox/2014fall/comp417/ass1/devel/lib;/opt/ros/indigo/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
