@@ -147,20 +147,22 @@ class camera:
 		cnts, _ = cv2.findContours(motion_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 		final = np.zeros(image.shape, np.uint8)
 		mask = np.zeros(motion_image.shape, np.uint8)
-		for i,_ in enumerate(cnts):
+		has_seg = False
+		for i,c in enumerate(cnts):
+			if cv2.contourArea(c) < MIN_MOTION:
+				continue
+
+			has_seg = True
 			mask[...] = 0
 			cv2.drawContours(mask, cnts, i, 255, -1)
 
-
-				# cv2.imshow("TR", color_filter)
-				# cv2.waitKey(1)
-				# time.sleep(0.2)
-
-			# if np.sum(diff) < np.sum(mask):
 			color = cv2.mean(image, mask)
 			cv2.drawContours(final, cnts, i, color, -1)
 
-		return (cnts, final)
+		if has_seg:
+			return (cnts, final)
+
+		return (None, None)
 
 	def spin(self):
 		ret, frame = self.getNextFrame()
@@ -170,9 +172,13 @@ class camera:
 		cv_image = cv2.resize(frame, None, fx=0.25, fy=0.25)
 		motion_image = None
 		background = self.background(cv_image)
-		cv2.imshow("frame", cv_image)
-		cv2.waitKey(1)
 
+		if background == None:
+			return True
+
+		cv2.imshow("frame", cv_image)
+		cv2.imshow("background", background)
+		cv2.waitKey(1)
 		motion = self.image_diff(cv_image)
 
 		if motion != None:
@@ -192,26 +198,29 @@ class camera:
 			# cv2.drawContours(final, count, -1, 255)
 			# cv2.imshow("countours", final)
 
-			# motion_image = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
+			motion_image = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
 			# filtered_image = cv2.bitwise_and(filtered_image, filtered_image, mask=motion_image)
-			# cv2.imshow("shifted", shifted)
-			cv2.imshow("motion_image", motion_image)
-			# segments, seg_viz = self.getSegments(cv_image, motion_image)
-			# cv2.imshow("segments", seg_viz)
-			# cv2.waitKey(1)
+			# cv2.imshow("filtered_image", filtered_image)
+			# cv2.imshow("motion_image", motion_image)
+			segments, seg_viz = self.getSegments(cv_image, motion_image)
+
+			if segments == None:
+				return True
+
+			cv2.imshow("segments", seg_viz)
+			cv2.waitKey(1)
 
 			try:
-				motion_pub = self.bridge.cv2_to_imgmsg(motion, "mono8")
-				seg_viz = self.bridge.cv2_to_imgmsg(motion_image, "bgr8")
+				motion_pub = self.bridge.cv2_to_imgmsg(motion_image, "mono8")
+				seg_viz = self.bridge.cv2_to_imgmsg(seg_viz, "bgr8")
 				data = self.bridge.cv2_to_imgmsg(cv_image, "bgr8")
+				msg = SensorImages()
+				msg.input = data
+				msg.motion = motion_pub
+				msg.segment_viz = seg_viz
+				self.camera_pub.publish(msg)
 			except CvBridgeError as e:
 				print(e)
-
-			msg = SensorImages()
-			msg.input = data
-			msg.motion = motion_pub
-			msg.segment_viz = seg_viz
-			self.camera_pub.publish(msg)
 
 		return True
 
