@@ -40,32 +40,34 @@ class Segment:
 
 		self.weight = 1
 		self.labels = None
-		self.bounding_box = None
+		# self.bounding_box = None
 		self.expLabel = None
 		self.motion_entropy = None
 
 		if labels != None:
 			self.setLabels(labels)
-		if bounding_box != None:
-			self.updateBoundingBox(bounding_box)
+		# if bounding_box != None:
+		# 	self.updateBoundingBox(bounding_box)
 
 
-	def updateMask(self, mask):
+	def updateMask(self, mask, add=1):
 		if self.mask == None:
 			self.mask = mask.copy()
-		else:
+		elif add > 0:
 			self.mask = cv2.bitwise_or(mask, self.mask)
-
-	def updateBoundingBox(self, coord=None, extCoord=None):
-		if coord != None:
-			x,y,w,h = coord
-			extCoord = (x,y,x+w,y+h,w,h)
-		if self.bounding_box != None:
-			x,y = np.minimum(extCoord[:2], self.bounding_box[:2])
-			w,h = np.maximum(extCoord[2:4], self.bounding_box[2:4])
-			self.bounding_box = (x,y,w,h,w-x,h-y)
 		else:
-			self.bounding_box = extCoord
+			self.mask = cv2.bitwise_and(self.mask, self.mask, mask=cv2.bitwise_not(mask))
+
+	# def updateBoundingBox(self, coord=None, extCoord=None):
+	# 	if coord != None:
+	# 		x,y,w,h = coord
+	# 		extCoord = (x,y,x+w,y+h,w,h)
+	# 	if self.bounding_box != None:
+	# 		x,y = np.minimum(extCoord[:2], self.bounding_box[:2])
+	# 		w,h = np.maximum(extCoord[2:4], self.bounding_box[2:4])
+	# 		self.bounding_box = (x,y,w,h,w-x,h-y)
+	# 	else:
+	# 		self.bounding_box = extCoord
 
 	def setLabels(self, labels):
 		self.labels = labels
@@ -79,6 +81,7 @@ class Segment:
 			shape = raw.shape
 			self.mask = np.zeros(shape[:2], np.uint8)
 			self.raw = self.mask.copy()
+		self.weight = 1
 
 	def label(self):
 		return self.expLabel
@@ -87,17 +90,17 @@ class Segment:
 		Z = np.sum(self.labels.values())
 		self.labels = {l:p/Z for l,p in self.labels.iteritems()}
 
-	def _getBoundedMask(self, bound):
-		bmask = np.zeros((bound[5], bound[4]), np.uint8)
-		x = min(self.mask.shape[1],bound[2])
-		y = min(self.mask.shape[0],bound[3])
-		bmask[:y-bound[1],:x-bound[0]] = self.mask[bound[1]:y,bound[0]:x]
-		return bmask
+	# def _getBoundedMask(self, bound):
+	# 	bmask = np.zeros((bound[5], bound[4]), np.uint8)
+	# 	x = min(self.mask.shape[1],bound[2])
+	# 	y = min(self.mask.shape[0],bound[3])
+	# 	bmask[:y-bound[1],:x-bound[0]] = self.mask[bound[1]:y,bound[0]:x]
+	# 	return bmask
 
-	def _agreedBounds(self, segment):
-		sbox = segment.bounding_box
-		score = np.sum([abs(x-sbox[i])/2.0/(x+sbox[i]) for i,x in enumerate(self.bounding_box)])/6.0
-		# score *= self.mask.shape[1]
+	# def _agreedBounds(self, segment):
+	# 	sbox = segment.bounding_box
+	# 	score = np.sum([abs(x-sbox[i])/2.0/(x+sbox[i]) for i,x in enumerate(self.bounding_box)])/6.0
+	# 	# score *= self.mask.shape[1]
 		# x,y,k,l,w,h = self.bounding_box
 		# sx,sy,sk,sl,sw,sh = sbox
 		# if w < sw:
@@ -114,19 +117,19 @@ class Segment:
 		# 	sh = h
 
 		# return ((x,y,k,l,w,h), (sx,sy,sk,sl,sw,sh), score)
-		return score
+		# return score
 
 
-	def compareMask(self, segment):
-		score = self._agreedBounds(segment)
-		# box, sbox, score = self._agreedBounds(segment)
-		# print 'mask score', score
-		# bounded_mask = self._getBoundedMask(box)
-		# sbounded_mask = segment._getBoundedMask(sbox)
-		maskInter = cv2.bitwise_and(self.mask, segment.mask)
-		# maskInter = cv2.bitwise_and(bounded_mask, sbounded_mask)
-		# return np.sum(maskInter)*score/np.sum(bounded_mask)
-		return np.sum(maskInter)*(1-score)/np.sum(self.mask)
+	# def compareMask(self, segment):
+	# 	score = self._agreedBounds(segment)
+	# 	# box, sbox, score = self._agreedBounds(segment)
+	# 	# print 'mask score', score
+	# 	# bounded_mask = self._getBoundedMask(box)
+	# 	# sbounded_mask = segment._getBoundedMask(sbox)
+	# 	maskInter = cv2.bitwise_and(self.mask, segment.mask)
+	# 	# maskInter = cv2.bitwise_and(bounded_mask, sbounded_mask)
+	# 	# return np.sum(maskInter)*score/np.sum(bounded_mask)
+	# 	return np.sum(maskInter)*(1-score)/np.sum(self.mask)
 
 
 	def setMotionEntropy(self, entropy):
@@ -151,13 +154,15 @@ class fcn_agent:
 		seg = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
 		self.estimate_segments[0] = Segment(seg, self.in_image_raw)
 		cnts, _ = cv2.findContours(seg, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-		for c in cnts:
-			self.estimate_segments[0].updateBoundingBox(cv2.boundingRect(c))
+		# for c in cnts:
+		# 	self.estimate_segments[0].updateBoundingBox(cv2.boundingRect(c))
 
 		self.color_map[0] = cv2.mean(self.in_image_raw, seg)
 		self.estimate_segments[0].setLabels({0:NEW_SEG_ALPHA})
 
 	def getMotionEntropy(self, seg, motion):
+		if motion.entropy == 0:
+			return 0
 		mh = seg.motion_entropy
 		if mh == None:
 			mh = mutual_information(seg.raw, seg.entropy, motion.raw, motion.entropy)
@@ -200,33 +205,33 @@ class fcn_agent:
 			# if cm < thr:
 			# 	cm = thr
 
-			# if motion.entropy != 0:
+			if motion.entropy != 0:
 				# mutual_information(motion.raw, motion.entropy, oldSeg.raw, oldSeg.entropy)
-			moh = self.getMotionEntropy(oldSeg, motion)
-			# mh = newSeg.motion_entropy
-			# if moh == None:
-			# 	# moh = oldSeg.compareMask(motion)
-			# 	moh = mutual_information(oldSeg.raw, oldSeg.entropy, motion.raw, motion.entropy)
-			# 	moh = moh / oldSeg.entropy[1]
-			# 	oldSeg.setMotionEntropy(moh)
-			# if abs(mh) < thr:
-			# 	if abs(moh) < thr:
-			# 		mh = 1
-			# 		moh = 1
-			# 	else:
-			# 		continue
-			# elif abs(moh) < thr:
-			# 	# cv2.imshow('motion mask', motion.mask)
-			# 	# cv2.imshow('seg mask', oldSeg.mask)
-			# 	# cv2.waitKey(1)
-			# 	# print moh[3]
-			# 	continue
-			# im = log(interProp) + log(nh)
-			mmh = abs(log(1- min(mh/moh, moh/mh)))
-			im = mmh * nh
-			print label, mh, moh, nh, mmh, '=', im
-			# else:
-			# 	im = nh
+				moh = self.getMotionEntropy(oldSeg, motion)
+				# mh = newSeg.motion_entropy
+				# if moh == None:
+				# 	# moh = oldSeg.compareMask(motion)
+				# 	moh = mutual_information(oldSeg.raw, oldSeg.entropy, motion.raw, motion.entropy)
+				# 	moh = moh / oldSeg.entropy[1]
+				# 	oldSeg.setMotionEntropy(moh)
+				# if abs(mh) < thr:
+				# 	if abs(moh) < thr:
+				# 		mh = 1
+				# 		moh = 1
+				# 	else:
+				# 		continue
+				# elif abs(moh) < thr:
+				# 	# cv2.imshow('motion mask', motion.mask)
+				# 	# cv2.imshow('seg mask', oldSeg.mask)
+				# 	# cv2.waitKey(1)
+				# 	# print moh[3]
+				# 	continue
+				# im = log(interProp) + log(nh)
+				mmh = abs(log(1- min(mh/moh, moh/mh)))
+				im = mmh * nh
+				print label, mh, moh, nh, mmh, '=', im
+			else:
+				im = nh
 
 			im *= oldSeg.weight
 			print im
@@ -281,13 +286,13 @@ class fcn_agent:
 		# print len(segs)
 		return segs
 
-	def mergeSegs(self, new_segs, motion):
+	def mergeSegs(self, label, new_segs, motion):
 		label_probs = {}
 
 		newSeg = Segment()
 		for seg in new_segs:
 			newSeg.updateMask(seg.mask)
-			newSeg.updateBoundingBox(None, seg.bounding_box)
+			# newSeg.updateBoundingBox(None, seg.bounding_box)
 
 		newSeg.getRaw(self.in_image_raw)
 
@@ -297,14 +302,49 @@ class fcn_agent:
 
 			labels = label_probs
 			newSeg.setLabels(labels)
+			newSeg.normalizeLabels()
 		else:
 			newSeg.setLabels({label:NEW_SEG_ALPHA})
 
-		self.estimate_segments[label] = newSeg
+		return newSeg
 
+	def stillThere(self, seg):
+		new_frame = cv2.bitwise_and(self.in_image_raw, self.in_image_raw, mask=seg.mask)
+		H = entropy(new_frame)
+		MI = mutual_information(seg.raw, seg.entropy, new_frame, H)
+		return MI/H[1]
 
-	def splitSeg(self, new_seg, motion):
-		pass
+	def splitSeg(self, label, new_seg, old_seg_keys, motion):
+		print 'splitting'
+		douplicate = False
+		for k in old_seg_keys:
+			score = self.stillThere(self.estimate_segments[k])
+			print score, new_seg.labels[k]
+			if score > new_seg.labels[k]:
+				new_seg.updateMask(self.estimate_segments[k].mask, -1)
+				self.estimate_segments[k].getRaw(self.in_image_raw)
+				if label == k:
+					print 'duc'
+					douplicate = True
+			else:
+				print 'del', k
+				#todo : perhaps merge it with old seg?
+				del(self.estimate_segments[k])
+
+		if np.sum(new_seg.mask) < MIN_MOTION:
+			print 'too small'
+			return None
+		else:
+			new_seg.getRaw(self.in_image_raw)
+			label_probs = self.computeProb(new_seg, self.estimate_segments, motion)
+			print label_probs
+			new_seg.setLabels(label_probs)
+			if douplicate and new_seg.label() == label:
+				print 'merged'
+				return self.mergeSegs(label, [new_seg, self.estimate_segments[label]], motion)
+
+			new_seg.normalizeLabels()
+		return new_seg
 
 	def updateSegments(self, new_segments, motion):
 		updated_segs = {}
@@ -313,32 +353,41 @@ class fcn_agent:
 
 		for i, key in enumerate(new_segments):
 			# match old seg to new seg
-			for l, p in new_segments.labels.iteritems():
+			for l, p in new_segments[key].labels.iteritems():
 				if l in match_segs and p > match_segs[l][0]:
-					match_segs[l] = [p, new_segments[key]]
+					match_segs[l] = [p, key]
 			# max label
 			label = new_segments[key].label()
 			if label not in self.color_map:
 				self.color_map[label] = cv2.mean(self.in_image_raw, new_segments[key].mask)
 			if label in updated_segs:
-				updated_segs[label] += [new_segments[key]]
+				updated_segs[label] += [key]
 			else:
-				updated_segs[label] = [new_segments[key]]
+				updated_segs[label] = [key]
+
+		split_segs = {k: [] for k in new_segments.keys()}
+		for label, seg in match_segs.iteritems():
+			split_segs[seg[1]] += [label]
 
 		# new_segments = {}
-		for label, segs in updated_segs.iteritems():
-			if label in match_segs:
-				match_segs[label]
-				# something...
-
-			if len(segs) > 1:
-				self.mergeSegs(segs, self.estimate_segments[label])
+		for label, seg_keys in updated_segs.iteritems():
+			print 'update', label
+			if len(seg_keys) > 1:
+				segs = [new_segments[k] for k in seg_keys]
+				seg = self.mergeSegs(label, segs, motion)
+				self.estimate_segments[label] = seg
 			else:
+				seg = new_segments[seg_keys[0]]
 				if label != new_label:
-					del(segs[0].labels[new_label])
-					segs[0].normalizeLabels()
 
-				self.estimate_segments[label] = segs[0]
+					if len(split_segs[seg_keys[0]]) > 1:
+						seg = self.splitSeg(label, seg, split_segs[seg_keys[0]], motion)
+					else:
+						del(seg.labels[new_label])
+						seg.normalizeLabels()
+
+				if seg:
+					self.estimate_segments[label] = seg
 				# new_segments[label] = segs[0]
 
 		# normalize segs label prob
@@ -366,7 +415,7 @@ class fcn_agent:
 			intsect = cv2.bitwise_and(seg.mask, motion_image)
 			if np.sum(intsect)/np.max(intsect) > MIN_MOTION:
 				movedSeg.updateMask(seg.mask)
-				movedSeg.updateBoundingBox(None, seg.bounding_box)
+				# movedSeg.updateBoundingBox(None, seg.bounding_box)
 			# else:
 			# 	staticSeg[label] = seg
 
@@ -406,10 +455,10 @@ class fcn_agent:
 			motion_image = self.bridge.imgmsg_to_cv2(data.motion, "mono8")
 			seg_viz = self.bridge.imgmsg_to_cv2(data.segment_viz, "bgr8")
 
-			if self.shape == None:
+			if len(self.estimate_segments) == 0:
 				self.shape = seg_viz.shape
 				self.renderSegments(seg_viz)
-				self.assignmentColor()
+				# self.assignmentColor()
 			else:
 				segments = self.getSegments(seg_viz)
 				movedSeg = self.getMotionSegments(motion_image)
@@ -421,7 +470,7 @@ class fcn_agent:
 
 				# print mutual_information(self.prev_frame, seg_viz)
 				# cv2.imshow('seg', seg_viz)
-				cv2.imshow('motion',motion_image)
+				cv2.imshow('motion',movedSeg.raw)
 				cv2.imshow('acc seg', self.viz())
 				cv2.waitKey(1)
 
