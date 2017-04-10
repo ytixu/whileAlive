@@ -32,6 +32,7 @@ SET(CMAKE_MAKEFILE_DEPENDS
   "/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/agent/setup.py"
   "/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/sensor/CMakeLists.txt"
   "/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/sensor/bin/camera"
+  "/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/sensor/bin/record"
   "/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/sensor/package.xml"
   "/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/sensor/setup.py"
   "/home/ytixu/gitHTML/whileAlive/robotics/project_17/src/usb_cam/CMakeLists.txt"

@@ -192,5 +192,5 @@ catkin_package(
 	CATKIN_DEPENDS message_runtime
 )
 
-catkin_install_python(PROGRAMS bin/camera
+catkin_install_python(PROGRAMS bin/camera bin/record
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
