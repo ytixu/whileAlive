@@ -17,6 +17,13 @@ MIN_SCORE = -10000
 MIN_PROB_DIFF = 0.5
 
 thr = 0.000000001
+# Specify the number of iterations.
+number_of_iterations = 100;
+
+# Specify the threshold of the increment
+# in the correlation coefficient between two iterations
+termination_eps = 1e-10;
+
 
 def color_map(color):
 	new_c = [0,0,0]
@@ -229,12 +236,12 @@ class fcn_agent:
 				# im = log(interProp) + log(nh)
 				mmh = abs(log(1- min(mh/moh, moh/mh)))
 				im = mmh * nh
-				print label, mh, moh, nh, mmh, '=', im
+				# print label, mh, moh, nh, mmh, '=', im
 			else:
 				im = nh
 
 			im *= oldSeg.weight
-			print im
+			# print im
 
 			for label, p in oldSeg.labels.iteritems():
 				prob = im * p
@@ -251,9 +258,9 @@ class fcn_agent:
 
 		zero_segs = np.zeros(motion.mask.shape, np.uint8)
 		new_seg_prob = 1.0 - sum([seg.weight for _, seg in self.estimate_segments.iteritems()])*1.0/len(self.color_map)
-		print 'new_seg_prob', new_seg_prob
+		# print 'new_seg_prob', new_seg_prob
 
-		print len(new_segments), len(self.estimate_segments)
+		# print len(new_segments), len(self.estimate_segments)
 		for i,cnt in enumerate(new_segments):
 			label_probs = {}
 			mask[...] = 0
@@ -264,22 +271,22 @@ class fcn_agent:
 			label_probs = self.computeProb(segs[i], self.estimate_segments, motion)
 
 			if len(label_probs) == 0:
-				print 'no probs---------'
+				# print 'no probs---------'
 				label_probs[1000000]
 				# label_probs[len(self.color_map)] = NEW_SEG_ALPHA
 			else:
 				var = 1
 				if len(label_probs) > 1:
 					var = np.std(label_probs.values()) * 100
-					print 'var', var
-					print label_probs
+					# print 'var', var
+					# print label_probs
 				label_probs[len(self.color_map)] = new_seg_prob / var
 				#normalization
 				Z = np.sum(label_probs.values())
 				label_probs = {l:p/Z for l,p in label_probs.iteritems()}
 
 			labels = label_probs
-			print labels
+			# print labels
 
 			segs[i].setLabels(labels)
 
@@ -308,43 +315,92 @@ class fcn_agent:
 
 		return newSeg
 
-	def stillThere(self, seg):
+	def stillThere(self, seg, mask):
+		#if it didn't move
 		new_frame = cv2.bitwise_and(self.in_image_raw, self.in_image_raw, mask=seg.mask)
 		H = entropy(new_frame)
 		MI = mutual_information(seg.raw, seg.entropy, new_frame, H)
-		return MI/H[1]
+		score = MI/H[1]
 
-	def splitSeg(self, label, new_seg, old_seg_keys, motion):
-		print 'splitting'
-		douplicate = False
+		# if it moved
+		move_mask = cv2.bitwise_xor(seg.mask, mask)
+		x_movement = np.mean(np.sum(move_mask, 1))
+		y_movement = np.mean(np.sum(move_mask, 0))
+		# circshft the shit
+		new_mask = np.roll(self.estimate_segments[k].mask, (y_movement, x_movement), (0,1))
+		# if np.sum(mask) < MIN_MOTION:
+		# 	return (score, 0)
+		new_frame = cv2.bitwise_and(self.in_image_raw, self.in_image_raw, mask=new_mask)
+		H = entropy(new_frame)
+		MI = mutual_information(seg.raw, seg.entropy, new_frame, H)
+		return (score, MI/H[1])
+
+	def splitSeg(self, new_seg, old_seg_keys, motion):
+		label = new_seg.label()
+		print 'splitting', label, old_seg_keys, new_seg.labels
+		# check label variance
+		zs = new_segs.mask.shape
+		old_mask = np.zeros(zs, np.uint8)
+		old_frame = np.zeros(new_seg.raw.shape, np.uint8)
 		for k in old_seg_keys:
-			score = self.stillThere(self.estimate_segments[k])
-			print score, new_seg.labels[k]
-			if score > new_seg.labels[k]:
-				new_seg.updateMask(self.estimate_segments[k].mask, -1)
+			old_mask = bitwise_or(old_mask, self.estimate_segments[k].mask)
+			old_frame = cv2.bitwise_or(old_frame, self.estimate_segments[k].raw)
+
+			# mask = cv2.bitwise_and(self.estimate_segments[k].mask, new_seg.mask)
+			# score_org, score_new = self.stillThere(self.estimate_segments[k], mask)
+			# print score_org, score_new, new_seg.labels[k]
+			# if max(score_org, score_new) > new_seg.labels[k]:
+			# 	if score_org > score_new:
+			# 		new_seg.updateMask(self.estimate_segments[k].mask, -1)
+			# 	else:
+			# 		new_seg.updateMask(mask, -1)
+			# 		self.estimate_segments[k].mask
+
+			# 	self.estimate_segments[k].getRaw(self.in_image_raw)
+			# else:
+			# 	print 'del', k
+			# 	#todo : perhaps merge it with old seg?
+			# 	del(self.estimate_segments[k])
+
+		im1_gray = cv2.cvtColor(old_frame, cv2.COLOR_BGR2GRAY)
+		im2_gray = cv2.cvtColor(new_seg.raw, cv2.COLOR_BGR2GRAY)
+		warp_matrix = np.eye(2, 3, dtype=np.float32)
+		criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, number_of_iterations, termination_eps)
+		(cc, warp_matrix) = cv2.findTransformECC (im1_gray,im2_gray,warp_matrix, warp_mode, criteria)
+
+		old_frame_aligned = cv2.warpAffine(old_frame, warp_matrix, (self.shape[1],self.shape[0]), flags=cv2.INTER_LINEAR + cv2.WARP_INVERSE_MAP);
+
+		H = entropy(old_frame_aligned)
+		MI = mutual_information(seg.raw, seg.entropy, old_frame_aligned, H)
+		score = MI/seg.entropy[1]
+
+		if score > seg.labels[label]:
+			# then split
+			for k in old_seg_keys:
+				new_mask = cv2.warpAffine(self.estimate_segments[k].mask, warp_matrix, (zs[1],zs[0]), flags=cv2.INTER_LINEAR + cv2.WARP_INVERSE_MAP);
+				self.estimate_segments[k].updateMask(new_mask, 0)
 				self.estimate_segments[k].getRaw(self.in_image_raw)
-				if label == k:
-					print 'duc'
-					douplicate = True
-			else:
+			return [self.estimate_segments[k] for k in old_seg_keys]
+		else:
+			for k in old_seg_keys:
 				print 'del', k
 				#todo : perhaps merge it with old seg?
 				del(self.estimate_segments[k])
 
-		if np.sum(new_seg.mask) < MIN_MOTION:
-			print 'too small'
-			return None
-		else:
-			new_seg.getRaw(self.in_image_raw)
-			label_probs = self.computeProb(new_seg, self.estimate_segments, motion)
-			print label_probs
-			new_seg.setLabels(label_probs)
-			if douplicate and new_seg.label() == label:
-				print 'merged'
-				return self.mergeSegs(label, [new_seg, self.estimate_segments[label]], motion)
+		# if np.sum(new_seg.mask) < MIN_MOTION:
+		# 	print 'too small'
+		# 	return None
+		# else:
+		# 	new_seg.getRaw(self.in_image_raw)
+		# 	label_probs = self.computeProb(new_seg, self.estimate_segments, motion)
+		# 	print label_probs
+		# 	new_seg.setLabels(label_probs)
+		# 	# if new_seg.label() in :
+		# 	# 	print 'merged'
+		# 	# 	return self.mergeSegs(label, [new_seg, self.estimate_segments[label]], motion)
 
-			new_seg.normalizeLabels()
-		return new_seg
+		# 	new_seg.normalizeLabels()
+			return [new_seg]
 
 	def updateSegments(self, new_segments, motion):
 		updated_segs = {}
@@ -356,36 +412,46 @@ class fcn_agent:
 			for l, p in new_segments[key].labels.iteritems():
 				if l in match_segs and p > match_segs[l][0]:
 					match_segs[l] = [p, key]
+
+		# do splitting first
+		split_segs = {k: [] for k in new_segments.keys()}
+		for label, seg in match_segs.iteritems():
+			split_segs[seg[1]] += [label]
+
+		for seg_key, old_segs in split_segs.iteritems():
+			if len(old_segs) > 1:
+				seg = new_segments[seg_key]
+				segs = self.splitSeg(seg, old_segs, motion)
+				if len(segs) > 1:
+					for old_seg in segs:
+						label = old_seg.label()
+						if label in updated_segs:
+							updated_segs[label] += [old_seg]
+						else:
+							updated_segs[label] = [old_seg]
+				del(new_segments[seg_key])
+
+		for i, key in enumerate(new_segments):
 			# max label
 			label = new_segments[key].label()
 			if label not in self.color_map:
 				self.color_map[label] = cv2.mean(self.in_image_raw, new_segments[key].mask)
 			if label in updated_segs:
-				updated_segs[label] += [key]
+				updated_segs[label] += [new_segments[key]]
 			else:
-				updated_segs[label] = [key]
+				updated_segs[label] = [new_segments[key]]
 
-		split_segs = {k: [] for k in new_segments.keys()}
-		for label, seg in match_segs.iteritems():
-			split_segs[seg[1]] += [label]
 
-		# new_segments = {}
-		for label, seg_keys in updated_segs.iteritems():
+		for label, segs in updated_segs.iteritems():
 			print 'update', label
-			if len(seg_keys) > 1:
-				segs = [new_segments[k] for k in seg_keys]
+			if len(segs) > 1:
 				seg = self.mergeSegs(label, segs, motion)
 				self.estimate_segments[label] = seg
 			else:
-				seg = new_segments[seg_keys[0]]
+				seg = segs[0]
 				if label != new_label:
-
-					if len(split_segs[seg_keys[0]]) > 1:
-						seg = self.splitSeg(label, seg, split_segs[seg_keys[0]], motion)
-					else:
-						del(seg.labels[new_label])
-						seg.normalizeLabels()
-
+					del(seg.labels[new_label])
+					seg.normalizeLabels()
 				if seg:
 					self.estimate_segments[label] = seg
 				# new_segments[label] = segs[0]
