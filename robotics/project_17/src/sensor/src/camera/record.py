@@ -10,7 +10,7 @@ from cv_bridge import CvBridge, CvBridgeError
 
 MIN_MOTION = 222
 
-BACKGROUND_acc_weight = 0.05
+BACKGROUND_acc_weight = 0.01
 GABOR_SIZE = 12
 BLUR_SIZE = 11
 N_GABORS = 55
@@ -33,7 +33,7 @@ class record:
 
 	def getNextFrame(self):
 		if self.cap == None:
-			self.cap = cv2.VideoCapture('/home/ytixu/gitHTML/whileAlive/robotics/ob2.avi')
+			self.cap = cv2.VideoCapture('/home/ytixu/gitHTML/whileAlive/robotics/ob5.avi')
 
 		if type(self.cap) != type(1) and self.cap.isOpened():
 			# self.cap.read()
@@ -54,6 +54,7 @@ class record:
 			self.lastImage = gray
 		else:
 			firstFrame = self.lastImage
+
 			# compute the absolute difference between the current frame and
 			# first frame
 			frameDelta = cv2.absdiff(firstFrame, gray)
@@ -214,7 +215,8 @@ class record:
 			if segments == None:
 				return True
 
-			cv2.imshow("segments", seg_viz)
+			cv2.imshow("random segments", seg_viz)
+			cv2.imshow("image diff", motion)
 			cv2.waitKey(1)
 
 			try:

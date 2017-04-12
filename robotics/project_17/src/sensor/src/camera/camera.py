@@ -279,7 +279,7 @@ class camera:
 
 		if motion_image != None:
 			cv2.imshow("Background", background)
-			cv2.imshow("Motion", motion_image)
+			cv2.imshow("Motion", motion)
 			motion_image = cv2.cvtColor(motion_image, cv2.COLOR_BGR2GRAY)
 			segments, seg_viz = self.getSegments(cv_image, motion_image)
 			if segments == None:
