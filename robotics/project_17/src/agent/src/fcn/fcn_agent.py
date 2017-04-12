@@ -62,8 +62,10 @@ class Segment:
 			self.mask = mask.copy()
 		elif add > 0:
 			self.mask = cv2.bitwise_or(mask, self.mask)
-		else:
+		elif add < 0:
 			self.mask = cv2.bitwise_and(self.mask, self.mask, mask=cv2.bitwise_not(mask))
+		else:
+			self.mask = mask
 
 	# def updateBoundingBox(self, coord=None, extCoord=None):
 	# 	if coord != None:
@@ -335,17 +337,30 @@ class fcn_agent:
 		MI = mutual_information(seg.raw, seg.entropy, new_frame, H)
 		return (score, MI/H[1])
 
+	def get2DTransform(self, img1, img2):
+		cm1 = np.mean([[i,j] for i,_ in enumerate(img1)
+								for j,_ in enumerate(img1[i])
+									if img1[i][j] > 0], 0)
+		cm2 = np.mean([[i,j] for i,_ in enumerate(img2)
+								for j,_ in enumerate(img2[i])
+									if img2[i][j] > 0], 0)
+		trans = cm2 - cm1
+		return np.array([[1, 0, trans[0]], [0, 1, trans[1]]])
+
+
 	def splitSeg(self, new_seg, old_seg_keys, motion):
 		label = new_seg.label()
 		print 'splitting', label, old_seg_keys, new_seg.labels
 		# check label variance
-		zs = new_segs.mask.shape
+		zs = new_seg.mask.shape
 		old_mask = np.zeros(zs, np.uint8)
-		old_frame = np.zeros(new_seg.raw.shape, np.uint8)
+		# old_frame = np.zeros(new_seg.raw.shape, np.uint8)
 		for k in old_seg_keys:
-			old_mask = bitwise_or(old_mask, self.estimate_segments[k].mask)
-			old_frame = cv2.bitwise_or(old_frame, self.estimate_segments[k].raw)
+			old_mask = cv2.bitwise_or(old_mask, self.estimate_segments[k].mask)
+			# old_frame = cv2.bitwise_or(old_frame, self.estimate_segments[k].raw)
 
+		cv2.imshow('old mask', old_mask)
+		warp_matrix = self.get2DTransform(old_mask, new_seg.mask)
 			# mask = cv2.bitwise_and(self.estimate_segments[k].mask, new_seg.mask)
 			# score_org, score_new = self.stillThere(self.estimate_segments[k], mask)
 			# print score_org, score_new, new_seg.labels[k]
@@ -362,22 +377,40 @@ class fcn_agent:
 			# 	#todo : perhaps merge it with old seg?
 			# 	del(self.estimate_segments[k])
 
-		im1_gray = cv2.cvtColor(old_frame, cv2.COLOR_BGR2GRAY)
-		im2_gray = cv2.cvtColor(new_seg.raw, cv2.COLOR_BGR2GRAY)
-		warp_matrix = np.eye(2, 3, dtype=np.float32)
-		criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, number_of_iterations, termination_eps)
-		(cc, warp_matrix) = cv2.findTransformECC (im1_gray,im2_gray,warp_matrix, warp_mode, criteria)
 
-		old_frame_aligned = cv2.warpAffine(old_frame, warp_matrix, (self.shape[1],self.shape[0]), flags=cv2.INTER_LINEAR + cv2.WARP_INVERSE_MAP);
+		old_mask_aligned = cv2.warpAffine(old_mask, warp_matrix, (zs[1], zs[0]))
+		old_frame_aligned = cv2.bitwise_and(self.in_image_raw, self.in_image_raw, mask=old_mask_aligned)
+		# cv2.imshow('old frame', old_frame)
+		# old_frame_aligned = cv2.warpAffine(old_frame, warp_matrix, (zs[1], zs[0]))
+		new_old_align = cv2.bitwise_and(new_seg.mask, old_mask_aligned)
+		# cv2.imshow('old mask aligned', old_mask_aligned)
+		cv2.imshow('new frame', new_seg.raw)
+		cv2.imshow('new old align', new_old_align)
+		cv2.imshow('old frame aligned', old_frame_aligned)
+		cv2.waitKey(1)
 
-		H = entropy(old_frame_aligned)
-		MI = mutual_information(seg.raw, seg.entropy, old_frame_aligned, H)
-		score = MI/seg.entropy[1]
+		split = False
+		if new_seg.label() in self.estimate_segments:
+			H1 = entropy(old_frame_aligned)
+			MI = mutual_information(new_seg.raw, new_seg.entropy, old_frame_aligned, H1)
+			score1 = MI
 
-		if score > seg.labels[label]:
+			old_seg = self.estimate_segments[new_seg.label()]
+			MI = mutual_information(new_seg.raw, new_seg.entropy, old_seg.raw, old_seg.entropy)
+			score2 = MI
+
+			print score1, score2
+
+			if score1 > score2:
+				split = True
+		else:
+			split = True
+
+		if split:
 			# then split
+			# , (zs[1],zs[0]), flags=cv2.INTER_LINEAR + cv2.WARP_INVERSE_MAP
 			for k in old_seg_keys:
-				new_mask = cv2.warpAffine(self.estimate_segments[k].mask, warp_matrix, (zs[1],zs[0]), flags=cv2.INTER_LINEAR + cv2.WARP_INVERSE_MAP);
+				new_mask = cv2.warpAffine(self.estimate_segments[k].mask, warp_matrix, (zs[1], zs[0]))
 				self.estimate_segments[k].updateMask(new_mask, 0)
 				self.estimate_segments[k].getRaw(self.in_image_raw)
 			return [self.estimate_segments[k] for k in old_seg_keys]
@@ -429,8 +462,10 @@ class fcn_agent:
 							updated_segs[label] += [old_seg]
 						else:
 							updated_segs[label] = [old_seg]
-				del(new_segments[seg_key])
+					del(new_segments[seg_key])
+					print 'deleted new seg'
 
+		# now do merging
 		for i, key in enumerate(new_segments):
 			# max label
 			label = new_segments[key].label()
@@ -443,13 +478,13 @@ class fcn_agent:
 
 
 		for label, segs in updated_segs.iteritems():
-			print 'update', label
+			# todo check if we need to merge old segment
 			if len(segs) > 1:
 				seg = self.mergeSegs(label, segs, motion)
 				self.estimate_segments[label] = seg
 			else:
 				seg = segs[0]
-				if label != new_label:
+				if label != new_label and new_label in seg.labels:
 					del(seg.labels[new_label])
 					seg.normalizeLabels()
 				if seg:
