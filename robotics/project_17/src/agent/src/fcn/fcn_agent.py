@@ -237,9 +237,9 @@ class fcn_agent:
 				# 	# print moh[3]
 				# 	continue
 				# im = log(interProp) + log(nh)
+				if isnan(moh):
+					continue
 				mmh = abs(log(1- min(mh/moh, moh/mh)))
-				if isnan(mmh):
-					mmh = 1
 				im = mmh * nh
 				print label, mh, moh, nh, mmh, '=', im
 			else:
@@ -497,9 +497,9 @@ class fcn_agent:
 
 
 		for label, segs in updated_segs.iteritems():
-			if label in self.estimate_segments:
-				if self.stillThere(self.estimate_segments[label], motion):
-					segs += [self.estimate_segments[label]]
+			# if label in self.estimate_segments:
+			# 	if self.stillThere(self.estimate_segments[label], motion):
+			# 		segs += [self.estimate_segments[label]]
 
 			if len(segs) > 1:
 				seg = self.mergeSegs(label, segs, motion)
