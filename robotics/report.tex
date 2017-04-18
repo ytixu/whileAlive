@@ -36,7 +36,7 @@ In this work, we address to the problem of objects segmentation based on an unsu
 
 \subsection{Segmentation Through Action}
 
-Past studies have attempted to used robot's actions to coordinates its reasoning in detecting segments. For example, Hoof et al. \cite{herke} partitioned the environment into parts tracked by local key point descriptors, and developed a probabilistic model to infer the labelling of each part and to select best action to maximize information gain. As their approach rely on visual features detectable through Scale Invariant Feature Transform algorithm, the robustness to textureless objects is weak. Another disadvantage is that they ignore continuous observation of the objects and hand motion. Instead, they took snapshots of the scene before and after a robot action, and use Random Sample Consensus algorithm to find a rigid 3D transformation to track the parts. Due to a 1\% inaccuracy in their tracking algorithm, the tracking error was accumulated action by action, and prevented the robot to correctly infer the number of segments in their experiment. 
+Past studies have attempted to used robot's actions to coordinates its reasoning in detecting segments. For example, Hoof et al. \cite{herke} partitioned the environment into parts tracked by local key point descriptors, and developed a probabilistic model to infer the labelling of each part and to select best action to maximize information gain. As their approach rely on visual features detectable through Scale Invariant Feature Transform algorithm, the robustness to textureless objects is weak. Another disadvantage is that they ignore continuous observation of the objects and hand motion. Instead, they took snapshots of the scene before and after a robot action, and use Random Sample Consensus algorithm to find a rigid 3D transformation to track the parts. Due to a 1\% inaccuracy in their tracking algorithm due to, for example, illumination change and occlusion, the tracking error was accumulated action by action, and prevented the robot to correctly infer the number of segments in their experiment. 
 
 Hoof et al. mentioned that their method is independent of the type of descriptor employed provided that the set of key points is sparse and each can be detected reliably from multiple views. Thus, expanding their method to low-texture object may simply require adding a new type of descriptors. However, we suggest that the use of continuous motion observation can provide enough information to track the parts without tracking key points. The main concern is to segment the hand from the object.
 
@@ -54,7 +54,7 @@ employ gabor filters \cite{gabor} to magnify the edges.
 
 \subsection{Segment Tracking and Matching}
 
-
+Object tracking based on points or descriptors, as in the work of Hoof et al. \cite{Herke}, holds several challenges. Also discussed in the survey by Yilmaz et al. \cite{tracking}, such tracking often requires some measurement of correspondence based on the velocity of the tracked points or the entire object. 
 
 \subsection{Image Mutual Information}
 
@@ -144,6 +144,8 @@ Use binary search to first to see which region in a larger scene a moved object 
 
 Allow robot to grab object and observe the patterns and shapes which can be learn with a FCN. Allow communication between human teacher and a robot where teacher points and name the object and robot can go grab that object and learn it.  
 
+Perhaps add feature tracking for occluded objects. 
+
 \section{Conclusion}
 
 
@@ -181,6 +183,10 @@ Allow robot to grab object and observe the patterns and shapes which can be lear
 	R. Mehrotra
 	\emph{Gabor Filter-Based Edge Detection.}
 	
+\biblitem{tracking}
+	A. Yilmaz
+	\emph{Object Tracking: A Survey} ACM Computing Surveys, Vol. 38, No. 4, Article 13, Publication date: December 2006.
+
 \bibitem{human-action}
 	S. Park and J. K. Aggarwal
 	\emph{Segmentation and Tracking of Interacting Human Body Parts Under Occlusion and Shadowing.} Workshop on Motion and Video Computing, Orlando, Florida (2002), 105-111
