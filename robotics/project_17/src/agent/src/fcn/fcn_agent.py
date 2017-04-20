@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from sensor.msg import SensorImages
 from cv_bridge import CvBridge, CvBridgeError
-from math import log, isnan
+from math import log, isnan, exp
 
 from mi import mutual_information, entropy
 
@@ -13,7 +13,7 @@ from mi import mutual_information, entropy
 SEG_DECAY = 0.95
 NEW_SEG_ALPHA = 1
 MIN_MOTION = 222
-MIN_SCORE = -10000
+MAX_SCORE = 10000
 MIN_PROB_DIFF = 0.5
 TRANS_UNCERTAINTY = 0.1
 
@@ -239,7 +239,15 @@ class fcn_agent:
 				# im = log(interProp) + log(nh)
 				if isnan(moh):
 					continue
-				mmh = abs(log(1- min(mh/moh, moh/mh)))
+
+
+				# std = np.std([mh, moh])
+				# print std, ' std'
+				# mmh = 1.0/exp(std)
+				mmh = abs(log(1- min((mh+thr)/(moh+thr), (moh+thr)/(mh+thr))))
+				if mmh > MAX_SCORE:
+					mmh = MAX_SCORE
+
 				im = mmh * nh
 				print label, mh, moh, nh, mmh, '=', im
 			else:

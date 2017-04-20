@@ -27,7 +27,7 @@ class record:
 		self.gabor_filters = None
 		self.cap = None
 
-		rate = rospy.Rate(15) # 10hz
+		rate = rospy.Rate(5) # 10hz
 		while not rospy.is_shutdown() and self.spin():
 			rate.sleep()
 
@@ -115,29 +115,29 @@ class record:
 		image2 = image1.copy()
 		image2[6:-6, 6:-6, :] = new_image
 		# image1 = cv2.cvtColor(new_image, cv2.COLOR_BGR2GRAY)
-		image1_1 = cv2.GaussianBlur(image1, (BLUR_SIZE, BLUR_SIZE), 0)
+		image1 = cv2.GaussianBlur(image1, (BLUR_SIZE, BLUR_SIZE), 0)
 		# image2 = cv2.cvtColor(background_image, cv2.COLOR_BGR2GRAY)
-		image2_2 = cv2.GaussianBlur(image2, (BLUR_SIZE, BLUR_SIZE), 0)
+		image2 = cv2.GaussianBlur(image2, (BLUR_SIZE, BLUR_SIZE), 0)
 
 		for kern in self.gabor_filters:
 			img1 = cv2.filter2D(image1, cv2.CV_8UC3, kern)
 			img2 = cv2.filter2D(image2, cv2.CV_8UC3, kern)
 
-			img1_1 = cv2.filter2D(image1_1, cv2.CV_8UC3, kern)
-			img2_2 = cv2.filter2D(image2_2, cv2.CV_8UC3, kern)
+			# img1_1 = cv2.filter2D(image1_1, cv2.CV_8UC3, kern)
+			# img2_2 = cv2.filter2D(image2_2, cv2.CV_8UC3, kern)
 
 			if response1 == None:
 				response1 = img1
 				response2 = img2
 
-				response1_1 = img1_1
-				response2_2 = img2_2
+				# response1_1 = img1_1
+				# response2_2 = img2_2
 			else:
 				response1 = np.maximum(response1, img1)
 				response2 = np.maximum(response2, img2)
 
-				response1_1 = np.maximum(response1_1, img1_1)
-				response2_2 = np.maximum(response2_2, img2_2)
+				# response1_1 = np.maximum(response1_1, img1_1)
+				# response2_2 = np.maximum(response2_2, img2_2)
 
 		mean = np.mean(response2)
 		std = np.std(response2)
@@ -147,26 +147,26 @@ class record:
 		resp1 = cv2.threshold(response1, cut, 255, cv2.THRESH_BINARY)[1]
 		resp2 = cv2.threshold(response2, cut, 255, cv2.THRESH_BINARY)[1]
 		response = np.abs(np.subtract(resp2, resp1))
-		cv2.imshow("no blurred", response)
+		# cv2.imshow("no blurred", response)
 		response = cv2.GaussianBlur(response, (BLUR_SIZE, BLUR_SIZE), 0)
 		response = cv2.threshold(response, std, 255, cv2.THRESH_BINARY)[1]
-		cv2.imshow("no blurred final", response)
+		# cv2.imshow("no blurred final", response)
 
-		mean = np.mean(response2_2)
-		std = np.std(response2_2)
-		cut = min(max(mean+1.7*std, 150), 200)
+		# mean = np.mean(response2_2)
+		# std = np.std(response2_2)
+		# cut = min(max(mean+1.7*std, 150), 200)
 
-		resp1_1 = cv2.threshold(response1_1, cut, 255, cv2.THRESH_BINARY)[1]
-		resp2_2 = cv2.threshold(response2_2, cut, 255, cv2.THRESH_BINARY)[1]
-		response_1 = np.abs(np.subtract(resp2_2, resp1_1))
-		cv2.imshow("blurred", response_1)
-		response_1 = cv2.GaussianBlur(response_1, (BLUR_SIZE, BLUR_SIZE), 0)
-		response_1 = cv2.threshold(response_1, std, 255, cv2.THRESH_BINARY)[1]
-		cv2.imshow("blurred final", response_1)
+		# resp1_1 = cv2.threshold(response1_1, cut, 255, cv2.THRESH_BINARY)[1]
+		# resp2_2 = cv2.threshold(response2_2, cut, 255, cv2.THRESH_BINARY)[1]
+		# response_1 = np.abs(np.subtract(resp2_2, resp1_1))
+		# # cv2.imshow("blurred", response_1)
+		# response_1 = cv2.GaussianBlur(response_1, (BLUR_SIZE, BLUR_SIZE), 0)
+		# response_1 = cv2.threshold(response_1, std, 255, cv2.THRESH_BINARY)[1]
+		# cv2.imshow("blurred final", response_1)
 		# cv2.imshow("1", image1)
 		# cv2.imshow("2", image2)
 		# cv2.imshow("response", response)
-		cv2.waitKey(1)
+		# cv2.waitKey(1)
 
 		return (response[6:-6, 6:-6, :], response2[6:-6, 6:-6, :])
 
