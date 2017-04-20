@@ -16,7 +16,8 @@
 
 
 \begin{document}
-\title{Unsupervised Learning Segmentation of Objects in a Scene}
+\title{Unsupervised Learning Segmentation of Objects in a Scene\\
+\large  Project in COMP 652 and COMP 765}
 \author{Yi Tian Xu\\260520039}
 
 \maketitle
@@ -152,7 +153,7 @@ where
 \end{equation}
 where $MI$ is the image mutual information and $H$ is the entropy functions. We found that $F_{MI}$ is a more suitable score to establish similarity in this context. As MI is not upper bounded, reasoning in whether a MI score is large enough to determine a matching as opposed to no matching at all is not well-defined. Different from the medical application where a true image alignment is usually guaranteed to exists, our context often encounters the case when the extracted part $R_t$ is truly a new segment. In such case, maximizing MI between previously inferred segments will inevitably give the wrong solution. We therefore normalize MI with the extracted part's entropy to upper bound the score by 1. The score is exactly 1 when the compared images are identical. 
 
-Equation \ref{eq:blab} thus conducts three comparisons. The similarities between $R_t$ and $M_t$, and $S_{t-1}$ and $M_t$ are combined and reweighed by the function $D$. Intuitively, an image region that moved should have higher score when compared with another that also moved and vice-versa. Thus, we choose
+Equation \ref{eq:blab} thus conducts three comparisons. The similarities between $R_t$ and $M_t$, and $S_{t-1}$ and $M_t$ are combined and reweighed by the function $D$. Intuitively, image parts and inferred segments are probabilistically more likely to match if they are both matching the motion image, or both not matching the motion image. In other words, the matching should be consistent with the observed motion. Thus, we choose
 \begin{equation}
 	D(A,B) = -\log\left(1-\min\left(\frac{A}{B}, \frac{B}{A}\right)\right)
 \end{equation}
@@ -164,15 +165,19 @@ We have also consider other function choices for $D$. For example, we can also c
 
 Park et al. mentioned that object segments can appear and disappear due to occlusion, shadowing and overlaps \cite{human-action}. To address to this issue, we introduce a segment decay parameter $\alpha$, which we set to 0.05 in our experiment. At each time step, each inferred segment will have all their label probability reduced by $\alpha$ (i.e.: $P(S_{t} = l)$ for every segment $S_t$ and labelling $l$ is updated to $(1-\alpha)P(S_{t} = l)$ at the end of each iteration). If the segment is no longer matched to any newly observed image part(s), it will keep decaying and will eventually vanish. Otherwise, we replace its labelling probabilities with ones of the matched image part(s). 
 
-The decay factor applied onto the labelling probabilities after $\tau$ consecutive times steps with no matching is $(1-\alpha)^{\tau}$, implying a probability of $1- (1-\alpha)^{\tau}$ that the decaying segment should be assigned to a new labelling. We do not use this implication directly to decide whether a new labelling should appear. Instead, we called this probability the "decay weight" of a segment ($d_{S_t}$) and use the average of the decay weights over all inferred segments rescaled by the variance of the comparison scores for each image part to decide whether that part should be assigned to a new labelling. In other words, the probability for part $R_t$ to be aligned to a new label $l'$ is
+The decay factor applied onto the labelling probabilities after $\tau$ consecutive times steps with no matching is $(1-\alpha)^{\tau}$, implying a probability of $1- (1-\alpha)^{\tau}$ that the decaying segment should be assigned to a new labelling. We do not use this implication directly to decide whether a new labelling should appear. Instead, we called this probability the "decay weight" of a segment ($d_{S_t}$) and use the average of the decay weights over all inferred segments rescaled by the variance of the comparison scores for each image part to decide whether that part should be assigned to a new labelling. 
+
+The reason for using the variance (or standard deviation) in the decision of adding new labelling refers to the idea that an image part that equally similar to all previously inferred segments should either matches all those segments or none of them depending on how similar it is to all those segments. As explained in the previous section, it is for this reason that an upper bounded similarity score becomes crucial in this matching problem and our $F_{MI}$ function can provide the need. 
+
+In summary, the probability for part $R_t$ to be aligned to a new label $l'$ is 
 \begin{equation}
 	P(R_t = l' | M_t) \propto \left(\frac{1}{n_{t-1}} \sum_{S_{t-1}}(d_{S_{t-1}})\right)\mathcal{S}(R_t, M_t, C)
 \end{equation}
-where $n_{t-1}$ is the number of inferred segment at time step $t-1$ and $\mathcal{S}(R_t, M_t, C)$ is the standard deviation of the similarities scores as computed by Equation \ref{eq:blab} over all inferred labelling scaled by some constant $C$. In our experiment, we choose to multiply the standard deviation by $c = 100$. 
+where $n_{t-1}$ is the number of inferred segment at time step $t-1$ and $\mathcal{S}(R_t, M_t, C)$ is the standard deviation of the similarities scores as computed by Equation \ref{eq:blab} over all inferred labelling scaled by some constant $C$. In our experiment, we choose to multiply the standard deviation by $c = 100$. In the case when there is only one inferred segment, we set $\mathcal{S}(R_t, M_t, C) = 1$. 
 
 \subsubsection{Merging and Splitting Image Regions}
 
-No particular algorithm is used to optimize the matching time. As a brute force search is used, the number of comparisons grows exponentially in the number of elements to compare. Hence, merging parts that are most likely matched to the same labelling can benefit the computational complexity. 
+Park et al. also mentioned that previously inferred segments can split or merge into others also due to similar optic effects \cite{human-action}. Furthermore, we do no employ any particular algorithm to optimize the matching time. As a brute force search is used, the number of comparisons grows exponentially in the number of elements to compare. Hence, merging parts that are most likely matched to the same labelling presents an option that benefit the computational complexity. 
 
 Let $\pi_{P_i}$ be the vector of probabilities for part $P_i$. Suppose that label $l$ has maximum probability for all $P_i$ for $i\in \{1,...,k\}$, i.e.: $\max_j \pi_{P_i}[j] = \pi_{P_i}[l],  \forall i\in \{1,...,k\}$. After merging, we recompute the probability of the merged part for each labelling, obtaining merged part $P'$ and probability vector $\pi_P$. We can further compare $\pi_P[l]$ with the $\pi_{P_i}[l]$, perhaps by assessing whether $\pi_P[l] > E[\pi_{P_i}[l]]$ or $\pi_P[l] > \max_i (\pi_{P_i}[l])$. This may give a better measure for keeping the merging or not. However, we decided to not conduct any of such evaluation.
 
