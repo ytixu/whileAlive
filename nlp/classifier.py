@@ -1,7 +1,3 @@
-# COMP 550 assigment 1
-# Yi Tian Xu
-# 260520039
-
 import re
 import sys
 import numpy as np
