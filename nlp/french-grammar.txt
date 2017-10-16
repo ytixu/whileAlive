@@ -13,7 +13,7 @@ NP-2pl -> PR-2pl
 NP-3pl -> PR-3pl | NP-pl
 
 NP -> NP-sg | NP-pl | PN
-PN -> Jackie | Montreal
+PN -> Jackie | Montréal
 
 NP-sg -> DT-sg-masc A-p-sg-masc N-sg-masc A-f-sg-masc
 NP-sg -> DT-sg-femi A-p-sg-femi N-sg-femi A-f-sg-femi
@@ -33,19 +33,19 @@ DT-sg-femi -> la | une
 DT-pl -> les | des
 
 N-sg-masc -> chat | poisson | ε
-N-sg-femi -> chatte | television | semaine | ε
+N-sg-femi -> chatte | télévision | semaine | ε
 N-pl-masc -> chats | poissons | ε
-N-pl-femi -> chattes | televisions | semaines | ε
+N-pl-femi -> chattes | télévisions | semaines | ε
 
 A-p-sg-masc -> beau | joli | dernier | ε
-A-p-sg-femi -> belle | jolie | derniere | ε
+A-p-sg-femi -> belle | jolie | dernière | ε
 A-p-pl-masc -> beaux | jolis | derniers | ε
-A-p-pl-femi -> belles | jolies | dernieres | ε
+A-p-pl-femi -> belles | jolies | dernières | ε
 
 A-f-sg-masc -> noir | dernier
-A-f-sg-femi -> noire | derniere
+A-f-sg-femi -> noire | dernière
 A-f-pl-masc -> noirs | derniers
-A-f-pl-femi -> noires | dernieres
+A-f-pl-femi -> noires | dernières
 
 VP-1sg -> mange | aime | regarde | cherche | vends | tiens
 VP-2sg -> manges | aimes | regardes | cherches | vends | tiens
@@ -53,12 +53,3 @@ VP-3sg -> mange | aime | regarde | cherche | vend | tient
 VP-1pl -> mangeons | aimons | regardons | cherchons |vendons | tenons
 VP-2pl -> mangez | aimez | regardez | cherchez | vendez | tenez
 VP-3pl -> mangent | aiment | regardent | cherchent |vendent | tiennent
-
-
-
-
-1) It does not need a seperate rules for irregular verbs.
-
-2) 
-
-3) It does not handel contractions (e.g.: j'aime). It does not allow multiple adjectives to follow one after another, (e.g.: les dernieres belles semaines). It does not distinguish subcategories of verbs (e.g.: transitive and intransitive verbs).
