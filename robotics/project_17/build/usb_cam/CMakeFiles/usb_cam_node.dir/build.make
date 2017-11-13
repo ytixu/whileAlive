@@ -84,11 +84,14 @@ usb_cam_node_EXTERNAL_OBJECTS =
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/libusb_cam.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /opt/ros/indigo/lib/libimage_transport.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /opt/ros/indigo/lib/libmessage_filters.so
-/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /usr/lib/x86_64-linux-gnu/libtinyxml.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /opt/ros/indigo/lib/libclass_loader.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /usr/lib/libPocoFoundation.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /usr/lib/x86_64-linux-gnu/libdl.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /opt/ros/indigo/lib/libroslib.so
+/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /opt/ros/indigo/lib/librospack.so
+/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /usr/lib/x86_64-linux-gnu/libpython2.7.so
+/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /usr/lib/x86_64-linux-gnu/libboost_program_options.so
+/home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /usr/lib/x86_64-linux-gnu/libtinyxml.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /opt/ros/indigo/lib/libcamera_info_manager.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /opt/ros/indigo/lib/libroscpp.so
 /home/ytixu/gitHTML/whileAlive/robotics/project_17/devel/lib/usb_cam/usb_cam_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so

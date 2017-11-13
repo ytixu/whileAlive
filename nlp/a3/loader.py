@@ -1,32 +1,30 @@
+'''
+Created on Oct 26, 2015
 
+@author: jcheung
+'''
 import xml.etree.cElementTree as ET
 import codecs
 import itertools
-from nltk.corpus import stopwords
 
 import word_sense_classifier
 
-# import nltk import download
-# download('stopwords')
 
-STOP_WORDS = set(stopwords.words('english'))
 
 class WSDInstance:
-    def __init__(self, my_id, lemma, pos, context, index):
+    def __init__(self, my_id, lemma, pos, context, context_pos, index):
         self.id = my_id         # id of the WSD instance
         self.lemma = lemma      # lemma of the word whose sense is to be resolved
         self.pos = pos
         self.context = context  # lemma of all the words in the sentential context
-        self.context_no_stopwords = remove_stopwords(context)
+        self.context_no_stopwords = word_sense_classifier.remove_stopwords(context)
+        self.context_pos = context_pos
         self.index = index      # index of lemma within the context
     def __str__(self):
         '''
         For printing purposes.
         '''
         return '%s\t%s\t%s\t%d' % (self.id, self.lemma, ' '.join(self.context), self.index)
-
-def remove_stopwords(context):
-    return [c for c in context if c not in STOP_WORDS]
 
 def clean(word, is_context):
     # lowercase and convert '-' and '_'
@@ -53,12 +51,13 @@ def load_instances(f):
         for sentence in text:
             # construct sentence context
             context = [clean(to_ascii(el.attrib['lemma']), True) for el in sentence]
+            context_pos = [to_ascii(el.attrib['pos']).lower()[0] for el in sentence]
             for i, el in enumerate(sentence):
                 if el.tag == 'instance':
                     my_id = el.attrib['id']
                     lemma = clean(to_ascii(el.attrib['lemma']), False)
                     pos = to_ascii(el.attrib['pos']).lower()[0]
-                    instances[my_id] = WSDInstance(my_id, lemma, pos, context, i)
+                    instances[my_id] = WSDInstance(my_id, lemma, pos, context, context_pos, i)
     return dev_instances, test_instances
 
 def load_key(f):
@@ -83,11 +82,17 @@ def to_ascii(s):
     # remove all non-ascii characters
     return codecs.encode(s, 'ascii', 'ignore')
 
-def predict_and_evaluate(keys, dataset, method):
+def predict_and_evaluate(keys, dataset, method, args=None):
     count = 0.0
     good_predictions = 0.0
     for key, wsd_instance in dataset.iteritems():
-        if len(set(method(wsd_instance)) & set(keys[key])) > 0:
+        prediction = None
+        if args:
+            prediction = method(wsd_instance, args)
+        else:
+            prediction = method(wsd_instance)
+
+        if word_sense_classifier.is_good_prediction(prediction, keys[key]):
             good_predictions += 1.0
         count += 1.0
 
@@ -99,9 +104,23 @@ if __name__ == '__main__':
     dev_instances, test_instances = load_instances(data_f)
     dev_key, test_key = load_key(key_f)
 
+    # IMPORTANT: keys contain fewer entries than the instances; need to remove them
     dev_instances = {k:v for (k,v) in dev_instances.iteritems() if k in dev_key}
     test_instances = {k:v for (k,v) in test_instances.iteritems() if k in test_key}
 
-    methods = [func for name, func in word_sense_classifier.__dict__.iteritems() if callable(func) and name.startswith('__')]
-    for method in methods:
-        print method.__name__, predict_and_evaluate(dev_key, dev_instances, method)
+    # read to use here
+    # methods = [func for name, func in word_sense_classifier.__dict__.iteritems() if callable(func) and name.startswith('__')]
+    # methods = sorted(methods)
+    # for method in methods:
+    #     print method.__name__, predict_and_evaluate(dev_key, dev_instances, method)
+
+    lg =  word_sense_classifier.train(dev_key, dev_instances)
+    print predict_and_evaluate(dev_key, dev_instances, word_sense_classifier.predict, lg)
+
+    # testing
+    # for method in methods:
+    #     print method.__name__, predict_and_evaluate(test_key, test_instances, method)
+    print predict_and_evaluate(test_key, test_instances, word_sense_classifier.predict, lg)
+    # yalgo = word_sense_classifier.YarowskyClassifier()
+    # yalgo.train(dev_instances, dev_key, test_instances, test_key)
+    # print predict_and_evaluate(dev_key, dev_instances, word_sense_classifier.__combined_sense)

@@ -39,7 +39,7 @@ BACKGROUND_acc_weight = 0.05
 SKIP_GROUND = 10
 GABOR_SIZE = 12
 BLUR_SIZE = 11
-N_GABORS = 55
+N_GABORS = 4
 
 class camera:
 
@@ -186,7 +186,7 @@ class camera:
 			n = 0
 			ksize = GABOR_SIZE
 			for theta in np.arange(0, np.pi, np.pi / N_GABORS):
-				kern = cv2.getGaborKernel((ksize, ksize), 4.0, theta, 10.0, 0.5, 0, ktype=cv2.CV_32F)
+				kern = cv2.getGaborKernel((ksize, ksize), 4.0, theta, 10.0, 0.5, np.pi, ktype=cv2.CV_32F)
 				kern /= 1.5*kern.sum()
 				filters[n] = kern
 				n += 1
@@ -223,13 +223,13 @@ class camera:
 		std = np.std(response2)
 		cut = min(max(mean+1.7*std, 150), 200)
 		print mean, std, cut
+		cv2.imshow("response", response2)
 		response1 = cv2.threshold(response1, cut, 255, cv2.THRESH_BINARY)[1]
 		response2 = cv2.threshold(response2, cut, 255, cv2.THRESH_BINARY)[1]
 		response = np.abs(np.subtract(response2, response1))
 		response = cv2.GaussianBlur(response, (BLUR_SIZE, BLUR_SIZE), 0)
 		response = cv2.threshold(response, std, 255, cv2.THRESH_BINARY)[1]
-		# cv2.imshow("response", response)
-		# cv2.waitKey(1)
+		cv2.waitKey(1)
 
 		return response[6:-6, 6:-6, :]
 

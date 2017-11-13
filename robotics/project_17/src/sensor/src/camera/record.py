@@ -13,7 +13,7 @@ MIN_MOTION = 222
 BACKGROUND_acc_weight = 0.01
 GABOR_SIZE = 12
 BLUR_SIZE = 11
-N_GABORS = 55
+N_GABORS = 4
 
 class record:
 
@@ -27,7 +27,7 @@ class record:
 		self.gabor_filters = None
 		self.cap = None
 
-		rate = rospy.Rate(5) # 10hz
+		rate = rospy.Rate(3) # 10hz
 		while not rospy.is_shutdown() and self.spin():
 			rate.sleep()
 
@@ -165,8 +165,8 @@ class record:
 		# cv2.imshow("blurred final", response_1)
 		# cv2.imshow("1", image1)
 		# cv2.imshow("2", image2)
-		# cv2.imshow("response", response)
-		# cv2.waitKey(1)
+		cv2.imshow("response", response)
+		cv2.waitKey(1)
 
 		return (response[6:-6, 6:-6, :], response2[6:-6, 6:-6, :])
 
@@ -241,8 +241,10 @@ class record:
 			if segments == None:
 				return True
 
-			cv2.imshow("random segments", seg_viz)
 			cv2.imshow("image diff", motion)
+			cv2.waitKey(1)
+
+			cv2.imshow("random segments", seg_viz)
 			cv2.waitKey(1)
 
 			try:

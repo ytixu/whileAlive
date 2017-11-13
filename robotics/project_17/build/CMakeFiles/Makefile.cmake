@@ -152,6 +152,8 @@ SET(CMAKE_MAKEFILE_DEPENDS
   "/opt/ros/indigo/share/roslib/cmake/roslib-extras.cmake"
   "/opt/ros/indigo/share/roslib/cmake/roslibConfig-version.cmake"
   "/opt/ros/indigo/share/roslib/cmake/roslibConfig.cmake"
+  "/opt/ros/indigo/share/rospack/cmake/rospackConfig-version.cmake"
+  "/opt/ros/indigo/share/rospack/cmake/rospackConfig.cmake"
   "/opt/ros/indigo/share/rospy/cmake/rospyConfig-version.cmake"
   "/opt/ros/indigo/share/rospy/cmake/rospyConfig.cmake"
   "/opt/ros/indigo/share/rostime/cmake/rostimeConfig-version.cmake"

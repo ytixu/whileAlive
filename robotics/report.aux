@@ -4,12 +4,11 @@
 \citation{rnn}
 \citation{herke}
 \citation{max-flow}
-\citation{max-flow}
-\citation{kolmo}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Related Works}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Segmentation Through Action}{1}}
-\citation{gabor}
+\citation{max-flow}
+\citation{kolmo}
+\citation{Gabor}
 \citation{herke}
 \citation{tracking}
 \citation{herke}
@@ -19,36 +18,47 @@
 \citation{tracking}
 \citation{human-action}
 \citation{mi}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Tracing Object Boundaries}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Image Region Tracking and Matching}{2}}
 \citation{mi}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Gabor Filters}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Image Region Tracking and Matching}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Image Mutual Information}{2}}
+\citation{mi}
 \citation{rmi}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Visualization of the method: (A) Input frame is being processed to (B, C, D and E). (B) Background average is accumulated with the new frame. (c) Image difference detects movement. (D) Gabor filtering detects edges in the current frame (also on the background (B), not shown in image). (E) Image differencing between gabor filtered background and (D) results image parts that can be mapped to segments. (F) Finally, a probabilistic matching method infer the labellings of the parts in (E) according to the previously inferred segments.}}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Visualization of the method: (A) Input frame is being processed to (B, C, D and E). (B) Background average is accumulated with the new frame. (c) Image difference detects movement. (D) Gabor filtering detects edges in the current frame (also on the background (B), not shown in image). (E) Image differencing between Gabor filtered background and (D) results image parts that can be mapped to segments. (F) Finally, a probabilistic matching method infers and tracks the labellings of the parts in (E) according to the previously inferred segments and the observed motion in (C).}}{3}}
 \newlabel{figure:model_seq}{{1}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Image Mutual Information}{3}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Method}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Filtering and Part Extraction}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparison between non-blurring(B, C) and blurring (D, E) prior to gabor filtering. (A) The original scene frame. (D) Detected edges without Gaussian blur prior to gabor filtering, and (C) with Gaussian blur and thresholding after gabor filtering. (D) Detected edges with Gaussian blur prior to gabor filtering, and (E) finalized with another Gaussian blur and thresholding.}}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparison between non-blurring (B, C) and blurring (D, E) prior to Gabor filtering. (A) The original scene frame. (D) Detected edges without Gaussian blur prior to Gabor filtering, and (C) with Gaussian blur and thresholding after Gabor filtering. (D) Detected edges with Gaussian blur prior to Gabor filtering, and (E) finalized with another Gaussian blur and thresholding.}}{4}}
 \newlabel{figure:gaussian_blur}{{2}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Probabilistic Matching}{4}}
-\citation{human-action}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Filtering and Part Extraction}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Probabilistic Matching}{5}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Similarity Measure}{5}}
 \newlabel{eq:blab}{{2}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Appeared and Disappeared Image Regions}{5}}
 \citation{human-action}
+\citation{human-action}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Appeared and Disappeared Image Regions}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Merging and Splitting Image Regions}{6}}
+\newlabel{sec:splitting}{{3.2.3}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results and Discussion}{7}}
+\newlabel{sec:exp}{{4}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Segmentation}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Moving with human hand. From left to right, the frame, the Gabor filtered frame and the extracted parts. We see that the hand is split into two parts. The leftmost hand's part appears before the rightmost part as the hand sweeps into the scene from right to left.}}{8}}
+\newlabel{figure:hand}{{3}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Moving many objects in a scene. From left to right, the frame, the background average, the Gabor filtered frame and the extracted parts. An orange pen was used to move the objects.}}{8}}
+\newlabel{figure:many}{{4}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Comparison of the foreground object intensity relative to the background. From left to right, the frame, the Gabor filtered frame, the extracted parts and the masked frame with the extracted parts. The two pens, one in back and one in orange, are placed on a brown textured background. The part extracted for the darker pen is are contour of the pen.}}{8}}
+\newlabel{figure:int}{{5}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Relevant results. Examples are ordered from top to bottom. From left to right, we name the image types: row (A), the frame, the background average, the motion image and the inferred segments; row (B), the frame, the background average, the frame masked by the extracted parts and the inferred segments; row (C), the frame, the extracted parts, the motion image and the inferred segments; and row (D), the frame, the background average, the extracted parts and the inferred segments. Overlapping segments results the overlapping region to be a mix of the two segments' color.}}{9}}
+\newlabel{figure:res}{{6}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Inference and Tracking}{9}}
 \bibcite{cogn1}{1}
 \bibcite{fcn}{2}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{10}}
 \bibcite{rnn}{3}
 \bibcite{herke}{4}
 \bibcite{max-flow}{5}
 \bibcite{kolmo}{6}
-\bibcite{gabor}{7}
+\bibcite{Gabor}{7}
 \bibcite{tracking}{8}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Merging and Splitting Image Regions}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Experiment}{6}}
-\newlabel{sec:exp}{{4}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{6}}
 \bibcite{human-action}{9}
 \bibcite{mi}{10}
 \bibcite{rmi}{11}
