@@ -1,0 +1,28 @@
+Using WordNet version 3.0
+__best_wordnet_sense 0.675257731959
+__best_wordnet_sense_with_pos 0.675257731959
+__nltk_lesk_sense 0.345360824742
+__nltk_lest_sense_no_stropwords 0.329896907216
+__nltk_lest_sense_with_pos 0.376288659794
+__nltk_lest_sense_with_pos_no_stropwords 0.371134020619
+__combined_lesk_sense 0.39175257732
+__combined_lesk_sense_no_stopwords 0.396907216495
+__combined_lesk_sense_with_pos 0.427835051546
+__combined_lesk_sense_no_stopwords_with_pos 0.422680412371
+LogisticRegression fit score 0.762388818297
+Classification score 0.680412371134
+SVC fit score 0.969504447268
+Classification score 0.907216494845
+---TESTING---
+__best_wordnet_sense 0.623448275862
+__best_wordnet_sense_with_pos 0.623448275862
+__nltk_lesk_sense 0.34
+__nltk_lest_sense_no_stropwords 0.294482758621
+__nltk_lest_sense_with_pos 0.384137931034
+__nltk_lest_sense_with_pos_no_stropwords 0.355172413793
+__combined_lesk_sense 0.389655172414
+__combined_lesk_sense_no_stopwords 0.391724137931
+__combined_lesk_sense_with_pos 0.421379310345
+__combined_lesk_sense_no_stopwords_with_pos 0.423448275862
+Test score 0.623448275862
+Missed 1449 out of 1450

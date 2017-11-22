@@ -1,8 +1,13 @@
-from collections import Counter
+# COMP 550 - assigment 3
+# Nov 13 2017
+# Yi Tian Xu
+# 260520039
+
 import numpy as np
 from nltk.wsd import lesk
 from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
+from nltk.probability import FreqDist
 from sklearn.linear_model import LogisticRegression
 from sklearn import svm
 
@@ -14,14 +19,10 @@ print 'Using WordNet version', wn.get_version()
 
 STOP_WORDS = set(stopwords.words('english'))
 
-def remove_stopwords(context):
-    return [c for c in context if c not in STOP_WORDS]
+# helper functions
 
-def wordnet_sense(word, pos=None):
-	synsets = wn.synsets(word)
-	if pos:
-		synsets = [ss for ss in synsets if str(ss.pos()) == pos]
-	return synsets
+def remove_stopwords(context):
+	return [c for c in context if c not in STOP_WORDS]
 
 def is_good_prediction(predicted_ss, true_ss):
 	return len(set(predicted_ss) & set(true_ss)) > 0
@@ -29,7 +30,34 @@ def is_good_prediction(predicted_ss, true_ss):
 def get_overlap(context, ss):
 	return len(context.intersection(ss.definition().lower().split()))
 
-def __best_wordnet_sense(wsd_instance, with_pos=False, get_score=False):
+def get_synset_key(ss):
+	return [l._key for l in ss.lemmas()]
+
+def predict_and_evaluate(keys, dataset, method, args=None):
+    count = 0.0
+    good_predictions = 0.0
+    for key, wsd_instance in dataset.iteritems():
+        prediction = None
+        if args:
+            prediction = method(wsd_instance, args)
+        else:
+            prediction = method(wsd_instance)
+
+        if is_good_prediction(prediction, keys[key]):
+            good_predictions += 1.0
+        count += 1.0
+
+    return good_predictions/count
+
+# WordNet sense
+
+def wordnet_sense(word, pos=None):
+	synsets = wn.synsets(word)
+	if pos:
+		synsets = [ss for ss in synsets if str(ss.pos()) == pos]
+	return synsets
+
+def __best_wordnet_sense(wsd_instance, with_pos=False):
 	pos = None
 	if with_pos:
 		pos = wsd_instance.pos
@@ -37,18 +65,16 @@ def __best_wordnet_sense(wsd_instance, with_pos=False, get_score=False):
 	synsets = wordnet_sense(wsd_instance.lemma, pos)
 
 	if len(synsets) == 0:
-		if get_score:
-			return [], 0, None
 		return []
 
-	keys = [l._key for l in synsets[0].lemmas()]
+	keys = get_synset_key(synsets[0])
 
-	if get_score:
-		return keys, get_overlap(set(wsd_instance.context), synsets[0]), synsets[0]
 	return keys
 
 def __best_wordnet_sense_with_pos(wsd_instance):
 	return __best_wordnet_sense(wsd_instance, True)
+
+# nltk's lesk
 
 def __nltk_lesk_sense(wsd_instance, no_stopword=False, with_pos=False):
 	context = wsd_instance.context
@@ -63,7 +89,7 @@ def __nltk_lesk_sense(wsd_instance, no_stopword=False, with_pos=False):
 
 	if synset is None:
 		return []
-	return [l._key for l in synset.lemmas()]
+	return get_synset_key(synset)
 
 def __nltk_lest_sense_no_stropwords(wsd_instance):
 	return __nltk_lesk_sense(wsd_instance, True)
@@ -77,13 +103,14 @@ def __nltk_lest_sense_with_pos_no_stropwords(wsd_instance):
 
 # modified lesk
 
-def __combined_lesk_sense(wsd_instance, no_stopword=False, with_pos=False, get_score=False):
+def __combined_lesk_sense(wsd_instance, no_stopword=False, with_pos=False, get_list=False):
 	wsd_content = wsd_instance.context
 	if no_stopword:
 		wsd_content = remove_stopwords(wsd_content)
 
 	context = set(wsd_instance.context)
 
+	# augment context
 	for i, c_word in enumerate(wsd_instance.context):
 		if i == wsd_instance.index:
 			continue
@@ -99,21 +126,34 @@ def __combined_lesk_sense(wsd_instance, no_stopword=False, with_pos=False, get_s
 		for ss in synsets:
 			context.update(ss.definition().lower().split())
 
+	# get synset using lesk's algo
 	synset = None
-	if with_pos:
-		synset = lesk(context, wsd_instance.lemma, pos=wsd_instance.pos)
+	if not get_list:
+		if with_pos:
+			synset = lesk(context, wsd_instance.lemma, pos=wsd_instance.pos)
+		else:
+			synset = lesk(context, wsd_instance.lemma)
+
+		if synset is None:
+			return []
+
+		keys = [l._key for l in synset.lemmas()]
+		return keys
 	else:
-		synset = lesk(context, wsd_instance.lemma)
+		# this part is for the modified lesk's algo
 
-	if synset is None:
-		if get_score:
-			return [], 0, 0, 0
-		return []
+		# here is same as in nltk's lesk
+		synsets = wn.synsets(wsd_instance.lemma)
+		if with_pos:
+			synsets = [ss for ss in synsets if str(ss.pos()) == wsd_instance.pos]
 
-	keys = [l._key for l in synset.lemmas()]
-	if get_score:
-		return keys, get_overlap(set(wsd_instance.context), synset), get_overlap(context, synset), context
-	return keys
+		# but we return a list of synsets with the augmented context instead
+		if not synsets:
+			return [], context
+
+		return [(i, len(context.intersection(ss.definition().split())), ss,\
+	        	sum([l.count() for l in ss.lemmas()])) for i, ss in enumerate(synsets)], context, synsets
+
 
 def __combined_lesk_sense_no_stopwords(wsd_instance):
 	return __combined_lesk_sense(wsd_instance, True)
@@ -124,65 +164,72 @@ def __combined_lesk_sense_with_pos(wsd_instance):
 def __combined_lesk_sense_no_stopwords_with_pos(wsd_instance):
 	return __combined_lesk_sense(wsd_instance, True, True)
 
-# best baseline and model
-def best_wordnet_sense(wsd_instance):
-	return __best_wordnet_sense(wsd_instance, with_pos=True, get_score=True)
-
+# best lesk model with POS for modified lesk
 def combined_lesk_sense(wsd_instance):
-	return __combined_lesk_sense(wsd_instance, no_stopword=False, with_pos=True, get_score=True)
+	return __combined_lesk_sense(wsd_instance, no_stopword=False, with_pos=True, get_list=True)
 
-def vector(wsd_instance):
-	wn_sskey, wn_s, wn_ss = best_wordnet_sense(wsd_instance)
-	lesk_sskey, lesk_s, lesk_cs, lesk_context = combined_lesk_sense(wsd_instance)
-	wn_cs = get_overlap(lesk_context, wn_ss)
+# construct vector for classification
+def get_vector(wsd_instance, lesk_ss, lesk_context):
+	i, score, ss, freq = lesk_ss
+	keys = get_synset_key(ss)
+	return keys, [score, freq, i, len(wsd_instance.context), len(lesk_context)]
 
-	return [lesk_s, wn_s, lesk_cs, wn_cs,\
-		len(wsd_instance.context), len(lesk_context)], lesk_sskey, wn_sskey
-
+# this is to count how many samples have negative class prediction
+MISS_COUNTS = 0
 
 def train(Ydata, Xdata):
+	global MISS_COUNTS
+
+	# construct data matrices
 	X = []
 	Y = []
-
-	wrong = 0.0
-	total = 0.0
-
 	for i, wsd_instance in Xdata.iteritems():
-		x, lesk_sskey, wn_sskey = vector(wsd_instance)
+		lesk_sslist, lesk_context, synsets = combined_lesk_sense(wsd_instance)
+		true_label = Ydata[i]
 
-		X.append(x)
-		if not is_good_prediction(lesk_sskey, Ydata[i]):
-			if is_good_prediction(wn_sskey, Ydata[i]):
+		for lesk_ss in lesk_sslist:
+			keys, x = get_vector(wsd_instance, lesk_ss, lesk_context)
+			X.append(x)
+
+			if is_good_prediction(keys, true_label):
 				Y.append(1)
 			else:
-				Y.append(1)
-				wrong += 1.0
-		else:
-			Y.append(0)
+				Y.append(0)
 
-		total += 1.0
-	print 'Bad predictions', wrong/total
-
+	# fit model
 	best_model = None
 	best_score = 0
 	for model in [LogisticRegression, svm.SVC]:
-		lg = model()
-		lg.fit(X,Y)
-		s = lg.score(X,Y)
+		md = model()
+		md.fit(X,Y)
+		s = md.score(X,Y)
+		print md.__class__.__name__, 'fit score', s
+
+		s = predict_and_evaluate(Ydata, Xdata, predict, md)
+		print 'Classification score', s
+
 		if s > best_score:
 			best_score = s
-			best_model = lg
-		print 'Model score', lg.score(X,Y)
+			best_model = md
 
-	return lg
-
+		# print MISS_COUNTS
+		MISS_COUNTS = 0
+	return md
 
 
 def predict(wsd_instance, lg):
-	x, lesk_sskey, wn_sskey = vector(wsd_instance)
+	global MISS_COUNTS
+	lesk_sslist, lesk_context, synsets = combined_lesk_sense(wsd_instance)
 
-	if lg.predict([x]) == 1:
-		lesk_sskey = wn_sskey
+	X = []
+	for lesk_ss in lesk_sslist:
+		_, x = get_vector(wsd_instance, lesk_ss, lesk_context)
+		X.append(x)
 
-	return lesk_sskey
+	for i, y in enumerate(lg.predict(X)):
+		if y == 1:
+			return get_synset_key(lesk_sslist[i][2])
+
+	MISS_COUNTS += 1
+	return __best_wordnet_sense_with_pos(wsd_instance)
 

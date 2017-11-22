@@ -1,3 +1,8 @@
+# COMP 550 - assigment 3
+# Nov 13 2017
+# Yi Tian Xu
+# 260520039
+
 '''
 Created on Oct 26, 2015
 
@@ -109,18 +114,17 @@ if __name__ == '__main__':
     test_instances = {k:v for (k,v) in test_instances.iteritems() if k in test_key}
 
     # read to use here
-    # methods = [func for name, func in word_sense_classifier.__dict__.iteritems() if callable(func) and name.startswith('__')]
-    # methods = sorted(methods)
-    # for method in methods:
-    #     print method.__name__, predict_and_evaluate(dev_key, dev_instances, method)
+    methods = [func for name, func in word_sense_classifier.__dict__.iteritems() if callable(func) and name.startswith('__')]
+    methods = sorted(methods)
+    for method in methods:
+        print method.__name__, word_sense_classifier.predict_and_evaluate(dev_key, dev_instances, method)
 
-    lg =  word_sense_classifier.train(dev_key, dev_instances)
-    print predict_and_evaluate(dev_key, dev_instances, word_sense_classifier.predict, lg)
+    print 'Training COMP-550-lesk.'
+    model =  word_sense_classifier.train(dev_key, dev_instances)
 
     # testing
-    # for method in methods:
-    #     print method.__name__, predict_and_evaluate(test_key, test_instances, method)
-    print predict_and_evaluate(test_key, test_instances, word_sense_classifier.predict, lg)
-    # yalgo = word_sense_classifier.YarowskyClassifier()
-    # yalgo.train(dev_instances, dev_key, test_instances, test_key)
-    # print predict_and_evaluate(dev_key, dev_instances, word_sense_classifier.__combined_sense)
+    print '---TESTING---'
+    for method in methods:
+        print method.__name__, word_sense_classifier.predict_and_evaluate(test_key, test_instances, method)
+    print 'COMP-550-lesk test score', word_sense_classifier.predict_and_evaluate(test_key, test_instances, word_sense_classifier.predict, model)
+    print 'Missed', word_sense_classifier.MISS_COUNTS, 'out of', len(test_instances)
