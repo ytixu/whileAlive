@@ -1,0 +1,19 @@
+In this assignment, we experiment on the extractive summerization method, SumBasic, and compare it with the baseline Leading (where we extract the leading sentences of an article) and Simplified SumBasic (same as SumBasic but without the non-redudancy update). Our corpus is a collection of news articles manually extracted from Google News on four different topics clusters (see Table \ref{table:new-1}).
+
+Topic 1 & US gun control and mental health & 6\\
+Topic 2 & first robot citizen & 5 \\
+Topic 3 & scientists future of humanity & 5 \\
+Topic 4 & rise of homeschooling & 3
+
+We manually remove all lines in articles that correspond to titles and convert all non-ASCII characters to similar-looking ASCII characters. When runing a summerization method, we apply sentence segmentation and lemmatization on our corpus text using the implementations in the NLTK package for Python. We also lowercase and removed words appearing in the stopwords list provided by NLTK. Finally, we limit the output summary size to 100 words, and compared both SumBasic and Simplified SumBasic with Leading using ROUGE 1 score. Below shows a sample output.
+
+
+
+We observe that SumBasic may prefers irrelevant short sentences, over long sentences with some frequent words. For example, we see in the generated summary for Topic 1, the sentence ``Period.'' is chosen before the sentence that introduce the shooter despite that the word ``shooter'' is mentioned in 5 of the 6 articles, and the name ``Devin Patrick Kelley", in 4 of the 6 articles, while ``period'' appears only 3 times in all of the 6 articles. This is because longer sentences have a higher chance to contain infrequent words or redundant words which can underweight their average word probability score.
+
+On the other hand, without updating the word probabilities in the Simplified SumBasic, we observe high repetition in words and content when articles in a specific topic cluster have more overlapping content, such as in Topic 1, 2 and 3. In this case, SumBasic appears to have better summary quality. However, the ROUGE 1 score for Simplified SumBasic is generally higher than SumBasic and does not reflect the quality of the summaries. This may suggest that ROUGE score computing using Leading as a substitute for reference summaries may not be appropriate to compare summary quality in this setting. This is because news leading sentences are usually what is overlapping the most between articles from the same cluster, and thus what Simplified SumBasic repetedly adds into its generated summary.
+
+We also observe that there are often no relation between the sentences in the generated summaries. For example, sentences that appears contradictory can be put one next to the other. For example, in Topic 3, SumBasic generated ``They found most environmental problems have gotten far worse during the past 25 years. The rate of deforestation in some regions has also slowed. The other is extinction. The growing use of renewable energy is another positive trend, said Ripple.''
+
+One improvment is to change the sentence segmentation algorithm to take into account group of sentences that need to stay together. For example, some sentences are extracted from a quoted speach without information about the speaker. Another improvment to replace pronouns by the reference, and removing adverbs in front of the sentences such as "instead", "so", "but", etc.
+
