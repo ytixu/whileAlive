@@ -19,14 +19,21 @@ WORD_COUNT = 100
 
 _flatten = lambda x: list(itertools.chain(*x))
 
-def clean_input(article):
+def segment(article):
 	lines = sent_tokenize(article)
 	# segment and lowercase
 	tokens = [word_tokenize(re.sub('['+'|'.join(_stoppuncs)+']', '',line.lower())) for line in lines]
 	# lemmatize
 	tokens = [[_lemmatizer.lemmatize(w) for w in line] for line in tokens if len(line) > 0]
+	return lines, tokens
+
+def remove_stopwords(tokens):
 	# remove stopwords
-	tokens = [[w for w in line if w not in _stopwords] for line in tokens]
+	return [w for w in tokens if w not in _stopwords]
+
+def clean_input(article):
+	lines, tokens = segment(article)
+	tokens = [remove_stopwords(line) for line in tokens]
 	return lines, tokens
 
 def sumbasic(sentences, words, update_probs=True):
@@ -52,8 +59,8 @@ def sumbasic(sentences, words, update_probs=True):
 
 	return ' '.join(summary)
 
-def random_leading(data_files):
-	with open(np.random.choice(data_files), 'rU') as article_file:
+def leading_summary(data_file):
+	with open(data_file, 'rU') as article_file:
 		leading = []
 		sent_idx = 0
 		sentences = sent_tokenize(article_file.read())
@@ -66,8 +73,8 @@ def random_leading(data_files):
 def rouge_1(ref_files, summary):
 	refs = []
 	for data_file in ref_files:
-		refs.append(_flatten(clean_input(random_leading([data_file]))[1]))
-	sum_words =  _flatten(clean_input(summary)[1])
+		refs.append(remove_stopwords(_flatten(segment(leading_summary(data_file))[1])[:WORD_COUNT]))
+	sum_words =  remove_stopwords(_flatten(segment(summary)[1])[:WORD_COUNT])
 	score = 0.0
 
 	for ref in refs:
@@ -93,13 +100,23 @@ if __name__ == '__main__':
 		print 'sumbasic.py <method_name> <file_n>*'
 		sys.exit(0)
 
+	summary = None
 	if method_name == 'leading':
-		print random_leading(data_files)
+		avg = 0.0
+		n = len(data_files)
+		for i in range(n):
+			data_files_ = copy.copy(data_files)
+			summary = leading_summary(data_files_[i])
+			data_files_.remove(data_files_[i])
+			avg += rouge_1(data_files_, summary)
+
+		leading_file = np.random.choice(data_files_)
+		summary = leading_summary(leading_file)
+		print '---ROUGE-1 score:', avg/n
 
 	else:
 		sentences = []
 		words = []
-		summary = None
 		for data_file in data_files:
 			with open(data_file, 'rU') as article_file:
 				lines, tokens = clean_input(article_file.read())
@@ -113,5 +130,6 @@ if __name__ == '__main__':
 		else:
 			print 'Invalid method name. Either "orig", "simplified" or "leading".'
 
-		print summary
 		print '---ROUGE-1 score:', rouge_1(data_files, summary)
+
+	print summary
